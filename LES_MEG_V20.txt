@@ -1,0 +1,8 @@
+BenKen Stage Pro V20
+- Artist kan fylles ut per sang under LIBRARY > ADD SONG eller blyantikon ved sang.
+- Eksisterende ChordPro {artist: ...} og {a: ...} leses automatisk inn i artistfeltet.
+- ARTISTS i LIBRARY grupperer etter artistfeltet.
+- Intro, Solo og Outro i editor og egne farger under PERSONALIZATION.
+- PLAY bruker SVG-ikon som forblir hvitt paa moerkeblaa knapp; viser pause under avspilling.
+- Beholder samme lokale lagringsnoekkel som V19.
+- Test paa iPad/iPhone foer livebruk; ta JSON-backup foerst.
