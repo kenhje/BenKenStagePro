@@ -1,0 +1,10 @@
+BenKen Stage Pro V26 - testversjon
+
+NYTT:
+- Egne farger for INTRO, VERSE, CHORUS, BRIDGE, SOLO og OUTRO.
+- Scroll Speed med +/- per sang (100 % tilsvarer tidligere 18 px/s).
+- Valgfri scrolling som følger posisjonen i den valgte lydfilen.
+- Valgfritt sveip til venstre/hoyre i sangteksten for neste/forrige sang.
+
+Publiser filene i GitHub-repositoryets rotmappe. Ta JSON-backup forst.
+Merk: Test pa iPad/iPhone for livebruk. Lagring i Safari er ikke garantert permanent.
