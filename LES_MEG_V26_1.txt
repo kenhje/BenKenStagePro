@@ -1,0 +1,19 @@
+BenKen Stage Pro V26.1 – GitHub-utgaven
+
+NYTT
+Settings → Lyrics → SKJUL AKKORDER viser bare sangtekst.
+Knappen blir VIS AKKORDER når akkordene er skjult.
+Valget gjelder alle sanger og lagres på denne enheten.
+Akkorddiagrammer skjules samtidig. Sangtekst og akkorder i biblioteket beholdes.
+
+OPPDATER GITHUB
+1. Pakk ut ZIP-filen.
+2. Åpne https://github.com/kenhje/BenKenStagePro
+3. Velg Add file → Upload files. Last opp index.html og sw.js fra denne mappen.
+4. Velg Commit changes.
+5. Når GitHub Pages har publisert, åpne https://kenhje.github.io/BenKenStagePro/ og last siden på nytt. V26.1 vises øverst.
+
+Ingen Terminal-kommando er nødvendig for denne oppdateringen.
+Oppdateringen bruker de samme lagringsnøklene som V26.
+Kontrollert med automatisert test av den faktiske appkoden i en DOM-modell.
+Visuell kontroll på fysisk iPad er ikke utført her.
