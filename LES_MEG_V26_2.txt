@@ -1,0 +1,28 @@
+BenKen Stage Pro V26.2 – GitHub-utgaven
+
+NYTT
+- Settings → Lyrics: Scroll Speed justeres med ett prosentpoeng per trykk på +/−. Du kan også skrive inn prosentverdien direkte.
+- Hastigheten lagres separat for hver sang. 100 % tilsvarer fortsatt 18 piksler per sekund.
+- Små scrollbevegelser summeres, også når nettleseren avrunder posisjonen til hele piksler.
+- SYNC SCROLL TO SONG DURATION kan bruke låtlengden uten å spille av lydfilen.
+- Velg lydfilen som vanlig. Slå på SYNC SCROLL TO SONG DURATION og trykk AUTO SCROLL for å starte timeren.
+- Mens synkronisering er på, bestemmer låtlengden hastigheten. Slå av synkronisering for å bruke den manuelle prosentverdien.
+- Når lyden spilles av, følger scroll avspillingsposisjonen. Uten avspilling brukes egen timer.
+- AUTO SCROLL kan pauses og fortsettes. Synkronisert scroll stopper ved slutten av låtlengden.
+- Under Lyrics vises den registrerte låtlengden. Mangler den, velg lydfil på nytt eller angi DURATION under Tools.
+- SKJUL AKKORDER fra V26.1 er med.
+
+OPPDATER GITHUB
+1. Pakk ut ZIP-filen.
+2. Åpne https://github.com/kenhje/BenKenStagePro
+3. Velg Add file → Upload files. Last opp index.html og sw.js til repositoryets rotmappe.
+4. Velg Commit changes.
+5. Når GitHub Pages har publisert, last siden på nytt: https://kenhje.github.io/BenKenStagePro/
+   V26.2 skal vises øverst.
+
+Oppdateringen bruker de samme lagringsnøklene som V26/V26.1.
+Sanger, settlister og lydlagring beholdes på samme nettadresse/enhet.
+Sju automatiserte tester av scroll, hastighet, metadata, opplasting, pause, gjenåpning og avspilling består.
+Eksisterende test av skjul/vis akkorder består også.
+Testene kjører faktisk appkode i en DOM-modell med simulerte lydmetadata og skjermbilderammer.
+Visuell kontroll og lydmetadata på fysisk iPad er ikke testet her.
