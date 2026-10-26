@@ -1,0 +1,44 @@
+Multitrack på iPad og iPhone – teknisk vurdering 26.10.2026
+
+MÅL
+Flere separate backingfiler starter på samme tidslinje. Hvert spor får nivå,
+mute/solo og valgt utgang. Stereo backing på 1–2 og monoklikk på 3 krever
+minst tre separate utkanaler i den aktive lydrutingen.
+
+DOKUMENTERT GRUNNLAG
+Apple AVAudioEngine kan koble avspillingsnoder, miksere og en utgangsnode.
+AVAudioSession.maximumOutputNumberOfChannels rapporterer maksimum for den
+aktive lydrutingen. setPreferredOutputNumberOfChannels ber om ønsket antall;
+outputNumberOfChannels og utgangsformatet må kontrolleres etterpå.
+
+Web Audio har også kanalantall og kanalruting. Nettleseren kan ha andre
+begrensninger enn en native app. GitHub-versjonens test viser det som
+nettleseren rapporterer og aksepterer. Fysisk kanalskille må lyttes/måles.
+
+VÅR EKSISTERENDE KODE
+Det separate Xcode-prosjektet er konfigurert med device family 1,2
+(iPhone og iPad), minimum iOS/iPadOS 17.
+Det har en lokal AVAudioEngine-motor og felles C++-lydbuffer, med egne
+kanalvalg for mono-/stereospor. Utganger sjekkes før avspilling.
+Kildens grense på 32 lydspor er en kodegrense og intet målt ytelsesløfte.
+C++-testen for routing, mute/solo, manglende utganger og strømming består.
+Apple-delen er ikke kompilert med Xcode her, og USB-avspilling er ikke
+fysisk verifisert på iPhone/iPad. Samspill med TH-U gjenstår også; den
+nåværende lydsesjonen er ennå ikke konfigurert med mixWithOthers.
+
+ANBEFALT NESTE TEST
+Prøv GitHub-lydtesten på begge enheter med det samme lydkortet. Registrer
+modell, operativsystem, adapter, rapportert kanalantall og fysisk kanalvalg.
+Deretter bygges iOS-prosjektet i Xcode og testes først med backing + klikk
+på separate utganger, før flere stems og samtidig MIDI/andre apper.
+
+KILDER
+Apple AVAudioEngine:
+https://developer.apple.com/documentation/avfaudio/avaudioengine
+Apple maksimum for aktive utkanaler:
+https://developer.apple.com/documentation/avfaudio/avaudiosession/maximumoutputnumberofchannels
+Apple ønsket kanalantall:
+https://developer.apple.com/documentation/avfaudio/avaudiosession/setpreferredoutputnumberofchannels(_:)
+(Korrekt API-navn: setPreferredOutputNumberOfChannels(_:).)
+W3C Web Audio, AudioDestinationNode:
+https://www.w3.org/TR/webaudio-1.1/#AudioDestinationNode

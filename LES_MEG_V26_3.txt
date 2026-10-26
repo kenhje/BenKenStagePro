@@ -1,0 +1,39 @@
+BenKen Stage Pro V26.3 – fullskjerm og lydutgangstest
+
+FULLSKJERM
+Trykk FULLSKJERM øverst, eller velg Full Screen under Settings → Setlist.
+Appens toppmeny skjules. Ett kort trykk i sangområdet viser kontrollene i fire sekunder.
+Sveip, vertikal scrolling og bevegelse med flere fingre viser ikke menyen.
+Første trykk brukes til å vise menyen. Et nytt trykk kan aktivere en kontroll.
+Menyen holdes synlig mens Settings eller en dialog brukes.
+AVSLUTT FULLSKJERM går tilbake. Escape gjør det samme med tastatur.
+Autoscroll og lydavspilling fortsetter mens kontrollene er skjult.
+Dette skjuler appens kontroller. Nettleserens adresselinje styres av nettleseren.
+
+LYDUTGANGSTEST PÅ IPAD / IPHONE
+1. Koble til lydkortet som du vil bruke.
+2. Velg Settings → Tools → TEST LYDUTGANGER.
+3. Les antall kanaler nettleseren rapporterer.
+4. TEST 1, TEST 2 osv. sender en kort 440 Hz-tone til den valgte kanalen.
+   Tonen har maksimalt nivå omtrent −36 dBFS. Start med lavt volum på lydkortet.
+5. Kontroller på lydkortets målere/utganger hvilken kanal som reagerer.
+6. LES PÅ NYTT etter at du har byttet eller koblet til lydkortet.
+STOPP TESTTONE stopper tonen. Lukk-knappen avslutter testens lydmotor.
+
+Dette undersøker nettleserens tilgang. Et resultat på to kanaler avgjør ikke
+hvor mange utganger en egen iOS-app kan bruke med samme lydkort.
+V26.3 inneholder en kanaltest; multitrack-mixer med separate hardwareutganger
+må testes videre i det egne iOS-prosjektet. Se MULTITRACK_IPAD_IPHONE.txt.
+
+GITHUB-OPPDATERING
+Pakk ut ZIP-filen. Åpne https://github.com/kenhje/BenKenStagePro
+Velg Add file → Upload files. Last opp index.html og sw.js til rotmappen.
+Velg Commit changes. Når GitHub Pages har publisert, last siden på nytt:
+https://kenhje.github.io/BenKenStagePro/
+V26.3 vises øverst.
+
+TESTSTATUS
+Automatiske tester av meny, gester, lydkanalvalg, avbrytelse, lagring, scroll
+og skjul/vis akkorder består i en DOM-modell med simulerte lydutganger.
+Den eksisterende C++-lydkjernen består tester av routing og strømming.
+Fysisk touch, lyd, kanalruting og ytelse på iPad/iPhone gjenstår å teste.
