@@ -1,0 +1,45 @@
+BenKen Stage Pro V26.4 – utvidet lydtest for Ui24R
+
+UI24R ER MÅLET FOR LIVEOPPSETTET
+Denne oppdateringen forbedrer feilsøkingen av USB-lyd før multitrack utvides.
+Kanaloversikten bekrefter hva nettleseren rapporterer. Måleren måler signal
+før utgangsrutingen inne i appen. Fysisk USB-lyd må fortsatt bekreftes på Ui24R.
+
+NY TEST
+Settings → Tools → TEST LYDUTGANGER.
+- Tre sekunders 440 Hz-tone i stedet for den tidligere svært korte tonen.
+- Velg −36, −24 eller −18 dBFS. Standard er −24 dBFS.
+- GJENTA spiller tre sekunder på / ett sekund av i opptil ett minutt.
+- Måleren viser målt nåverdi og høyeste målte nivå inne i appen.
+- Lydmotorens tilstand og lydklokke vises mens testen går.
+- STOPP TESTTONE, ny kanal, nytt nivå eller lukking avbryter forrige test.
+- STEREOTEST 1–2 bruker vanlig stereo uten kanalfordeleren fra enkeltkanaltesten.
+- LES PÅ NYTT viser alle tilgjengelige enkeltkanaler igjen.
+
+FØRSTE TEST PÅ UI24R
+1. Åpne Settings → Patching → Channels → USB DAW 1–16 i Ui24R.
+2. Patch USB DAW 1 og 2 til ledige mikserkanaler.
+3. I BenKen: velg −24 dBFS, slå på Gjenta og trykk STEREOTEST 1–2.
+4. Se på SIGNAL I APPEN og Ui24R-kanalenes målere samtidig.
+5. Trykk STOPP. Velg LES PÅ NYTT og test USB-kanalene enkeltvis.
+
+Målt signal i appen og manglende signal i Ui24R viser at lydgenereringen
+fungerer internt; USB-overføring og patching må undersøkes videre.
+Manglende signal i appens måler peker mot generering/lydmotor.
+Hvis stereo virker og enkeltkanaltesten ikke gjør det, har vi snevret inn
+problemet til forskjellene mellom de to lydoppsettene. Ingen av resultatene
+alene beviser årsaken.
+
+GITHUB
+Pakk ut ZIP-filen. Last opp index.html og sw.js til rotmappen i
+https://github.com/kenhje/BenKenStagePro og velg Commit changes.
+Etter publisering: last siden på nytt. V26.4 vises øverst.
+
+Automatiske tester av 32 kanaler, måling, stereo, gjentakelse, avbrytelse
+og eksisterende fullskjerm/scroll/lagring består.
+Testene bruker DOM-modell og simulerte lydnoder. USB-lyd på fysisk Ui24R
+er ikke verifisert her.
+
+Ui24R-patching, HARMANs veiledning:
+https://help.harmanpro.com/ui24r-multitrack-recording-with-a-daw
+https://help.harmanpro.com/exploring-the-patching-section-of-the-ui24r
