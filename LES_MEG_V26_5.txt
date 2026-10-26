@@ -1,0 +1,84 @@
+BenKen Stage Pro V26.5 – multitrack til Ui24R
+
+OPPDATER GITHUB
+Denne versjonen har nye JS-/CSS-filer. Det er ikke nok å laste opp bare index.html og sw.js.
+Last opp disse sju filene til rotmappen i https://github.com/kenhje/BenKenStagePro:
+  index.html
+  sw.js
+  stage-core.js
+  stage-project.js
+  stage-audio.js
+  stage-mixer.js
+  mixer.css
+Velg Commit changes. Når GitHub Pages er ferdig, last appen på nytt. V26.5 vises øverst.
+Ikonene og manifestet er også med i ZIP-filen. Samme lagringsnøkler brukes som før.
+
+FØRSTE PRØVE MED UI24R
+1. Koble Ui24R til iPad/iPhone som ved den fungerende lydtesten.
+2. Åpne MIXER / LYD. Velg IMPORTER PROSJEKT under «Lydfiler, iCloud Drive og Google Drive».
+3. Importer demo/BenKen_Ui24R_Test.benken fra denne ZIP-filen.
+   Den legges til som en egen låt; eksisterende sanger og settlister beholdes.
+4. Velg «Ui24R / separate USB-kanaler». Kontroller 32 kanaler ved 48 kHz.
+5. Patch USB DAW 1, 2 og 3 til ledige mikserkanaler i Ui24R.
+6. Trykk SPILL. Testen varer 15 sekunder:
+   0–4 sekunder: tone på USB 1.
+   4–8 sekunder: tone på USB 2.
+   8–15 sekunder: toner på begge, 1 og 2.
+   Klikk på USB 3 gjennom hele testen.
+Testfilene har lavt signalnivå, omtrent −24 dBFS. Juster lyttevolum på lydkortet.
+
+LEGG INN EGNE LYDFILER
+Velg låten, åpne MIXER / LYD og trykk + LEGG TIL LYDFILER.
+Velg flere stems fra Filer: På min iPad/iPhone, iCloud Drive eller Google Drive.
+Google Drive må være installert og aktivert som en plassering i Filer.
+Vent til filene er kopiert og klargjort før du lukker appen.
+Hvert spor får nivå, mute/solo, mono/stereo, stereobalanse og USB-utgang.
+Masterfaderen styrer alle utgangene. Innstillingene lagres separat per låt.
+Sporene starter på samme lydklokke. Pause/fortsett bruker samme posisjon for alle.
+Eksporter stems fra samme startpunkt i Reaper, med stillhet frem til hvert instrument begynner.
+Nye spor starter på 1–2; filer med click/klikk/clix/metronom i navnet foreslås som mono på 3.
+Mono-filer oppdages under klargjøring. Kontroller format og routing før bruk.
+
+LYDUTGANGER
+I USB-modus er utgangene USB DAW-kanaler på Ui24R, ikke fysiske XLR-utgangsnumre.
+Manglende utganger blokkerer avspilling. Det gjøres ingen automatisk nedmiks av klikk til 1–2.
+Stereoøving velges uttrykkelig og mikser alle spor, også klikk, til 1–2.
+Når lydkortet byttes, stopp avspillingen og bruk LES UTGANGER / KLARGJØR LYD.
+Format, utganger, filimport og sletting endres mens avspillingen er stoppet.
+Nivå, mute/solo, stereobalanse og master kan justeres under avspilling.
+
+HVOR LYDEN LAGRES
+Importerte lydfiler kopieres til lokal nettleserlagring på denne enheten.
+Avspilling bruker de lokale kopiene, også uten nettilgang etter at appen er lastet/cachet.
+En fil i iCloud Drive eller Google Drive er en separat original/backup.
+Dette er manuell import/eksport via Filer; det er ikke automatisk synkronisering.
+Nettleserlagring kan ryddes bort eller slettes. Ha prosjektfiler med lyd i tillegg.
+
+PROSJEKTFILER MED LYD
+1. Velg «Aktuell låt med lyd» eller «Hele biblioteket med lyd».
+2. Trykk LAG PROSJEKTFIL. Avspillingen må være stoppet.
+3. Velg DEL / LAGRE I FILER og lagringssted, eller LAST NED.
+   En nedlastet prosjektfil kan flyttes videre i Filer til iCloud Drive eller Google Drive.
+4. På en annen enhet: IMPORTER PROSJEKT og velg .benken-filen.
+Låt-prosjekter legges til som en ny låt. Biblioteksprosjekter erstatter bibliotek og settlister etter bekreftelse.
+Filer kopieres lokalt ved import. Vanlig JSON-backup tar bare tekst og innstillinger.
+Forrige klargjorte lyd frigjøres når en prosjektfil lages; trykk KLARGJØR LYD før neste avspilling.
+
+KAPASITET OG STATUS
+Grensesnittet har en grense på 32 lydspor per låt. Dette er ikke et målt kapasitetstall for iPad 6.
+Nettversjonen dekoder én låt om gangen, med en grense på 256 MB ferdig dekodet lyd.
+Færre, kortere eller mono-filer reduserer minnebruken. Komprimering alene reduserer ikke dekodet minne.
+Prosjekteksport begrenses til 256 MB lyd per prosjektfil. Bruk enkeltlåt-filer for større bibliotek.
+Gamle automatisk opprettede lyd-ID-er uten en lokal fil regnes som tekstlåter. Eksplisitt valgte, manglende mikserfiler blokkerer full backup.
+41 automatiserte tester av motor, ruting, mikser, filer, backup, lagring og eksisterende funksjoner består.
+I tillegg består tidligere UI-test av skjul/vis akkorder. Testene bruker en DOM-/lydmodell.
+Faktisk multitrack-ytelse, USB-kanalskille, skydeling og langvarig kjøring på fysisk iPad/iPhone er ikke testet her.
+Prøv først testprosjektet og deretter hele settet på ditt faktiske utstyr.
+
+KILDER
+Filer og tredjeparts skylagring, Apple:
+https://support.apple.com/en-us/102238
+WebKit lagringspolicy:
+https://webkit.org/blog/14403/updates-to-storage-policy/
+Ui24R USB-ruting, HARMAN:
+https://help.harmanpro.com/ui24r-multitrack-recording-with-a-daw
