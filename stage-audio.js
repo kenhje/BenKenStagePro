@@ -32,10 +32,17 @@
    this.masterSplitter=ctx.createChannelSplitter(count);this.masterBus.connect(this.masterSplitter);
    this.masterAnalysers=Array.from({length:count},(_,i)=>{const a=ctx.createAnalyser();a.fftSize=256;this.masterSplitter.connect(a,i);return a})
   }
+  setBuses(buses){this.buses=buses;for(const node of this.busNodes?.values()||[]){const b=buses.find(b=>b.id===node.id);if(b)node.volume.gain.setTargetAtTime(b.mute?0:b.gain,this.context.currentTime,.012)}}
   routeError(tracks=this.tracks){
-   if(this.mode==='stereo')return '';
-   const invalid=tracks.find(t=>t.output<1||t.output>this.channels||(t.stereo&&t.output+1>this.channels));
-   return invalid?'«'+invalid.name+'» krever USB-utgang '+invalid.output+(invalid.stereo?'–'+(invalid.output+1):'')+'. Nettleseren tilbyr '+this.channels+' kanaler. Kontroller lydkortet eller endre rutingen.':''
+   for(const t of tracks){const route=t.bus?this.buses?.find(b=>b.id===t.bus):t;if(!route)return '«'+t.name+'» mangler utgangsbuss '+t.bus+'.';if(this.mode==='stereo')continue;if(route.output<1||route.output>this.channels||(route.stereo&&route.output+1>this.channels))return '«'+(t.bus?route.name:t.name)+'» krever USB-utgang '+route.output+(route.stereo?'–'+(route.output+1):'')+'. Nettleseren tilbyr '+this.channels+' kanaler. Kontroller lydkortet eller endre rutingen.'}return ''
+  }
+  createBus(bus){
+   const ctx=this.context,count=bus.stereo?2:1,input=ctx.createGain(),volume=ctx.createGain(),splitter=ctx.createChannelSplitter(count),analysers=[];
+   input.channelCount=count;input.channelCountMode='explicit';input.channelInterpretation='speakers';volume.gain.value=bus.mute?0:bus.gain;input.connect(volume);volume.connect(splitter);
+   const route=(source,channel)=>{const a=ctx.createAnalyser();a.fftSize=256;splitter.connect(a,source);a.connect(this.merger,0,channel);analysers.push(a)};
+   route(0,this.mode==='stereo'?0:bus.output-1);
+   if(bus.stereo&&(this.mode!=='stereo'||this.channels>1))route(1,this.mode==='stereo'?1:bus.output);else if(!bus.stereo&&this.mode==='stereo'&&this.channels>1)route(0,1);
+   const node={id:bus.id,input,volume,splitter,analysers};this.busNodes.set(bus.id,node);return node
   }
   async load(tracks,repo){
    this.cancel();const gen=this.generation;this.tracks=tracks;this.preparing=true;this.notify({loading:true});
@@ -59,9 +66,9 @@
    }catch(error){if(gen===this.generation){this.buffers=[];this.duration=0;this.preparing=false;this.notify({error:error.message})}throw error}
   }
   effective(track){return track.mute||(this.tracks.some(t=>t.solo)&&!track.solo)?0:track.gain}
-  addPath(node,input,channel,gain){
+  addPath(node,input,channel,gain,target=this.merger){
    const ctx=this.context,volume=ctx.createGain(),analyser=ctx.createAnalyser();volume.gain.value=gain;analyser.fftSize=256;
-   node.splitter.connect(volume,input);volume.connect(analyser);analyser.connect(this.merger,0,channel);node.paths.push({gain:volume,analyser})
+   node.splitter.connect(volume,input);volume.connect(analyser);analyser.connect(target,0,channel);node.paths.push({gain:volume,analyser})
   }
   async play(){
    if(this.playing||this.preparing||!this.buffers.length)return;
@@ -72,13 +79,14 @@
    if(this.position>=this.duration)this.position=0;
    const when=ctx.currentTime+.05;this.startTime=when;this.startOffset=this.position;
    try{
-    this.nodes=[];this.buffers.forEach((buffer,i)=>{
+    this.nodes=[];this.busNodes=new Map();this.buffers.forEach((buffer,i)=>{
      const track=this.tracks[i],source=ctx.createBufferSource(),splitter=ctx.createChannelSplitter(track.stereo?2:1);
      const node={source,splitter,mono:null,paths:[]};this.nodes.push(node);source.buffer=buffer;
      if(track.stereo)source.connect(splitter);
      else{node.mono=ctx.createGain();node.mono.channelCount=1;node.mono.channelCountMode='explicit';node.mono.channelInterpretation='speakers';source.connect(node.mono);node.mono.connect(splitter)}
      const base=this.effective(track),left=base*(track.pan>0?1-track.pan:1),right=base*(track.pan<0?1+track.pan:1);
-     if(track.stereo){this.addPath(node,0,this.mode==='stereo'?0:track.output-1,left);if(this.mode!=='stereo'||this.channels>1)this.addPath(node,buffer.numberOfChannels>1?1:0,this.mode==='stereo'?1:track.output,right)}
+     if(track.bus){const bus=this.buses.find(b=>b.id===track.bus),output=this.busNodes.get(bus.id)||this.createBus(bus);node.busMerger=ctx.createChannelMerger(2);node.busMerger.channelInterpretation='discrete';node.busMerger.connect(output.input);this.addPath(node,0,0,left,node.busMerger);this.addPath(node,track.stereo&&buffer.numberOfChannels>1?1:0,1,right,node.busMerger)}
+     else if(track.stereo){this.addPath(node,0,this.mode==='stereo'?0:track.output-1,left);if(this.mode!=='stereo'||this.channels>1)this.addPath(node,buffer.numberOfChannels>1?1:0,this.mode==='stereo'?1:track.output,right)}
      else{this.addPath(node,0,this.mode==='stereo'?0:track.output-1,base);if(this.mode==='stereo'&&this.channels>1)this.addPath(node,0,1,base)}
     });
     for(let i=0;i<this.nodes.length;i++)if(this.buffers[i].duration>this.position)this.nodes[i].source.start(when,this.position);
@@ -88,16 +96,18 @@
   get currentTime(){return this.playing?Math.min(this.duration,this.startOffset+Math.max(0,this.context.currentTime-this.startTime)):this.position}
   pause(){
    this.playRequest++;if(this.playing)this.position=this.currentTime;this.playing=false;
-   for(const n of this.nodes){try{n.source.stop()}catch{}n.source.disconnect();n.splitter.disconnect();n.mono?.disconnect();for(const path of n.paths){path.gain.disconnect();path.analyser.disconnect()}}
+   for(const n of this.nodes){try{n.source.stop()}catch{}n.source.disconnect();n.splitter.disconnect();n.mono?.disconnect();n.busMerger?.disconnect();for(const path of n.paths){path.gain.disconnect();path.analyser.disconnect()}}
+   for(const b of this.busNodes?.values()||[]){b.input.disconnect();b.volume.disconnect();b.splitter.disconnect();b.analysers.forEach(a=>a.disconnect())}this.busNodes=new Map();
    this.nodes=[];this.notify({playing:false})
   }
   stop(){this.pause();this.position=0;this.notify({stopped:true})}
   cancel(){this.generation++;this.stop();this.buffers=[];this.tracks=[];this.info.clear();this.duration=0;this.decodedBytes=0;this.preparing=false}
-  update(tracks){this.tracks=tracks;this.nodes.forEach((node,i)=>{const t=tracks[i];if(!t)return;const base=this.effective(t);node.paths.forEach((path,p)=>path.gain.gain.setTargetAtTime(t.stereo?base*(p===0?(t.pan>0?1-t.pan:1):(t.pan<0?1+t.pan:1)):base,this.context.currentTime,.012))})}
+  update(tracks){this.tracks=tracks;this.nodes.forEach((node,i)=>{const t=tracks[i];if(!t)return;const base=this.effective(t);node.paths.forEach((path,p)=>path.gain.gain.setTargetAtTime(t.stereo||t.bus?base*(p===0?(t.pan>0?1-t.pan:1):(t.pan<0?1+t.pan:1)):base,this.context.currentTime,.012))})}
   setMaster(value){this.master=clamp(Number(value)||0,0,2);if(this.masterBus)this.masterBus.gain.setTargetAtTime(this.master,this.context.currentTime,.012)}
   setMode(mode){if(this.playing)throw Error('Stopp avspillingen før du endrer utgangsmodus.');this.mode=mode==='stereo'?'stereo':'usb';this.configure()}
   peak(analysers){let peak=0;for(const a of analysers){a.getFloatTimeDomainData(this.samples);for(const n of this.samples)peak=Math.max(peak,Math.abs(n))}return peak}
   meters(){return this.nodes.map(n=>this.peak(n.paths.map(p=>p.analyser)))}
+  meterBuses(){return new Map(Array.from(this.busNodes?.values()||[],b=>[b.id,this.peak(b.analysers)]))}
   meterMaster(){return this.playing?this.peak(this.masterAnalysers):0}
   tick(){if(!this.playing)return;if(this.context.state!=='running'){this.pause();return}const max=Number(this.context.destination.maxChannelCount);if(max>0&&max!==this.reportedChannels){this.pause();this.notify({error:'Lydutstyret ble endret. Kontroller utgangene og klargjør igjen.'});return}if(this.currentTime>=this.duration){this.pause();this.position=this.duration;this.notify({ended:true})}}
  }

@@ -1,0 +1,83 @@
+BenKen Stage Pro V26.6 – spor og utgangsbusser
+
+Dette er en GitHub-oppdatering. Den er ikke lagt ut automatisk.
+Pakk ut ZIP-filen. Last opp disse filene til roten i GitHub-repositoriet:
+index.html, sw.js, stage-core.js, stage-project.js, stage-audio.js,
+stage-mixer.js, mixer.css, manifest.webmanifest, icon-192.png, icon-512.png.
+Last også opp hele demo-mappen. Filen skal ligge på:
+demo/BenKen_Ui24R_Busstest.benken
+GitHub: Add file → Upload files → dra inn filene og demo-mappen → Commit changes.
+Åpne GitHub Pages igjen etter publisering. Kontroller V26.6 øverst.
+Eksisterende sanger, spillelister og lokale lydfiler bruker de samme lagringsnøklene.
+
+SPOR
+Opptil 32 spor i prosjektmodellen. Velg flere WAV/MP3/M4A/AIFF/CAF-filer med
++ LYDFILER øverst i mikseren. Hvert spor har navn, nivå, panorering/balanse,
+mute, solo og måler. Alle filer må være eksportert fra samme startpunkt.
+Nye backingfiler går til buss 1, filnavn med click/klikk/clix/metronom til buss 2.
+Velg UTGANGSBUSS nederst i sporstripen for å sende sporet til en annen buss.
+Eldre låter beholder direkte USB-ruting; velg en buss når du ønsker å endre det.
+For direkte USB kan sporet fortsatt velges som mono/stereo og rutes per spor.
+
+UTGANGER / BUSSER
+16 globale utgangsbusser med navn, nivå, mute, måler og mono/stereo USB-ruting.
+Flere spor kan dele en buss. F.eks. trommer, bass og keyboard på samme backingbuss,
+mens klikk bruker sin egen buss. Bussnivå og mute påvirker alle spor på bussen.
+Busser gjelder alle låter på denne enheten. Master lagres fortsatt per låt.
+VIS ALLE 16 BUSSER viser også ubrukte busser; ellers vises de som låten bruker.
+Busser som ikke brukes av låten trenger ingen tilgjengelig fysisk utgang.
+Ruting og mono/stereo kan endres mens avspillingen er stoppet.
+Nivå, pan, mute/solo og master kan endres under avspilling.
+Standard: Buss 1 Backing → stereo USB 1–2; buss 2 Klikk → mono USB 3.
+Øvrige standardbusser bruker stereopar 5–6, 7–8, ... 31–32. Juster før bruk.
+Spor med direkte USB-ruting går utenom bussfaderne, men gjennom master.
+
+UI24R
+USB-numrene er USB DAW-kanaler. I Ui24R:
+Settings → Patching → Channels → USB DAW 1–16 / 17–32.
+Patch ønskede USB-returer til ledige mikserkanaler. Behold liveinngangene dine.
+Manglende utgang på et brukt spor eller en brukt buss blokkerer avspilling.
+Stereoøving er et separat valg og sender også klikk til stereo 1–2.
+
+TESTLÅT
+Trykk + TESTLÅT −12 dBFS øverst i mikseren. Dette legger til en ny testlåt,
+uten å erstatte sanger eller spillelister. demo-mappen må være lastet opp.
+Du kan også bruke IMPORTER PROSJEKT og velge .benken-filen manuelt.
+Testen varer 15 sekunder: 0–4 s venstre USB 1, 4–8 s høyre USB 2,
+8–15 s begge sider. Klikk på USB 3 hele veien.
+Filene har omtrent −12 dBFS toppnivå. Ved 0 dB på spor, buss og master
+skal appens måler vise omtrent −12 dBFS. MAKS husker høyeste målte verdi;
+NULLSTILL PEAK tømmer denne. Ingen automatisk normalisering er lagt til.
+Denne testen har ca. 12 dB høyere filnivå enn forrige demo.
+
+LYDFILER, ICLOUD DRIVE OG GOOGLE DRIVE
++ LYDFILER åpner filvelgeren for lyd. IMPORTER PROSJEKT åpner .benken-filer.
+Prosjektimporten har ikke filtypefilter; selve innholdet valideres før import.
+Velg lydfiler via Filer, fra På min iPad/iPhone, iCloud Drive eller Google Drive.
+Google Drive må være aktivert som plassering i Filer. Last ned skyfilen først
+hvis den ikke er tilgjengelig. Appen kopierer lydfilene lokalt til avspilling.
+Dette er ikke automatisk skysynkronisering. Ikke slett nettstedsdata for appen.
+LAG PROSJEKTFIL under lagringsseksjonen lager en backup med lyd, tekst og miks.
+Velg Aktuell låt eller Hele biblioteket, deretter DEL / LAGRE I FILER / LAST NED.
+JSON-backup inneholder tekst og mikserinnstillinger, men ikke lydfilene.
+
+PROSJEKTER MED BUSSER
+V26.6 .benken-filer inkluderer bussoppsett. En låt legges til ved import.
+Hvis en importert buss allerede finnes med samme navn, nivå, mute og USB-ruting,
+brukes den. Hvis den er forskjellig, kopieres den til en ledig buss.
+Dette hindrer at eksisterende låters busser blir endret av en låtimport.
+Hvis alle 16 busser brukes og ingen passer, avvises importen uten endringer.
+Hele biblioteket erstatter biblioteket etter bekreftelse og tekstbackup.
+Bruk V26.6 eller nyere på mottakeren for prosjekter med bussruting.
+Nye prosjektfiler har formatversjon 2. V26.5 avviser dem i stedet for å overse
+bussrutingen. V26.6 kan fortsatt importere de eldre formatversjon 1-filene.
+
+TESTING OG GRENSER
+Automatiske tester bruker modellert DOM, Web Audio og IndexedDB.
+Det er ikke en ekte Safari- eller iPad-test. Den nye bussrutingen må testes på Ui24R.
+Kenneth har bekreftet at egne lydspor i V26.5 spiller med normalt nivå på Ui24R.
+Ingen EQ er lagt til. MIDI, AUv3, waveform/regionredigering og automatisk
+skysynkronisering er ikke del av denne oppdateringen.
+Nettversjonen dekoder hele den aktive låten i minnet, med grense 256 MB.
+32 spor er modellens maksimum, ikke et løfte om kapasitet på en eldre iPad.
+Prosjektfiler kan inneholde opptil 256 MB lyd; bruk per-låt-filer for store bibliotek.

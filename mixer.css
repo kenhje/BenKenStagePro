@@ -2,3 +2,27 @@
 #mixerDialog .mixer-console{display:grid;grid-template-columns:minmax(0,1fr) 160px;gap:14px;align-items:stretch}#mixerDialog #mixerTracks{min-width:0}.master-strip{margin:8px 0 18px;min-width:0;flex:none;border-color:#927c4c;background:linear-gradient(135deg,#34352b,#1c2529);display:flex;flex-direction:column;align-items:stretch;padding:15px}.master-heading{text-align:center;min-height:44px;display:flex;flex-direction:column;justify-content:center;gap:6px}.master-heading strong{color:#f1d997;font-size:14px;letter-spacing:2px}.master-heading small{color:#bcb78f;font-size:9px;letter-spacing:1px}.level-readout{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:16px;font-size:9px;color:#a6b8bd;font-variant-numeric:tabular-nums;white-space:nowrap}.level-readout>span{letter-spacing:1px;font-size:8px}.level-readout output{font-size:10px}.stem-meter{height:12px;margin:7px 0 17px;border:1px solid #395049;position:relative;background:#0b151a}.stem-meter>div{height:100%;background:#75d5aa;transition:width 75ms linear}.stem-meter[data-zone=high]>div{background:#e9cb65}.stem-meter[data-zone=clip]{border-color:#f18a72;box-shadow:0 0 5px #e76d4a60}.stem-meter[data-zone=clip]>div{background:#f18a72}.master-strip .stem-level{margin-top:0}.master-strip .stem-level input{height:160px;accent-color:#e6d19b}.master-strip #masterReset{margin:14px auto 0;min-width:60px;font-size:12px;border-color:#83784e;color:#e8d9af}.master-scope{font-size:10px;text-align:center;color:#b6b7a3;margin:auto 0 3px;padding-top:22px}.stem-strip .stem-level output{font-size:19px}@media(max-width:600px){#mixerDialog .mixer-console{grid-template-columns:minmax(0,1fr) 112px;gap:8px}.master-strip{padding:12px 8px}.master-heading strong{font-size:12px;letter-spacing:1px}.master-strip .level-readout{justify-content:center}.master-strip .level-readout>span{display:none}.master-strip .stem-level input{height:130px}.master-strip .stem-level output{font-size:17px}.master-scope{font-size:9px}}@media(prefers-reduced-motion:reduce){.stem-meter>div{transition:none}}
 
 #mixerDialog{background:#1b2631;color:#edf3f6;border:1px solid #536b7c;border-radius:12px;max-height:90dvh;overflow:auto}#mixerDialog::backdrop{background:#030910c9}#mixerDialog .dialog-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}#mixerDialog .dialog-heading h2{margin:0}#mixerDialog button{min-height:44px}#mixerDialog .mixer-transport{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:15px 0}#mixerDialog #mixerPlay{background:#275847}#mixerDialog #mixerStop{border-color:#aa6a5c}#mixerPosition{font-size:12px;color:#b8cad5}#mixerDialog .mixer-note{font-size:13px;line-height:1.6;color:#bed3dd}#mixerDialog .output-choice{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12px;margin:12px 0}#mixerDialog .output-choice select{min-height:44px}#mixerDialog .stem-file{display:block;font-size:10px;line-height:1.5;color:#a9bbc8;min-height:32px;margin-top:8px}#mixerDialog details{font-size:12px;margin-top:16px;border:1px solid #435667;padding:12px;border-radius:8px}#mixerDialog details summary{cursor:pointer;min-height:30px}#mixerDialog details p{line-height:1.7;color:#b9cbd6}#mixerDialog .project-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}#mixerDialog .project-actions select{min-height:44px;max-width:100%;font-size:12px}#mixerDialog .stem-heading button{min-width:32px}#mixerDialog .stem-level input{margin:0}#mixerDialog .mixer-footer{position:sticky;bottom:-20px;padding:12px 0;background:#1b2631;border-top:1px solid #435667;z-index:2}
+
+/* V26.6: separate track and bus views, with file actions above the strips. */
+#mixerDialog .mixer-file-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+#mixerDialog .mixer-file-actions button{font-size:11px;padding:10px 12px}
+#mixerDialog #projectImport{border-color:#93ba9b;color:#d3f4d7}
+#mixerDialog #projectDemo{border-color:#b5a46a;color:#efe0a7}
+#mixerDialog .mixer-tabs{margin:12px 0 8px}
+#mixerDialog .mixer-tabs button{font-size:12px;min-width:90px}
+#mixerDialog .bus-view-options{display:flex;gap:12px;flex-wrap:wrap;color:#b8c8d3;font-size:11px;margin:8px 0}
+#mixerDialog .bus-view-options label{white-space:nowrap}
+#mixerBuses{display:flex;overflow-x:auto;gap:10px;padding:8px 0 18px;scroll-snap-type:x proximity;overscroll-behavior-x:contain;flex:1;min-width:0}
+#mixerDialog .bus-strip{background:linear-gradient(120deg,#273a37,#152923);border-color:#49675c}
+#mixerDialog .bus-strip .stem-routing{margin-top:auto;padding-top:12px}
+#mixerDialog .stem-bus-choice{display:block;margin-top:10px;font-size:9px;letter-spacing:.6px;color:#b7d2c4}
+#mixerDialog .stem-bus-choice select{display:block;width:100%;margin-top:6px;min-height:44px;font-size:11px;padding:4px}
+#mixerDialog .stem-strip{display:flex;flex-direction:column}
+#mixerDialog .stem-file{min-height:20px}
+#mixerDialog .stem-level input{height:clamp(90px,16dvh,150px)}
+#mixerDialog .stem-meter{margin:10px 0}
+#mixerDialog .master-held{display:flex;flex-direction:column;gap:6px;align-items:center;margin:14px 0;color:#b5c9c1;text-align:center}
+#mixerDialog .master-held small{font-size:8px;letter-spacing:.5px}
+#mixerDialog .master-held output{font-size:12px;font-variant-numeric:tabular-nums}
+#mixerDialog .master-held button{font-size:9px;padding:6px}
+@media(max-width:700px){#mixerDialog .mixer-file-actions button{flex:1 0 140px}#mixerDialog .bus-view-options span{line-height:1.5}#mixerDialog .stem-level input{height:110px}}
