@@ -1,0 +1,96 @@
+BenKen Stage Pro V26.7 – mikserfadere, busskobling og minnevisning
+
+GITHUB-OPPDATERING
+Pakk ut ZIP-filen. Last opp alle rotfilene til roten i GitHub-repositoriet:
+index.html, sw.js, stage-core.js, stage-project.js, stage-audio.js,
+stage-mixer.js, mixer.css, manifest.webmanifest og de to ikonfilene.
+Last opp hele demo-mappen også. Kontroller at versjonen øverst viser V26.7.
+Appen er ikke oppdatert på GitHub automatisk.
+De samme lagringsnøklene brukes for sanger, setlister og lokale lydfiler.
+
+NY MIKSER
+Tydeligere kanalstriper med spornavn nederst på en farget etikett.
+Fadere med større sølvfargede håndtak, dB-skala og markering ved 0 dB.
+Vertikale nivåmålere ved siden av faderne, peakverdi og master peak hold.
+Faderområdet går fra helt av til +6 dB. 0 dB er ved 75 % av faderbanen.
+Faderne har en dB-basert taper med finere kontroll rundt normalt arbeidsnivå.
+0 / 0 dB-knappene eller dobbelttrykk på faderen gir uendret nivå (0 dB).
+Nivåene du allerede har lagret endres ikke av at du åpner den nye mikseren.
+Mute/solo og pan kan brukes under avspilling. Ruting endres mens lyden er stoppet.
+Ingen EQ er lagt til.
+
+SPOR OG UTGANGER / BUSSER
+Opptil 32 spor i prosjektmodellen og 16 felles utgangsbusser.
+Flere spor kan dele en buss. Bussnivå og mute gjelder alle spor som er koblet til den.
+Master lagres per låt. Bussinnstillingene gjelder alle låter på denne enheten.
+Nye backingfiler kobles til buss 1 (stereo USB 1–2).
+Filnavn med click/klikk/clix/metronom kobles til buss 2 (mono USB 3).
+Velg UTGANGSBUSS på hvert spor og USB UT på bussene for andre oppsett.
+Den lille etiketten øverst i hver stripe viser signalveien.
+
+ELDRE SPOR SOM GÅR DIREKTE TIL USB
+Eldre låter kan gå direkte til USB og dermed utenom bussfaderne.
+Dette markeres nå tydelig over mikseren og på den enkelte sporstripen.
+KOBLE DIREKTE SPOR TIL BUSSER lager busskoblinger med samme fysiske USB-ruting,
+uendret nivå og uendrede mute/solo-valg. Eksisterende busser som brukes av
+andre låter beholder innstillingene sine. Klikk/mono-pan som tidligere var
+uten virkning nullstilles for å beholde det hørbare nivået etter busskobling.
+Hvis ingen ledige busser passer, avbrytes hele endringen uten delvis lagring.
+Du kan fortsatt velge Direkte USB i sporstripen hvis du ønsker det.
+
+MINNEGRENSER – WAV OG MP3
+Nettversjonen laster og dekoder hele den aktive låten i minnet.
+Arbeidsminnegrensen er fortsatt 256 MiB dekodet lyd per låt. Den er ikke hevet.
+MP3 reduserer filstørrelse og lagringsbehov, men lyden dekodes til 32-bit float PCM.
+Ved samme lengde, samplingsfrekvens og kanaltall blir arbeidsminnebehovet likt.
+Eksempel ved 48 kHz: ett stereospor på 4 minutter krever ca. 87,9 MiB dekodet lyd.
+Tre slike stereospor krever ca. 263,7 MiB, også om originalfilene er små MP3-filer.
+En ekte mono-fil bruker halvparten av minnet til en tilsvarende stereo-fil.
+Mono-valget på en stereo-fil endrer avspillingen, men gjør ikke originalfilen
+eller den dekodede filbufferen mindre. Eksporter en ekte mono-fil der det passer.
+Mute frigjør ikke minnet for et spor, fordi det må kunne åpnes under avspilling.
+
+Minnevisningen under mikseren viser behovet i MiB og markerer overskridelser.
+Ved overskridelse står det Minst, fordi resten av filene ennå ikke er dekodet.
+WAV-hodet brukes til å stoppe før en ny stor fil dekodes over totalgrensen,
+når WAV-formatet kan leses. Samme lydfil brukt flere ganger deles i minnet.
+Ved minnefeil starter ingen delvis låt. De importerte originalfilene beholdes.
+Fjern noen spor og prøv igjen, eller bruk kortere/mono-filer. Sporfjerning sletter
+ikke originalfilen fra den lokale lyddatabasen.
+
+Det finnes to andre, separate grenser: 160 MiB per innlastet lydfil, og
+256 MiB lagrede lydfiler i hver eksportert prosjektfil. MP3 kan hjelpe med
+lagrings- og prosjektfilgrensene, men ikke grensen for dekodet arbeidsminne.
+En egen app med en lydmotor som leser lokale filer i mindre deler er neste
+retning for større multitrack-låter. Dette er ikke implementert i denne nettversjonen.
+
+UI24R
+USB-numrene betyr USB DAW-kanaler. I Ui24R:
+Settings → Patching → Channels → USB DAW 1–16 / 17–32.
+Patch ønsket USB-retur til en ledig mikserkanal. Behold liveinngangene dine.
+Brukte spor/busser med manglende utganger blokkerer avspilling.
+Ubrukte busser blokkerer ikke avspilling. VIS ALLE 16 BUSSER viser også de ubrukte.
+Stereoøving sender alle spor, også klikk, til stereo 1–2.
+Under Lydtest og USB-ruting ligger KLARGJØR LYD og + TESTLÅT −12 dBFS.
+Testlåten er samme 15-sekunders buss-test som før, nå med oppdatert metadata.
+0–4 s venstre USB 1, 4–8 s høyre USB 2, 8–15 s begge, klikk USB 3 hele veien.
+
+LYDFILER, ICLOUD OG GOOGLE DRIVE
++ LYDFILER importerer WAV/MP3/M4A/AIFF/CAF fra Filer, iCloud eller Google Drive.
+Google Drive må være aktivert som plassering i Filer. Appen kopierer filene lokalt.
+Dette er ikke automatisk skysynkronisering. Alle spor må ha samme startpunkt.
+IMPORTER PROSJEKT åpner .benken-filer. Innholdet valideres før import.
+LAG PROSJEKTFIL under lagringsseksjonen tar med lyd, tekst, miks og bussoppsett.
+Velg Aktuell låt eller Hele biblioteket, så DEL / LAGRE I FILER eller LAST NED.
+JSON-backup inneholder ikke lydfilene. Bruk prosjektfiler til backup med lyd.
+En låt legges til uten å erstatte setlister. Bussoppsett som er forskjellige
+kopieres til ledige busser. Et helt biblioteksprosjekt erstatter biblioteket etter
+bekreftelse og tekstbackup. Ikke slett nettstedsdata uten å ha backup med lyd.
+Prosjektformat 2 kan leses av V26.6/V26.7. Format 1 fra eldre versjoner kan importeres.
+V26.5 avviser format 2, slik at den ikke overser bussruting.
+
+VERIFISERING
+Automatiske tester bruker modellert Web Audio, DOM og IndexedDB.
+Ingen ekte Safari-layout eller fysisk iPad/Ui24R-test er utført her.
+Busskobling, ny faderbetjening og utseendet må derfor prøves på iPad.
+32 spor er modellens maksimum og er ikke et løfte om kapasitet på iPad 6.

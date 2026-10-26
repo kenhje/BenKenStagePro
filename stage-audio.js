@@ -2,6 +2,11 @@
  'use strict';
  const MAX_DECODED=256*1024*1024;
  const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+ function waveInfo(data,sampleRate){
+  if(data.byteLength<44)return null;const d=new DataView(data),tag=p=>String.fromCharCode(d.getUint8(p),d.getUint8(p+1),d.getUint8(p+2),d.getUint8(p+3));if(tag(0)!=='RIFF'||tag(8)!=='WAVE')return null;let format=null,size=null;
+  for(let p=12;p+8<=d.byteLength;){const name=tag(p),length=d.getUint32(p+4,true);if(length>d.byteLength-p-8)return null;if(name==='fmt '&&length>=16){let code=d.getUint16(p+8,true);if(code===65534&&length>=40)code=d.getUint16(p+32,true);format={code,channels:d.getUint16(p+10,true),rate:d.getUint32(p+12,true),align:d.getUint16(p+20,true)}}if(name==='data')size=length;p+=8+length+(length%2)}
+  if(!format||![1,3].includes(format.code)||!format.rate||!format.align||!format.channels||size===null)return null;const frames=Math.floor(size/format.align),duration=frames/format.rate;return {channels:format.channels,duration,decodedBytes:Math.ceil(duration*sampleRate)*format.channels*4}
+ }
  function level(peak){const db=peak>0?20*Math.log10(peak):-Infinity;return {db,label:Number.isFinite(db)?db.toFixed(1):'−∞',percent:Number.isFinite(db)?clamp((db+60)/60*100,0,100):0,clip:peak>=1}}
  class MediaRepository{
   db(){return new Promise((resolve,reject)=>{const r=root.indexedDB.open('benken-audio-v1',1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains('tracks'))r.result.createObjectStore('tracks')};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
@@ -48,22 +53,24 @@
    this.cancel();const gen=this.generation;this.tracks=tracks;this.preparing=true;this.notify({loading:true});
    try{
     if(!tracks.length){this.preparing=false;this.notify({ready:true});return true}
-    let configured=false,bytes=0;const buffers=[],info=new Map();
+    let configured=false,bytes=0;const buffers=[],info=new Map(),decoded=new Map();this.info=info;
     for(const track of tracks){
+     if(decoded.has(track.assetId)){buffers.push(decoded.get(track.assetId));continue}
      const file=await repo.get(track.assetId);if(gen!==this.generation)return false;
      if(!file?.data)throw Error('Lydfilen «'+track.name+'» mangler lokalt. Importer filen eller en prosjektbackup med lyd.');
      const data=file.data instanceof Blob?await file.data.arrayBuffer():file.data;
-     if(data.byteLength>160*1024*1024)throw Error('«'+track.name+'» er for stor for denne nettversjonen.');
-     if(!configured){this.configure();configured=true}let buffer;try{buffer=await this.context.decodeAudioData(data.slice(0))}catch{throw Error('Lydfilen «'+track.name+'» kunne ikke leses. Prøv WAV, MP3 eller M4A.')}
+     if(data.byteLength>160*1024*1024)throw Error('«'+track.name+'» er over filgrensen på 160 MiB i denne nettversjonen.');
+     if(!configured){this.configure();configured=true}const estimate=waveInfo(data,this.context.sampleRate);if(estimate){info.set(track.assetId,{name:file.name||track.name,bytes:data.byteLength,...estimate,estimated:true});if(estimate.channels>2)throw Error('«'+track.name+'» har flere enn to kanaler. Importer separate mono-/stereofiler.');this.requiredBytes=bytes+estimate.decodedBytes;if(this.requiredBytes>MAX_DECODED)throw Error('Låten trenger minst '+Math.ceil(this.requiredBytes/1048576)+' MiB dekodet lyd. Grensen er 256 MiB. WAV og MP3 bruker samme arbeidsminne ved lik lengde, samplingsfrekvens og kanaltall. Bruk færre, kortere eller mono-spor. Filene er beholdt lokalt.')}
+     let buffer;try{buffer=await this.context.decodeAudioData(data.slice(0))}catch{throw Error('Lydfilen «'+track.name+'» kunne ikke leses. Prøv WAV, MP3 eller M4A.')}
      if(gen!==this.generation)return false;
      if(buffer.numberOfChannels>2)throw Error('«'+track.name+'» har flere enn to kanaler. Importer separate mono-/stereofiler.');
-     bytes+=buffer.length*buffer.numberOfChannels*4;
-     if(bytes>MAX_DECODED)throw Error('Låten krever mer enn 256 MB ferdig dekodet lyd. Bruk færre, kortere eller mono-spor.');
-     buffers.push(buffer);info.set(track.assetId,{name:file.name||track.name,bytes:data.byteLength,channels:buffer.numberOfChannels,duration:buffer.duration})
+     const memory=buffer.length*buffer.numberOfChannels*4;bytes+=memory;this.requiredBytes=bytes;info.set(track.assetId,{name:file.name||track.name,bytes:data.byteLength,channels:buffer.numberOfChannels,duration:buffer.duration,decodedBytes:memory});
+     if(bytes>MAX_DECODED)throw Error('Låten trenger minst '+Math.ceil(bytes/1048576)+' MiB dekodet lyd. Grensen er 256 MiB. MP3 sparer filplass, men ikke dette arbeidsminnet. Bruk færre, kortere eller mono-spor. Filene er beholdt lokalt.');
+     buffers.push(buffer);decoded.set(track.assetId,buffer)
     }
     if(gen!==this.generation)return false;
     this.buffers=buffers;this.info=info;this.duration=Math.max(0,...buffers.map(b=>b.duration));this.decodedBytes=bytes;this.preparing=false;this.notify({ready:true});return true
-   }catch(error){if(gen===this.generation){this.buffers=[];this.duration=0;this.preparing=false;this.notify({error:error.message})}throw error}
+   }catch(error){if(gen===this.generation){this.buffers=[];this.decodedBytes=0;this.duration=0;this.preparing=false;this.notify({error:error.message})}throw error}
   }
   effective(track){return track.mute||(this.tracks.some(t=>t.solo)&&!track.solo)?0:track.gain}
   addPath(node,input,channel,gain,target=this.merger){
@@ -101,7 +108,7 @@
    this.nodes=[];this.notify({playing:false})
   }
   stop(){this.pause();this.position=0;this.notify({stopped:true})}
-  cancel(){this.generation++;this.stop();this.buffers=[];this.tracks=[];this.info.clear();this.duration=0;this.decodedBytes=0;this.preparing=false}
+  cancel(){this.generation++;this.stop();this.buffers=[];this.tracks=[];this.info.clear();this.duration=0;this.decodedBytes=0;this.requiredBytes=0;this.preparing=false}
   update(tracks){this.tracks=tracks;this.nodes.forEach((node,i)=>{const t=tracks[i];if(!t)return;const base=this.effective(t);node.paths.forEach((path,p)=>path.gain.gain.setTargetAtTime(t.stereo||t.bus?base*(p===0?(t.pan>0?1-t.pan:1):(t.pan<0?1+t.pan:1)):base,this.context.currentTime,.012))})}
   setMaster(value){this.master=clamp(Number(value)||0,0,2);if(this.masterBus)this.masterBus.gain.setTargetAtTime(this.master,this.context.currentTime,.012)}
   setMode(mode){if(this.playing)throw Error('Stopp avspillingen før du endrer utgangsmodus.');this.mode=mode==='stereo'?'stereo':'usb';this.configure()}
@@ -111,5 +118,5 @@
   meterMaster(){return this.playing?this.peak(this.masterAnalysers):0}
   tick(){if(!this.playing)return;if(this.context.state!=='running'){this.pause();return}const max=Number(this.context.destination.maxChannelCount);if(max>0&&max!==this.reportedChannels){this.pause();this.notify({error:'Lydutstyret ble endret. Kontroller utgangene og klargjør igjen.'});return}if(this.currentTime>=this.duration){this.pause();this.position=this.duration;this.notify({ended:true})}}
  }
- root.StageAudio={level,MAX_DECODED,MediaRepository,BrowserPlayer};
+ root.StageAudio={VERSION:'26.7',level,waveInfo,MAX_DECODED,MediaRepository,BrowserPlayer};
 })(typeof window!=='undefined'?window:globalThis);
