@@ -1,0 +1,96 @@
+BenKen Stage Pro V26.13 – enklere mikser, tekstfarger og seksjonssynk
+
+OPPDATER GITHUB
+Pakk ut ZIP-filen og last opp ALLE filene, inkludert demo-mappen, til roten av
+GitHub-repositoriet. Erstatt filer med samme navn.
+Last opp index.html, sw.js, benken-runtime-v26-13.js og benken-ui-v26-13.css
+sammen med resten av pakken. Gamle versjonerte programfiler kan bli liggende.
+Denne ZIP-filen publiserer ikke oppdateringen automatisk.
+Vent til GitHub Pages er ferdig publisert, og åpne appen på nytt.
+Kontroller at det står V26.13 øverst og i mikseren.
+Bruk samme nettadresse og nettleserprofil som før. Lagringsnøklene for låter,
+setlister og lokale lydfiler er beholdt. Du trenger ikke slette nettleserdata.
+
+MIKSER OG KONTROLLER
+Når mikseren åpnes, viser kontrollfeltet automatisk bare knappene.
+Bølgeformen/tidslinjen kommer tilbake når du lukker mikseren, dersom den er
+valgt i hovedvisningen. Dette endrer ikke ditt lagrede valg av BARE KNAPPER.
+SPILL og STOPP er fjernet fra toppen av mikseren. Bruk kontrollfeltet nederst.
+Play blir grønn under avspilling, Stop rød når avspillingen er stoppet.
+Ved pause er begge nøytrale. Tilstanden er den samme i og utenfor mikseren.
+CONTROLS viser/skjuler feltet. Tannhjulet i feltet velger knapper/rekkefølge.
+Spor-, buss- og masterfadere kan fortsatt dobbelttrykkes til 0 dB.
+
+SLETTE LYDFILER
+MIXER → tannhjul → LYD OG FILER viser sporene i gjeldende låt.
+Trykk SLETT, eller sveip mot høyre på kortet utenfor navnefeltet.
+Du får bekrefte eller avbryte. Avspillingen må være stoppet.
+Sporet fjernes fra låten. Den lokale lydkopien slettes bare dersom ingen andre
+spor eller låter bruker den. Originalfilen i Filer/iCloud/Drive beholdes.
+En mislykket lagring fjerner ingen lydfil. Hvis sletting av selve lydkopien
+feiler, blir sporet fjernet og den ubrukte kopien liggende; en melding vises.
+Navn i appen kan fortsatt endres, med originalfilnavnet synlig under.
+Trykk LAGRE NAVN for navneendringer. Ved ny import, klargjøring, prosjektbackup
+eller sletting lagres eventuelle ventende navneendringer først.
+
+AUTOSCROLL FØLGER LÅTLENGDEN
+Ved denne oppgraderingen slås synk til låtlengde på som standard én gang.
+Du kan slå det av igjen, og det valget huskes.
+Kontrollfelt → tannhjul:
+- AUTOSCROLL FØLGER LÅTLENGDE bruker lydens varighet, eller lagret låtlengde.
+- START / PAUSE AUTOSCROLL MED LYDEN kobler start/pause til avspillingen.
+Det siste valget er fortsatt valgfritt. AUTO SCROLL kan også startes uten lyd;
+da brukes en egen klokke med samme låtlengde.
+Valgene finnes også under Settings → LYRICS.
+Uten låtlengde brukes manuell scrollhastighet frem til en varighet er kjent.
+Med fullstendig seksjonssynk følger scrollingen tidspunktene for seksjonene.
+Mellom markørene glir teksten gradvis mot neste overskrift. Dette er ikke
+ord-for-ord-synk. Uten seksjonsmarkører fordeles scrollingen over låtlengden.
+
+FARGE PÅ DELER AV TEKSTEN – FOR EKSEMPEL KORING
+Settings → LYRICS → EDIT CURRENT SONG.
+Marker ordene som skal ha farge i tekstfeltet.
+Velg farge ved TEKSTFARGE → FARG MARKERT TEKST, eller trykk KOR for rosa.
+Trykk SAVE for sangteksten. Akkordene beholder sine egne farger/plasseringer.
+Dette finnes også i tekstfeltet når du legger til/redigerer en sang i Bibliotek.
+Fargemarkeringen lagres i sangteksten som {color: #rrggbb}tekst{/color}.
+{kor}tekst{/kor} kan også skrives manuelt og vises rosa.
+Farger følger JSON- og .benken-backup, og virker også med skjulte akkorder.
+
+INTRO / VERSE / CHORUS I BØLGEFORMEN
+Låtlengde alene forteller ikke når vers eller refreng starter.
+Seksjonsvisningen bruker derfor starttider du setter for tekstoverskriftene.
+1. Legg til seksjoner i sangteksten med INTRO, VERSE, CHORUS osv.
+2. Velg BØLGEFORM og SYNK TEKST i kontrollfeltet. SYNK TEKST finnes også
+   under Settings → LYRICS og som en valgbar knapp i kontrollfeltet.
+3. Trykk SETT NÅ ved første seksjon før avspilling hvis den starter ved 00:00.
+4. Spill låten i synkvinduet. Trykk SETT NÅ ved starten av hver ny seksjon.
+   Du kan også skrive mm:ss eller sekunder, og hoppe med tidslinjen.
+5. Trykk LAGRE SYNK.
+Når ALLE starttidene er satt, vises fargede felt med seksjonsnavn i bølgeformen.
+Hvert felt varer til neste markør. Siste seksjon varer til låtens slutt.
+Starttidene må stå i tekstens rekkefølge, være forskjellige og før låtens slutt.
+Du kan lagre ufullstendig synk og fortsette senere. Ingen seksjonslengder
+tegnes før alle markørene er klare. Avbryt beholder forrige lagrede synk.
+Ved endring av navn/rekkefølge/antall overskrifter må synken settes på nytt.
+Vanlige endringer i teksten mellom overskriftene beholder tidspunktene.
+Synken følger med i .benken- og JSON-backup sammen med teksten.
+
+LYDFILER, BACKUP OG GRENSER
+Vanlig bruk: velg låt → MIXER → tannhjul → LYD OG FILER → + LYDFILER.
+Du trenger ikke lage/importere en prosjektfil for å spille lokale spor.
+Sporene må være eksportert fra samme startpunkt for å ligge i synk.
+Backup og prosjektfil samt Lydutgang og flere valg ligger i foldbare felt.
+Arbeidsminnegrensen er fortsatt 256 MiB dekodet lyd per aktiv låt.
+Filgrensen for avspilling er 160 MiB per lydfil. Prosjektfiler har grense
+256 MiB lagrede lydfiler. MP3 sparer filplass, men ikke dekodet minne ved
+samme lengde, samplingsfrekvens og kanaltall. Ingen EQ er lagt til.
+Nye prosjektfiler bruker format 3. Format 1 og 2 kan fortsatt importeres.
+
+VERIFISERING
+134 automatiske tester består, i tillegg til akkord-/innstillingsregresjonen.
+Testene bruker modellert DOM, Web Audio og IndexedDB. De omfatter sletting,
+delte lydkopier, lagringsfeil, eksakte lydbytes, tekstfarger, seksjonstider,
+autoscroll, kontroller i mikseren og eksisterende lyd- og setlistfunksjoner.
+Ingen ekte Safari-layout eller fysisk iPad/Ui24R-test er gjort her.
+Prøv særlig sveip, tekstmarkering/fargevalg og synkvinduet på iPad.
