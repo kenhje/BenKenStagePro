@@ -1,0 +1,103 @@
+BenKen Stage Pro V26.11 – enkel visning og ryddigere mikser
+
+OPPDATER GITHUB
+Pakk ut ZIP-filen og last opp ALLE filene, inkludert demo-mappen, til roten i
+GitHub-repositoriet. Erstatt filer med samme navn.
+V26.11 bruker benken-runtime-v26-11.js og benken-ui-v26-11.css. Last også opp
+index.html og sw.js. Gamle programfiler kan bli liggende; de brukes ikke av V26.11.
+ZIP-filen er ikke publisert automatisk.
+Vent til GitHub Pages er ferdig publisert, og åpne appen på nytt.
+Kontroller V26.11 øverst i appen og i mikseren.
+Bruk samme nettadresse og nettleserprofil som før. Lagringsnøklene for låter,
+setlister og lokale lydfiler er uendret. Du trenger ikke slette nettleserdata.
+
+ENKLERE HOVEDVISNING
+Settings vises nå som bare et tannhjul. Setlist, Mixer og Controls er beholdt.
+CONTROLS viser/skjuler kontrollfeltet nederst. Trykk på tannhjulet i kontrollfeltet
+for å tilpasse det. Innstillingene finnes også under Settings → SCENE.
+
+I kontrollfeltets innstillinger:
+- BARE KNAPPER skjuler låtnavn, tidslinje/bølgeform og tidsvisning.
+- BARE IKONER PÅ KNAPPENE skjuler knappetekstene.
+Valgene kan kombineres. Knappenes tilgjengelighetsnavn beholdes.
+Kontrollfeltets tannhjul er fremdeles tilgjengelig når BARE KNAPPER er valgt.
+Settings-handlingen i kontrollfeltet vises også som et tannhjul.
+Trykker du BØLGEFORM mens bare knapper vises, åpnes tidslinjen igjen.
+Du kan fremdeles velge inntil 32 knapper, ALLE KNAPPER, egen tekst/rekkefølge
+og visning på én eller flere rader. Trykk LAGRE KONTROLLER for å lagre.
+Valgene huskes på denne enheten.
+
+MIKSERINNSTILLINGER I SAMME VINDU
+Trykk MIXER og tannhjulet ved siden av lukkeknappen.
+Innstillingene vises nå som en egen side inne i mikservinduet.
+De bruker ikke et ekstra dialogvindu over mikseren. Redigeringsfeltene ligger
+på en vanlig, rullbar side, med tydelige tekstfelt og fargevelgere.
+
+SPOR: kanalnavn, egen farge/AUTO, buss, mono/stereo og mutegrupper per låt.
+BUSSER: bussnavn, farge, mono/stereo, USB-utgang og oversikt over tilkoblede spor.
+MUTEGRUPPER: gruppenavn og avkryssing av hvilke spor som skal tilhøre gruppene.
+LYD OG FILER: import, lydutganger, klargjøring, prosjektfiler, lydtest og visning.
+
+Trykk LAGRE MIKSEROPPSETT for å lagre navn, farger, ruting og gruppemedlemskap.
+De siste feltverdiene leses også ved lagring og fanebytte.
+FORKAST ENDRINGER / TILBAKE TIL MIKSER lukker innstillingssiden.
+Busser og gruppenavn er FELLES FOR ALLE LÅTER. Spornavn, egne kanalfarger,
+ruting og gruppemedlemskap lagres per låt. AUTO følger bussens farge.
+Å åpne/lukke et skjema gjør ikke AUTO-farger om til egne farger.
+
+UNDER AVSPILLING
+Innstillingene kan vises mens lyden spiller. Kanal- og rutingsfeltene er da låst,
+og en tydelig melding forklarer hvorfor. Trykk STOPP øverst i samme vindu for
+å gjøre navn, farger og ruting redigerbare.
+En mislykket lagring beholder det forrige oppsettet. Et foreldet skjema kan
+ikke skrive innstillinger til feil låt etter et låtskifte.
+
+SMAL ELLER VANLIG MIKSER
+Åpne Mixer → tannhjul → LYD OG FILER → Kanalbredde.
+Velg Vanlig mikser eller Smal mikser. Smal viser flere kanaler ved siden av
+hverandre, med de samme faderne og nivåmålerne.
+Knappen TILBAKE TIL MIKSER viser faderne igjen.
+Bredden huskes på denne enheten og kan endres uten å stoppe lyden.
+
+LYDVERKTØYENE ER SAMLET
+Under LYD OG FILER finner du:
+- + LYDFILER og IMPORTER PROSJEKT.
+- Lydutgang, LES UTGANGER og KLARGJØR LYD.
+- Oversikt over ruting og hjelp for direkte spor/busser.
+- Minneoversikt og lydfiler for gjeldende låt.
+- LAG PROSJEKTFIL, deling/nedlasting og testlåten.
+Tekniske valg er flyttet ut av selve faderoversikten.
+Feilmeldinger som blokkerer avspilling vises også i hovedmikseren.
+En tom mikser har en snarvei rett til LYD OG FILER.
+
+IMPORT OG BACKUP
+Vanlig avspilling: velg låt → Mixer → tannhjul → LYD OG FILER → + LYDFILER.
+Vent til sporene er klare, gå tilbake til mikseren og trykk SPILL.
+Appen kopierer lydfilene lokalt. Du trenger ikke eksportere/importere prosjektet
+igjen for å spille. Prosjektfiler er til backup eller flytting til andre enheter.
+Alle spor skal være eksportert fra samme startpunkt for å ligge i synk.
+En .benken-fil med én låt legges til som en ny låt ved import.
+Hele biblioteket med lyd inkluderer setlister og erstatter biblioteket etter bekreftelse.
+JSON-backup inkluderer ikke lydfilene.
+Kanalfarger, navn, busser og mutegrupper er med i prosjektfilen.
+Kontrollfeltets visning, ikonvalg og mikserbredde er enhetsvalg og beholdes på
+mottakeren ved prosjektimport.
+Skymapper i iCloud/Google Drive er til originalfiler og backup. Det er ikke
+automatisk synkronisering av senere endringer i disse mappene.
+
+LYDMOTOR OG GRENSER
+Samme avspilling, USB-ruting, faderstyring, mute/solo, mutegrupper og tidslinje
+som tidligere versjoner. Ingen EQ er lagt til.
+Arbeidsminnegrensen er fortsatt 256 MiB dekodet lyd per aktiv låt.
+Filgrensen for avspilling er 160 MiB per lydfil. Prosjektfilen har grense
+256 MiB lagrede lydfiler. MP3 sparer filplass, men ikke dekodet minne ved
+samme lengde, samplingsfrekvens og kanaltall.
+Nye prosjektfiler bruker format 3. Format 1 og 2 kan fortsatt importeres.
+
+VERIFISERING
+107 automatiske tester består, i tillegg til akkord-/innstillingsregresjonen.
+Testene bruker modellert DOM, Web Audio og IndexedDB.
+De kontrollerer redigering og lagring, ett mikservindu, nye visningsvalg,
+prosjektimport, kanalrouting, filbytes, nivåer, gruppevalg og videre avspilling.
+Ingen ekte Safari-layout eller fysisk iPad/Ui24R-test er gjort her.
+Den nye innstillingssiden og fargevelgerne må fortsatt prøves på iPad.
