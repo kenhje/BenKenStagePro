@@ -1,0 +1,105 @@
+BenKen Stage Pro V26.10 – ren visning og samlet mikseroppsett
+
+OPPDATER GITHUB
+Pakk ut ZIP-filen og last opp ALLE filene, inkludert demo-mappen, til roten i
+GitHub-repositoriet. Erstatt eksisterende filer med samme navn.
+V26.10 bruker benken-runtime-v26-10.js og benken-ui-v26-10.css. Last også opp
+index.html og sw.js fra pakken. Eldre programfiler kan bli liggende; de brukes
+ikke av denne versjonen. Denne ZIP-filen er ikke publisert automatisk.
+Vent til GitHub Pages er ferdig publisert, og åpne appen på nytt.
+Kontroller V26.10 øverst i appen og inne i mikseren.
+Bruk samme nettadresse og nettleserprofil som før. Sanger, setlister og lydfiler
+beholder samme lagringsnøkler. Du trenger ikke slette nettleserdata.
+
+FIRE KNAPPER ØVERST
+SETLIST: viser eller skjuler låtlisten. I listen velger du SETLIST eller BIBLIOTEK.
+På iPhone åpnes listen over teksten, og den lukkes etter valg av låt.
+SETTINGS: åpner appens innstillinger.
+MIXER: åpner mikseren.
+CONTROLS: viser eller skjuler kontrollfeltet nederst. Valget huskes på enheten.
+Å vise/skjule kontrollfeltet eller låtlisten stopper ikke avspillingen.
+Fullskjerm velges fra kontrollfeltet, eller fra Settings som tidligere.
+
+ALLE KNAPPER I KONTROLLFELTET
+Trykk TILPASS i kontrollfeltet, eller Settings → SCENE.
+Du kan velge inntil 32 knapper, egen tekst og rekkefølge.
+ALLE KNAPPER fyller inn alle de tilgjengelige handlingene, inkludert Settings,
+Setlist, Bibliotek, Mikserinnstillinger, bølgeform og de seks mutegruppene.
++ KNAPP legger til en plass. Skjul i en plass fjerner knappen fra visningen.
+STANDARDKNAPPER henter standardoppsettet. Endringene i skjemaet lagres først
+når du trykker LAGRE KONTROLLER.
+Velg VIS KNAPPENE I FLERE RADER hvis du vil ha knappene fordelt over flere rader.
+Ellers ligger de på én rad som kan rulles sidelengs.
+Kontrollfeltets layout og visning gjelder denne enheten.
+Settings, Setlist og Mixer i kontrollfeltet bruker de samme funksjonene som øverst.
+Fullskjerm skjuler begge kontrollfeltene. Trykk på tekstflaten for å vise dem.
+
+MIKSERINNSTILLINGER
+Åpne Mixer → MIKSERINNSTILLINGER. Stopp avspillingen før du endrer oppsettet.
+Du kan også trykke på bussruten, gruppeoversikten eller KANALOPPSETT på en
+kanalstripe. Da åpnes oppsettet for den aktuelle kanalen.
+
+SPOR
+Hver rad viser kanalnavn, farge, lydfil, utgangsbuss, mono/stereo og mutegrupper.
+En buss samler flere spor til samme utgang. Velg Direkte USB for direkte routing.
+Velg én eller flere av de seks mutegruppene på sporets rad.
+Farge velges per kanal. AUTO bruker bussens farge, eller standardfarge ved direkte USB.
+Spornavn, egne farger, routing og gruppemedlemskap lagres per låt.
+
+BUSSER
+Her endrer du navn, farge, mono/stereo og USB-utgang for de 16 bussene.
+Du ser hvilke spor fra denne låten som er koblet til hver buss, og hvor mange
+spor fra andre låter som også bruker den.
+Bussoppsettet er FELLES FOR ALLE LÅTER. En endring av en buss gjelder derfor
+også andre låter som bruker bussen. Kanaler med AUTO-farge følger bussfargen.
+En kanal med egen farge beholder denne til du velger AUTO på den kanalen.
+
+MUTEGRUPPER
+Gi hver gruppe et navn og kryss av sporene som skal tilhøre gruppen.
+Dette er det samme medlemskapet som vises under SPOR, sett fra gruppenes side.
+Gruppenavnene gjelder alle låter, mens medlemskap velges per låt.
+De samme navnene vises over mikseren og på gruppeknappene i kontrollfeltet.
+Et spor kan være i flere grupper. Minst én aktiv gruppe er nok til å mute sporet.
+Gruppeknappene kan fortsatt brukes under avspilling.
+
+LAGRE MIKSEROPPSETT lagrer alle de tre fanene samlet. AVBRYT forkaster skjemaet.
+Navn, farger og gruppeoversikt oppdateres på kanalstripene og i kontrollfeltet.
+Feilet lagring beholder det forrige oppsettet. Et skjema for en annen låt kan
+ikke lagres etter et låtskifte. Oppsettet kan ikke endre ruting under avspilling.
+Hovedmikseren har nå fader, meter, pan, mute/solo og lesbar buss-/gruppeoversikt.
+De detaljerte routingsvalgene og gruppevalgene ligger i mikserinnstillingene.
+Du kan fremdeles skrive spornavn direkte i fargefeltet nederst på kanalstripen.
+
+LYDFILER OG PROSJEKTFILER
+Vanlig avspilling: velg låt → MIXER → + LYDFILER → vent til klar → SPILL.
+Appen kopierer filene lokalt; du trenger ikke lage eller importere en prosjektfil
+for å spille sporene. KLARGJØR LYD ligger synlig ved statusfeltet.
+Lydsporene må være eksportert fra samme startpunkt for å ligge i synk.
+Prosjektfiler er til backup og flytting. LYDFILER FOR DENNE LÅTEN → Aktuell låt
+med lyd → LAG PROSJEKTFIL → DEL / LAGRE I FILER eller LAST NED.
+På en annen enhet: IMPORTER PROSJEKT. En låtfil legges til som en ny låt.
+Prosjektfilen tar med tekst, lydfiler, navn, farger, busser og mutegrupper.
+Import tilpasser busser og grupper og beholder oppsettet til eksisterende låter.
+Layout/visning av kontrollfeltet og låtlisten følger ikke med til andre enheter.
+Hele biblioteket med lyd inkluderer også setlister og erstatter biblioteket etter
+bekreftelse. JSON-backup inneholder ikke lyden.
+Organiser gjerne originaler og .benken-backup i én mappe per låt i iCloud Drive
+eller Google Drive. Importerte lydfiler spilles av lokalt. Det er ikke automatisk
+synkronisering med skymappene.
+
+BEHOLDT FRA V26.9
+Samme lydmotor og lagring. Synkron multitrack, 32-kanals USB-ruting, 16 busser,
+master, mutegrupper, bølgeform, hopping i låten og scrollfunksjoner er beholdt.
+Ingen EQ er lagt til.
+Grensen er fortsatt 256 MiB DEKODET lyd for aktiv låt, 160 MiB per lagret lydfil
+og 256 MiB lagrede lydfiler i én prosjektfil. MP3 sparer filplass, men ikke dekodet
+arbeidsminne ved samme lengde, samplingsfrekvens og kanaltall.
+Bruk prosjektformat 3 mellom nyere versjoner. Format 1 og 2 kan fortsatt importeres.
+V26.10 på begge enheter anbefales for å beholde de nye kanalfargene.
+
+VERIFISERING
+100 automatiske tester består, i tillegg til akkord-/innstillingsregresjonen.
+Testene bruker modellert DOM, Web Audio og IndexedDB og kontrollerer faktiske
+rutingkoblinger, faderverdier, filbytes, lagring, prosjektimport og gruppevalg i modellen.
+Ingen ekte Safari-layout eller fysisk iPad/Ui24R-test er gjort her.
+Den nye visningen og innstillingsdialogen må fortsatt prøves på iPad.
