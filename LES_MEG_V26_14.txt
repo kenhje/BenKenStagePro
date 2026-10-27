@@ -1,0 +1,67 @@
+BenKen Stage Pro V26.14 – lesbar seksjonssynk og tekststørrelse i Controls
+
+OPPDATER GITHUB
+Pakk ut ZIP-filen og last opp ALLE filene, inkludert demo-mappen, til roten av
+GitHub-repositoriet. Erstatt filer med samme navn.
+Last opp index.html, sw.js, benken-runtime-v26-14.js og benken-ui-v26-14.css
+sammen med resten av pakken. Gamle versjonerte programfiler kan bli liggende.
+Denne ZIP-filen publiserer ikke oppdateringen automatisk.
+Vent til GitHub Pages er ferdig publisert og åpne appen på nytt.
+Kontroller at det står V26.14 øverst og i mikseren.
+Bruk samme nettadresse og nettleserprofil som før. Lagringsnøklene for låter,
+setlister og lokale lydfiler er beholdt. Du trenger ikke slette nettleserdata.
+
+TEKSTEN HOLDER SEG BEDRE INNENFOR SKJERMEN
+Synken bruker fortsatt starttidene du allerede har satt for seksjonene.
+Tidligere ble teksten flyttet gradvis mot neste overskrift gjennom hele verset.
+Nå brukes den faktiske høyden på teksten i den aktive seksjonen:
+- Et vers/refreng som får plass, står i ro og plasseres innenfor leseområdet.
+- Lengre seksjoner scroller bare høyden som ikke får plass på skjermen.
+- Det er marg over og under teksten, med plass til header og kontrollfelt.
+- Siste seksjon får nok plass under seg til å kunne flyttes inn i leseområdet.
+Kontrollfeltets plass reserveres også når fullskjermkontrollene skjules, slik
+at det aktive verset ikke flyttes eller dekkes når kontrollene vises igjen.
+Ved seksjonsbytte flyttes visningen til den nye tekstdelen.
+Synken følger seksjoner, ikke tidspunkter for hvert enkelt ord eller hver linje.
+Dersom en lang seksjon har ulik sanghastighet underveis, er bevegelsen innenfor
+seksjonen fortsatt et anslag ut fra seksjonens varighet.
+Sanger uten seksjonstider bruker fortsatt låtlengde/manuell scroll som før.
+Tidspunktet beholdes ved pause/gjenopptak og endring av tekststørrelse.
+
+A− / A+ I CONTROLS
+1. Trykk tannhjulet i kontrollfeltet.
+2. Velg ledige knappeplasser og handlingene:
+   Tekststørrelse − (A−) og Tekststørrelse + (A+).
+3. Trykk LAGRE KONTROLLER.
+ALLE KNAPPER inkluderer også de to nye handlingene.
+Eksisterende knapperekke og egne knappetekster blir ikke endret automatisk.
+A− og A+ endrer skriften med 2 px per trykk, fra 14 til 52 px.
+Størrelsen lagres som appens tekststørrelse og brukes også etter ny åpning.
+Knappene fungerer også inne i mikserens kontrollfelt og med BARE IKONER.
+Å endre tekststørrelse stopper eller starter ikke lydavspillingen på nytt.
+Når autoscroll er synkronisert, beregnes plasseringen på nytt ved samme tidspunkt.
+Når synken ikke er aktiv, forsøker visningen å beholde samme synlige tekstlinje.
+En mislykket lagring beholder den forrige tekststørrelsen.
+FONT SIZE under Settings → LYRICS bruker samme endring og grenser.
+
+SYNK TEKST OG ANDRE FUNKSJONER
+SYNK TEKST → SETT NÅ for hver seksjon → LAGRE SYNK er beholdt.
+Du trenger ikke sette markørene på nytt ved denne oppdateringen.
+Endres navn, rekkefølge eller antall seksjonsoverskrifter, må synken fortsatt
+settes på nytt. Vanlig endring av tekst mellom overskriftene beholder tidene.
+Tekstfarger/KOR, bølgeform, navn og sletting i lydfillisten er videreført.
+Mikseren viser bare kontrollknappene. Bølgeformen kommer tilbake når du lukker den.
+Play er grønn under avspilling, Stop rød når avspillingen er stoppet.
+Fil- og prosjektformat, USB-ruting, busser og mutegrupper er videreført.
+Arbeidsminnegrensen er fortsatt 256 MiB dekodet lyd per aktiv låt.
+Filgrensen for avspilling er 160 MiB per lydfil. Prosjektfiler har grense
+256 MiB lagrede lydfiler. MP3 sparer filplass, men ikke dekodet minne ved
+samme lengde, samplingsfrekvens og kanaltall. Ingen EQ er lagt til.
+
+VERIFISERING
+142 automatiske tester består, i tillegg til akkord-/innstillingsregresjonen.
+Testene bruker modellert DOM, skjermmål, Web Audio og IndexedDB. De sjekker
+lesemarger, korte/lange vers, kontrollfeltets plass, pause/gjenopptak,
+tekststørrelse under avspilling, lagring og eksisterende lyd-/setlistfunksjoner.
+Ingen ekte Safari-layout eller fysisk iPad/Ui24R-test er gjort her.
+Prøv særlig korte og lange vers med ønsket skriftstørrelse på iPad.
