@@ -1,0 +1,84 @@
+BenKen Stage Pro V26.12 – kontroller i mikseren og enklere lydfiler
+
+OPPDATER GITHUB
+Pakk ut ZIP-filen og last opp ALLE filene, inkludert demo-mappen, til roten i
+GitHub-repositoriet. Erstatt filer med samme navn.
+Last opp index.html, sw.js, benken-runtime-v26-12.js og benken-ui-v26-12.css
+sammen med resten av pakken. Gamle versjonerte programfiler kan bli liggende.
+Denne ZIP-filen publiserer ikke endringene automatisk.
+Vent til GitHub Pages er ferdig publisert og åpne appen på nytt.
+Kontroller at det står V26.12 øverst og i mikseren.
+Bruk samme nettadresse og nettleserprofil som før. Lagringsnøkler for låter,
+setlister og lokale lydfiler er beholdt. Du trenger ikke slette nettleserdata.
+
+KONTROLLER MENS MIKSEREN ER ÅPEN
+Kontrollfeltet vises nederst inne i mikservinduet, med knappene du har valgt.
+Play/pause, Stopp, forrige/neste låt, mutegrupper og hopping i låten virker
+mens mikseren er åpen. Tidslinje og valgfri bølgeform følger samme avspilling.
+CONTROLS øverst i mikseren viser/skjuler feltet. Når du lukker mikseren,
+flyttes det samme kontrollfeltet tilbake under sangteksten.
+Det er ett kontrollfelt med samme innstillinger og tilstand begge steder.
+Trykk tannhjulet i kontrollfeltet for å velge knapper, rekkefølge og visning.
+BARE KNAPPER og BARE IKONER er fortsatt tilgjengelige.
+MIKSER-knappen i kontrollfeltet åpner/lukker mikseren.
+Settings, Setlist, Bibliotek, Kolonner og Fullskjerm lukker mikseren når de
+trenger hovedvisningen. LYDFILER og MIKSEROPPSETT åpner siden i mikseren.
+
+DOBBELTTRYKK PÅ FADER
+Dobbelttrykk på en fader på iPad, eller dobbeltklikk med mus, for 0 dB.
+Dette gjelder spor, busser og master, også under avspilling.
+Et vanlig drag justerer nivået som før. Pan-kontroller omfattes ikke.
+Knappene 0 / 0 dB er beholdt. Å nullstille nivået opphever ikke mute.
+
+RYDDIGERE LYD OG FILER
+Åpne MIXER → tannhjul → LYD OG FILER.
+Fillisten for den valgte låten vises med en gang:
+- Navn i appen, som også er spornavnet i mikseren.
+- Originalfilnavnet under, slik at originalen kan gjenkjennes.
+- Filtype, filstørrelse og USB-ruting.
+- Mono/stereo og lengde når filen er lest av lydmotoren.
+Skriv ønsket navn og trykk LAGRE NAVN nederst. Navnet følger også SPOR-fanen.
+Originalfilen og lydinnholdet endres ikke. Navnene følger med i prosjektfiler.
+FORKAST ENDRINGER lar deg gå tilbake uten å lagre navneendringer.
+Ved ny filimport, klargjøring eller oppretting av prosjektfil lagres eventuelle
+ventende navneendringer først. En mislykket lagring beholder tidligere data.
+Stopp avspillingen for å redigere navn og ruting.
+
++ LYDFILER legger til vanlige WAV, MP3, M4A, AIFF eller CAF i gjeldende låt.
+Appen kopierer filene lokalt og klargjør dem. Du trenger ikke lage og importere
+en prosjektfil for å spille. Sporene skal være eksportert fra samme startpunkt.
+IMPORTER PROSJEKT åpner en eksisterende .benken-fil med lyd og oppsett.
+En låtfil legges til som en ny låt. Et helt bibliotek erstatter biblioteket etter
+bekreftelse. JSON-backup inkluderer ikke lydfilene.
+
+BACKUP OG PROSJEKTFIL
+Åpne det foldbare feltet Backup og prosjektfil under fillisten.
+Velg aktuell låt eller hele biblioteket → LAG PROSJEKTFIL → DEL / LAGRE I FILER
+eller LAST NED. Prosjektfilen inkluderer lydfiler, tekst, navn og mikseroppsett.
+Bruk iCloud/Google Drive til originalfiler og backup. Appen spiller de lokale
+kopiene og synkroniserer ikke senere endringer i skymappene automatisk.
+
+LYDUTGANG OG FLERE VALG
+Åpne dette foldbare feltet for lydutgang, LES UTGANGER, minneoversikt,
+rutingshjelp, smal/vanlig kanalbredde og testlåten.
+KLARGJØR LYD vises ved fillisten når spor trenger ny klargjøring.
+Feil som blokkerer avspilling vises også i selve mikseren.
+Navn, farger, busser og mutegrupper kan fortsatt endres i mikserinnstillingene.
+Busser og gruppenavn er felles; sporoppsett gjelder den enkelte låten.
+Kontrollfeltets visning og mikserbredde er enhetsvalg og beholdes ved import.
+
+LYDMOTOR OG GRENSER
+Avspilling og USB-ruting er videreført. Ingen EQ er lagt til.
+Arbeidsminnegrensen er fortsatt 256 MiB dekodet lyd per aktiv låt.
+Filgrensen for avspilling er 160 MiB per lydfil. Prosjektfiler har grense
+256 MiB lagrede lydfiler. MP3 sparer filplass, men ikke dekodet minne ved
+samme lengde, samplingsfrekvens og kanaltall.
+Nye prosjektfiler bruker format 3. Format 1 og 2 kan fortsatt importeres.
+
+VERIFISERING
+117 automatiske tester består, i tillegg til akkord-/innstillingsregresjonen.
+Testene bruker modellert DOM, Web Audio og IndexedDB. De sjekker blant annet
+kontroller i mikseren, låtskifte, fullskjerm, faderbevegelser, lagringsfeil,
+filnavn, eksakte lydbytes, prosjektimport og eksisterende lydfunksjoner.
+Ingen ekte Safari-layout eller fysisk iPad/Ui24R-test er gjort her.
+Prøv kontrollfeltet, dobbelttrykk og filoversikten på iPad etter oppdatering.
