@@ -32,7 +32,7 @@
    if(this.masterBus&&count===this.channels)return;
    if(this.masterBus){this.masterBus.disconnect();this.merger.disconnect();this.masterSplitter.disconnect();this.masterAnalysers.forEach(a=>a.disconnect())}
    this.channels=count;this.merger=ctx.createChannelMerger(count);this.merger.channelInterpretation='discrete';
-   this.masterBus=ctx.createGain();this.masterBus.channelCount=count;this.masterBus.channelCountMode='explicit';this.masterBus.channelInterpretation='discrete';this.masterBus.gain.value=this.master;
+   this.masterBus=ctx.createGain();this.masterBus.channelCount=count;this.masterBus.channelCountMode='explicit';this.masterBus.channelInterpretation='discrete';this.masterBus.gain.value=this.masterMuted?0:this.master;
    this.merger.connect(this.masterBus);this.masterBus.connect(destination);
    this.masterSplitter=ctx.createChannelSplitter(count);this.masterBus.connect(this.masterSplitter);
    this.masterAnalysers=Array.from({length:count},(_,i)=>{const a=ctx.createAnalyser();a.fftSize=256;this.masterSplitter.connect(a,i);return a})
@@ -72,7 +72,9 @@
     this.buffers=buffers;this.info=info;this.duration=Math.max(0,...buffers.map(b=>b.duration));this.decodedBytes=bytes;this.preparing=false;this.notify({ready:true});return true
    }catch(error){if(gen===this.generation){this.buffers=[];this.decodedBytes=0;this.duration=0;this.preparing=false;this.notify({error:error.message})}throw error}
   }
-  effective(track){return track.mute||(this.tracks.some(t=>t.solo)&&!track.solo)?0:track.gain}
+  groupMuted(track){return (track.muteGroups||[]).some(g=>this.muteGroups?.has(g))}
+  setMuteGroups(groups){this.muteGroups=new Set(groups);this.update(this.tracks)}
+  effective(track){return track.mute||this.groupMuted(track)||(this.tracks.some(t=>t.solo)&&!track.solo)?0:track.gain}
   addPath(node,input,channel,gain,target=this.merger){
    const ctx=this.context,volume=ctx.createGain(),analyser=ctx.createAnalyser();volume.gain.value=gain;analyser.fftSize=256;
    node.splitter.connect(volume,input);volume.connect(analyser);analyser.connect(target,0,channel);node.paths.push({gain:volume,analyser})
@@ -102,15 +104,21 @@
   }
   get currentTime(){return this.playing?Math.min(this.duration,this.startOffset+Math.max(0,this.context.currentTime-this.startTime)):this.position}
   pause(){
-   this.playRequest++;if(this.playing)this.position=this.currentTime;this.playing=false;
+   this.seekSerial=(this.seekSerial||0)+1;this.seekResume=false;this.playRequest++;if(this.playing)this.position=this.currentTime;this.playing=false;
    for(const n of this.nodes){try{n.source.stop()}catch{}n.source.disconnect();n.splitter.disconnect();n.mono?.disconnect();n.busMerger?.disconnect();for(const path of n.paths){path.gain.disconnect();path.analyser.disconnect()}}
    for(const b of this.busNodes?.values()||[]){b.input.disconnect();b.volume.disconnect();b.splitter.disconnect();b.analysers.forEach(a=>a.disconnect())}this.busNodes=new Map();
    this.nodes=[];this.notify({playing:false})
   }
+  async seek(seconds,resume=this.playing||!!this.seekResume){
+   const value=Number(seconds);if(!Number.isFinite(value)||!this.buffers.length||this.preparing||this.buffers.length!==this.tracks.length)return false;
+   this.pause();const serial=this.seekSerial,gen=this.generation;this.position=clamp(value,0,this.duration);this.seekResume=resume;this.notify({seeked:true,position:this.position});
+   try{if(resume&&this.position<this.duration)await this.play();return serial===this.seekSerial&&gen===this.generation}finally{if(serial===this.seekSerial)this.seekResume=false}
+  }
   stop(){this.pause();this.position=0;this.notify({stopped:true})}
   cancel(){this.generation++;this.stop();this.buffers=[];this.tracks=[];this.info.clear();this.duration=0;this.decodedBytes=0;this.requiredBytes=0;this.preparing=false}
   update(tracks){this.tracks=tracks;this.nodes.forEach((node,i)=>{const t=tracks[i];if(!t)return;const base=this.effective(t);node.paths.forEach((path,p)=>path.gain.gain.setTargetAtTime(t.stereo||t.bus?base*(p===0?(t.pan>0?1-t.pan:1):(t.pan<0?1+t.pan:1)):base,this.context.currentTime,.012))})}
-  setMaster(value){this.master=clamp(Number(value)||0,0,2);if(this.masterBus)this.masterBus.gain.setTargetAtTime(this.master,this.context.currentTime,.012)}
+  setMaster(value){this.master=clamp(Number(value)||0,0,2);if(this.masterBus)this.masterBus.gain.setTargetAtTime(this.masterMuted?0:this.master,this.context.currentTime,.012)}
+  setMasterMuted(value){this.masterMuted=!!value;if(this.masterBus)this.masterBus.gain.setTargetAtTime(this.masterMuted?0:this.master,this.context.currentTime,.012)}
   setMode(mode){if(this.playing)throw Error('Stopp avspillingen før du endrer utgangsmodus.');this.mode=mode==='stereo'?'stereo':'usb';this.configure()}
   peak(analysers){let peak=0;for(const a of analysers){a.getFloatTimeDomainData(this.samples);for(const n of this.samples)peak=Math.max(peak,Math.abs(n))}return peak}
   meters(){return this.nodes.map(n=>this.peak(n.paths.map(p=>p.analyser)))}
@@ -118,5 +126,5 @@
   meterMaster(){return this.playing?this.peak(this.masterAnalysers):0}
   tick(){if(!this.playing)return;if(this.context.state!=='running'){this.pause();return}const max=Number(this.context.destination.maxChannelCount);if(max>0&&max!==this.reportedChannels){this.pause();this.notify({error:'Lydutstyret ble endret. Kontroller utgangene og klargjør igjen.'});return}if(this.currentTime>=this.duration){this.pause();this.position=this.duration;this.notify({ended:true})}}
  }
- root.StageAudio={VERSION:'26.7',level,waveInfo,MAX_DECODED,MediaRepository,BrowserPlayer};
+ root.StageAudio={VERSION:'26.8',level,waveInfo,MAX_DECODED,MediaRepository,BrowserPlayer};
 })(typeof window!=='undefined'?window:globalThis);

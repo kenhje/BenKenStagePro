@@ -110,3 +110,23 @@
 #mixerDialog .project-actions select{min-height:38px;font-size:11px;max-width:100%}
 @media(max-width:700px){#mixerDialog{padding:10px;--fader-height:210px}#mixerDialog .dialog-heading{flex-wrap:wrap;gap:7px}#mixerSong{font-size:16px}#mixerDialog .dialog-heading>div:first-child{max-width:calc(100% - 44px)}#mixerDialog .mixer-transport{order:3;flex-basis:100%;margin:0}#mixerDialog #closeMixer{margin-left:auto}#mixerDialog .mixer-toolbar{align-items:stretch}#mixerDialog .mixer-console{grid-template-columns:minmax(0,1fr) 122px;gap:5px;padding:4px}#mixerDialog .stem-strip{flex-basis:140px}#mixerDialog .master-strip{width:122px}#mixerOutputs{margin-left:0;flex-basis:100%}#mixerDialog .routing-summary{flex-wrap:wrap}#mixerDialog .memory-heading{flex-wrap:wrap;gap:6px}#mixerMemory{width:100%}#mixerDialog .mixer-file-actions button{font-size:10px}#mixerDialog .bus-view-options span{line-height:1.5}#mixerDialog .master-strip .fader-value output{font-size:13px}}
 @media(prefers-reduced-motion:reduce){#mixerDialog .stem-meter>div{transition:none}}
+
+/* V26.8: six additive mute groups and per-song file list. */
+#mixerDialog .stem-strip{grid-template-rows:24px 24px 20px 28px 48px 26px var(--fader-height) 24px 54px 54px 34px 44px}
+#mixerDialog .channel-label,#mixerDialog .master-label{grid-row:12}
+#mixerDialog #mixerMasterMute{grid-row:11;min-height:30px;padding:4px;font-size:9px}
+#mixerMasterMute[aria-pressed=true]{background:#8a4e3a!important;border-color:#dfa989!important;color:#fff1dc!important}
+#mixerDialog .mixer-mute-groups{display:flex;align-items:center;gap:6px;overflow-x:auto;margin:5px 0 8px;padding:3px 0}
+.mixer-mute-groups>span{font-size:9px;letter-spacing:.7px;color:#b9c9c0;margin-right:3px}
+#mixerDialog .mixer-mute-groups button{flex:1 0 85px;min-height:38px;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;padding:5px}
+#mixerDialog .mixer-mute-groups button[aria-pressed=true]{background:linear-gradient(#ae6a4c,#763d30);border-color:#d9ac86;color:#fff1e1}
+#mixerDialog .track-groups{grid-row:11;position:relative;font-size:9px;z-index:4}
+#mixerDialog .track-groups summary{font-size:8px;cursor:pointer;padding:6px 3px;border:1px solid #53636b;border-radius:3px;background:#253139;color:#c1d2c4}
+#mixerDialog .group-assignment{position:absolute;bottom:calc(100% + 5px);left:-5px;right:-5px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:7px;background:#18252e;border:1px solid #8c9f99;border-radius:5px;box-shadow:0 -5px 20px #000a}
+#mixerDialog .group-assignment button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:44px;min-width:0;padding:5px 2px;font-size:8px}
+.group-assignment b{font-size:12px}.group-assignment span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#mixerDialog .group-assignment button[aria-pressed=true]{background:#6b6140;border-color:#d8c48c;color:#fff3cf}
+#mixerSongFiles{overflow-x:auto;font-size:11px;margin:10px 0}
+#mixerSongFiles table{width:100%;border-collapse:collapse}
+#mixerSongFiles th,#mixerSongFiles td{text-align:left;padding:8px 10px;border-bottom:1px solid #43535e;overflow-wrap:anywhere}
+#mixerSongFiles th{font-size:10px;color:#c8dbc9}
