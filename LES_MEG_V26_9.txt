@@ -1,0 +1,139 @@
+BenKen Stage Pro V26.9 – rettelse av oppstart og prosjektimport
+
+OPPDATER GITHUB
+Pakk ut ZIP-filen. Last opp ALLE de utpakkede filene, inkludert demo-mappen,
+til roten i GitHub-repositoriet. Velg å erstatte eksisterende filer med samme navn.
+Denne pakken inneholder samlet programkode og stilark:
+- benken-runtime-v26-9.js
+- benken-ui-v26-9.css
+Last også opp index.html og sw.js. Eldre stage-*.js og CSS kan bli liggende.
+De brukes ikke av V26.9. ZIP-filen er ikke publisert automatisk.
+Vent til GitHub Pages-publiseringen er ferdig. Lukk og åpne nettsiden/appikonet
+igjen. Kontroller V26.9 både øverst i appen og inne i mikseren.
+Bruk samme nettadresse og nettleserprofil som før for tilgang til lokalt lagret lyd.
+Sanger, setlister og lyd bruker samme lagringsnøkler som tidligere.
+Du trenger ikke slette Safari-data eller installere appen på nytt.
+Hvis oppdateringen er ufullstendig, vises en melding før appen endrer lagrede data.
+Last i så fall opp hele pakken og bruk LAST PÅ NYTT.
+
+DETTE ER RETTET
+Gamle og nye hjelpefiler kunne blandes ved oppdatering. Det kan stoppe oppstarten
+og gi «Cannot access uninitialized variable» etterpå. Feilen er gjenskapt i test.
+V26.9 bruker én versjonsmerket programfil og ett tilhørende stilark.
+Scenepanelet monteres etter at delt oppstartsdata er initialisert.
+Hvis visningen feiler etter at en prosjektimport er lagret, beholdes lydfilene.
+Avvist import før lagring rydder fremdeles bare opp de nye kopiene.
+KLARGJØR LYD er flyttet opp ved statusfeltet og er tilgjengelig ved feil/gjenopptaking.
+
+SLIK TESTER DU
+1. Velg en låt i appen. Åpne MIXER / LYD.
+2. Trykk + LYDFILER og velg sporene. Vent til de er klargjort, og trykk SPILL.
+3. Prosjektfil er valgfritt: bruk den til backup eller flytting til en annen enhet.
+   Du trenger ikke eksportere og importere låten igjen for vanlig avspilling.
+4. Har du allerede en lagret .benken-fil, bruk IMPORTER PROSJEKT direkte.
+   Den legges til som en ny låt. Ikke importer de løse lydfilene først.
+5. Hvis spor står som «Ikke klargjort», trykk KLARGJØR LYD ved statusmeldingen.
+   Meldingen forklarer om filer mangler, minnegrensen overskrides eller USB-utganger
+   ikke er tilgjengelige. En prosjektfil fra før feilen kan importeres på nytt for
+   å gjenopprette lydkopier som mangler; denne oppdateringen kan ikke gjenskape slettet lyd.
+6. For test uten Ui24R: velg Stereoøving. Da mikses også klikk til utgang 1–2.
+   For live bruk: koble til Ui24R, velg separate USB-kanaler og bruk LES UTGANGER.
+
+FILER PER LÅT
+En mappe per låt i iCloud Drive eller Google Drive er et ryddig oppsett:
+BenKen / Låtnavn / Lydfiler – originalspor som Drums.wav, Bass.wav, Keys.wav, Click.wav.
+BenKen / Låtnavn / Låtnavn.benken – prosjektbackup med tekst, lydfiler og miks.
+Velg en låt i appen, åpne MIKSER, trykk + LYDFILER og velg sporene for den låten.
+Alle spor må være eksportert fra samme startpunkt, også om et instrument begynner senere.
+Appen kopierer filene lokalt og kobler dem til den valgte låten. Den oppretter ikke
+mapper i skytjenesten og følger ikke senere endringer i originalfilene automatisk.
+Originalfilene kan være i iCloud, Google Drive eller På min iPad/iPhone.
+Google Drive må være aktivert som plassering i Filer. Last ned skyfilene før bruk
+hvis de ikke allerede er tilgjengelige.
+
+I mikseren: åpne LYDFILER FOR DENNE LÅTEN for oversikt over spor og originalfilnavn.
+LAG PROSJEKTFIL i samme del lager en .benken-fil som kan lagres i låtens mappe.
+Velg Aktuell låt for én låt, eller Hele biblioteket for bibliotek og setlister.
+JSON-backup tar vare på tekst, setlister og mikserinnstillinger, men ikke lydfilene.
+Ta derfor også en bibliotekbackup for setlistene når du lagrer låter hver for seg.
+En .benken-låt legges til uten å erstatte eksisterende låter eller setlister.
+Hele biblioteksprosjekter erstatter biblioteket etter bekreftelse og tekstbackup.
+
+STORE KNAPPER NEDERST
+Standardknappene er Forrige, Spill/pause, Stopp, Neste, Mute, bakover, fremover og Mikser.
+Trykk KONTROLLER nederst for å velge inntil 12 knapper og rekkefølgen på dem.
+Du kan også gi knappene egne tekster. Skjul fjerner den aktuelle plassen.
+Mulige handlinger: transport, mute av appens lyd, hver av de seks mutegruppene,
+hopp bakover/fremover, til start, mikser, lydfiler, autoscroll og fullskjerm.
+Knappelisten kan rulles sidelengs på små skjermer.
+Knappelayouten gjelder denne enheten; du kan ha ulike oppsett på Mac og iPad.
+Innstillingene finnes også under Settings → SCENE.
+Du kan skjule hele feltet og åpne innstillingene igjen fra SCENE.
+
+SPILL / PAUSE / STOPP
+SPILL starter alle ferdig klargjorte lydspor samtidig. Etter eksport: bruk KLARGJØR LYD før SPILL. Nytt trykk pauser.
+STOPP avslutter avspillingen og setter posisjonen til starten av låten.
+NESTE og FORRIGE følger samme låtrekkefølge som knappene øverst.
+MUTE muter appens samlede lyd, også klikk, uten å endre faderne eller stoppe tidslinjen.
+Den muter ikke mikrofoner, TH-U eller andre lydkilder som ikke går gjennom appen.
+Bruk en mutegruppe for å mute bare utvalgte backing-spor og beholde klikk.
+Master-mute følger låtskifte til du slår den av, og er av ved ny oppstart.
+
+SEKS MUTEGRUPPER
+I mikseren: åpne GRUPPER på et spor og velg gruppene det skal tilhøre.
+Et spor kan være med i flere grupper. Medlemskap lagres per låt.
+Gruppeknappene over mikseren slår gruppene av/på. De kan også legges nederst via KONTROLLER.
+Gi gruppene egne navn, som Gitar, Kor eller Perkusjon, i KONTROLLER.
+Navnene gjelder alle låter. Bruk forskjellige navn på de seks gruppene.
+Gruppene summeres: er minst én av sporets grupper mutet, er sporet mutet.
+En aktiv gruppe kan ikke overstyres av SOLO eller av sporets egen MUTE-knapp.
+Når gruppen slås av, beholdes eventuelle individuelle mutevalg.
+Aktive grupper følger låtskifte i samme økt. De starter avslått ved ny oppstart.
+Gruppemedlemskap og navn tas med i prosjektbackup, men aktive mutevalg i økten gjør ikke det.
+
+BØLGEFORM OG HOPP I LÅTEN
+Trykk BØLGEFORM nederst for å vise bølgeformen til et valgt lydspor.
+Velg hvilket spor som vises i nedtrekkslisten. Valget huskes per låt.
+Bølgeformen beregnes fra den ferdig dekodede lydfilen og er før fader/mute.
+Den er skalert for visning; grafikken er ikke en nivåmåler og endrer ikke lydnivået.
+Grafikken bygger bare på lokale, klargjorte lydfiler. Ingen bølgeform tegnes for manglende lyd.
+Dra på tidslinjen eller bølgeformen for å velge posisjon. Alle lydspor, også klikk,
+flyttes til samme tidspunkt. Under dragging vises posisjonen uten at lyden spiller.
+Når du slipper fortsetter avspillingen hvis låten spilte før du begynte å dra.
+Var låten pauset, blir den værende pauset på den nye posisjonen.
+STOPP og låtskifte avbryter dragging/hopp uten å starte den gamle låten på nytt.
+Hopp-knappene bruker 10 sekunder som standard. Velg 1–120 sekunder i KONTROLLER.
+Der kan du også slå av hopping under avspilling; hopping mens pauset er fortsatt mulig.
+Når SYNC SCROLL TO SONG DURATION er valgt, følger teksten det nye tidspunktet.
+Dette er fri posisjonering. Regioner, løkker og arrangering av vers/refreng er ikke lagt til.
+
+FULLSKJERM
+Både øverste og nederste kontrollfelt skjules i fullskjerm.
+Trykk på tekstflaten for å vise dem midlertidig. Et første trykk starter ikke lyd.
+Kontroller blir tilgjengelige mens du bruker innstillinger eller drar i tidslinjen.
+Nederste kontrollfelt dekker ikke den nederste teksten i vanlig visning.
+
+BUSSER OG MINNE
+De 16 utgangsbussene og Ui24R-rutingen fra V26.7 er beholdt. Ingen EQ er lagt til.
+Arbeidsminnegrensen er fortsatt 256 MiB dekodet lyd per aktiv låt.
+MP3 sparer filplass, men reduserer ikke dekodet minne ved samme lengde, rate og kanaltall.
+En egen mono-fil bruker halvparten av en tilsvarende stereo-fil. Mute frigjør ikke minnet.
+Filgrensen er 160 MiB per lydfil og prosjektfilgrensen er 256 MiB lagrede lydfiler.
+32 spor er modellens maksimum og er ikke et kapasitetsløfte for iPad 6.
+En innebygd lydmotor med lesing i mindre deler er fortsatt neste retning for større låter.
+
+PROSJEKTFORMAT
+Nye eksporterte prosjektfiler bruker format 3 for å ta med mutegrupper.
+Bruk V26.8 eller nyere på mottakeren. Eldre utgaver avviser format 3.
+V26.9 leser fortsatt de eldre formatene 1 og 2.
+Ved låtimport tilpasses busser og mutegrupper etter oppsett/navn. Eksisterende låters
+busser og gruppenavn endres ikke hvis de er i bruk. Det brukes ledige plasser.
+Hvis det ikke finnes plass, avvises importen uten å endre biblioteket.
+Prosjektfilene tar ikke med enhetens knapper, feltvisning eller hoppeinnstillinger.
+
+VERIFISERING
+90 automatiske tester består, inkludert import av fem spor, eksport, prosjektimport,
+gjenåpning og avspilling med begge transportfeltene. Testene bruker modellert DOM,
+Web Audio og IndexedDB. I tillegg består akkord-/innstillingsregresjonen.
+Ingen ekte Safari-layout eller fysisk iPad/Ui24R-test er gjort her.
+Test nye knapper, dragging og mutegrupper med Ui24R før du bruker dem live.
