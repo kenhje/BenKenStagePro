@@ -1,0 +1,432 @@
+/* BenKen V26.16: matching mixer and performance styles. */
+/* BenKen V26.7: channel-strip mixer, native accessible range controls. */
+#mixerBtn{color:#b6dfca}
+#mixerDialog{--fader-height:clamp(170px,27dvh,260px);width:min(1320px,calc(100% - 16px));max-width:1320px;max-height:96dvh;box-sizing:border-box;padding:14px;background:linear-gradient(#292e34,#171b20 180px);color:#e5e8ec;border:1px solid #69717c;border-radius:10px;overflow:auto;box-shadow:0 18px 75px #000b;font-family:Arial,Helvetica,sans-serif}
+#mixerDialog::backdrop{background:#04070bd9}
+#mixerDialog button,#mixerDialog select,#mixerDialog input{box-sizing:border-box}
+#mixerDialog button{border-radius:5px;border:1px solid #555f6b;background:linear-gradient(#414952,#282e36);box-shadow:inset 0 1px #ffffff19,0 2px 3px #0007;min-height:38px;padding:8px 12px;font-size:11px;color:#e0e6ed}
+#mixerDialog button:active{background:#20262d;box-shadow:inset 0 2px 5px #0008}
+#mixerDialog button:disabled{opacity:.4}
+#mixerDialog input:focus-visible,#mixerDialog button:focus-visible,#mixerDialog select:focus-visible{outline:2px solid #c6e2c9;outline-offset:2px}
+#mixerDialog .dialog-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+#mixerDialog .dialog-heading h2{font-size:14px;margin:0;letter-spacing:2px;color:#cad0d6}
+#mixerSong{display:block;font-size:18px;font-weight:700;color:#e4d18c;margin-top:4px}
+#mixerDialog .mixer-transport{display:flex;align-items:center;gap:6px;margin-left:auto}
+#mixerDialog #mixerPlay{background:linear-gradient(#407257,#264632);border-color:#63896e;min-width:78px}
+#mixerDialog #mixerStop{background:linear-gradient(#633b3b,#402a2c);border-color:#91615c;min-width:68px}
+#mixerDialog #closeMixer{min-width:38px;padding:8px}
+#mixerPosition{font-size:12px;color:#c0c8d0;min-width:66px;font-variant-numeric:tabular-nums;margin:0 5px}
+#mixerDialog .mixer-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;border-top:1px solid #41474e;border-bottom:1px solid #13171c;padding:8px 0}
+#mixerDialog .mixer-tabs,#mixerDialog .mixer-file-actions{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+#mixerDialog .mixer-tabs button{font-weight:700;letter-spacing:.7px}
+#mixerDialog .mixer-tabs button[aria-pressed=true]{background:linear-gradient(#536757,#35483b);border-color:#9cbaa3;color:#f0f5ef}
+#mixerDialog #projectImport{color:#d5e5d1;border-color:#71806d}
+#mixerDialog .output-choice{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0;font-size:10px;color:#aeb7c2}
+#mixerDialog .output-choice select{max-width:100%;min-height:36px;padding:4px 8px;font-size:11px}
+#mixerOutputs{font-size:11px;color:#aebcb5;margin-left:auto}
+#mixerStatus{font-size:12px;line-height:1.5;color:#b7d3bc;padding:4px 0;min-height:18px;overflow-wrap:anywhere}
+#mixerStatus[data-error=true]{color:#ffb69e}
+#mixerDialog .routing-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;font-size:11px;color:#aebdb6}
+#routingSummary[data-direct=true]{color:#e7c18e}
+#mixerDialog #routeDirect{font-size:10px;color:#f1d3a2;border-color:#95805d}
+#mixerDialog .bus-view-options{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:6px 0;font-size:11px;color:#b0bdc5}
+#mixerDialog .bus-view-options label{white-space:nowrap}
+#mixerDialog .mixer-empty{padding:25px;border:1px dashed #515d65;color:#c5cbd0;text-align:center;font-size:13px}
+#mixerDialog .mixer-console{display:grid;grid-template-columns:minmax(0,1fr) 146px;gap:10px;align-items:start;background:#111419;padding:6px;border:1px solid #0d1014;border-top-color:#63696f;border-radius:6px;box-shadow:inset 0 1px 8px #0008}
+#mixerTracks,#mixerBuses{display:flex;gap:3px;overflow-x:auto;overflow-y:hidden;min-width:0;padding-bottom:7px;scroll-snap-type:x proximity;overscroll-behavior-x:contain;scrollbar-color:#70777d #20252b}
+#mixerDialog .stem-strip{--channel-color:#8dbaa7;flex:0 0 146px;min-width:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:24px 24px 20px 28px 48px 26px var(--fader-height) 24px 54px 54px 44px;align-items:center;box-sizing:border-box;padding:8px 8px 0;border:1px solid #51565d;border-bottom:0;border-radius:4px 4px 0 0;background:linear-gradient(90deg,#30353c,#3a4048 45%,#30353c);box-shadow:inset 1px 0 #ffffff0a,inset -1px 0 #0005;scroll-snap-align:start}
+#mixerDialog .strip-header{grid-row:1;display:flex;align-items:center;justify-content:space-between;font-size:10px;font-weight:700;letter-spacing:.6px;color:#d1d8e0;min-width:0}
+#mixerDialog .strip-header button{border:0;background:transparent;box-shadow:none;padding:0;min-width:30px;min-height:24px;color:#aab1bc;font-size:11px}
+#mixerDialog .strip-kind{font-size:9px;color:#9eadb7}
+#mixerDialog .route-badge{grid-row:2;font-size:9px;line-height:20px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;background:#1b2329;border:1px solid #4a565b;border-left:3px solid var(--channel-color);border-radius:3px;padding:0 4px;color:#c7d6cc;font-variant-numeric:tabular-nums}
+#mixerDialog .direct-route{border-left-color:#d5a86f;color:#e7c590}
+#mixerDialog .stem-file{grid-row:3;font-size:8px;color:#a6b0bd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;margin:0}
+#mixerDialog .stem-pan{grid-row:4;display:flex;align-items:center;gap:5px;font-size:8px;color:#c4ccd3;min-width:0}
+#mixerDialog .stem-pan input{appearance:none;-webkit-appearance:none;flex:1;min-width:0;width:100%;height:24px;margin:0;padding:0;background:transparent;border:0;box-shadow:none;touch-action:none}
+#mixerDialog .stem-pan input::-webkit-slider-runnable-track{height:4px;background:#10141a;border:1px solid #111}
+#mixerDialog .stem-pan input::-moz-range-track{height:4px;background:#10141a;border:1px solid #111}
+#mixerDialog .stem-pan input::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:13px;height:19px;margin-top:-8px;border:1px solid #0b0c0f;border-radius:3px;background:linear-gradient(90deg,#7f8790,#d8dce0 42%,#1b2025 47%,#1b2025 53%,#d0d4d8 58%,#828992);box-shadow:1px 2px 3px #0008}
+#mixerDialog .stem-pan input::-moz-range-thumb{width:13px;height:19px;border:1px solid #0b0c0f;border-radius:3px;background:linear-gradient(90deg,#7f8790,#d8dce0 42%,#1b2025 47%,#1b2025 53%,#d0d4d8 58%,#828992)}
+#mixerDialog .stem-switches{grid-row:5;display:flex;align-items:center;gap:5px}
+#mixerDialog .stem-switches button{min-width:0;flex:1;min-height:44px;padding:5px 2px;font-size:9px;font-weight:700;letter-spacing:.5px}
+#mixerDialog .stem-switches .mute-on{background:linear-gradient(#ae5e4c,#793728);border-color:#e0a58b;color:#fff4eb}
+#mixerDialog .stem-switches .solo-on{background:linear-gradient(#c5ac58,#8a702e);border-color:#e2cb78;color:#161710}
+#mixerDialog .fader-value{grid-row:6;display:flex;align-items:center;justify-content:center;gap:5px;color:#edf3e9;font-variant-numeric:tabular-nums}
+#mixerDialog .fader-value output{font-size:15px;font-weight:700;letter-spacing:.1px}
+#mixerDialog .fader-value button{padding:0 4px;min-height:22px;min-width:22px;font-size:9px;color:#b9c7b9}
+#mixerDialog .fader-bank{grid-row:7;position:relative;display:grid;grid-template-columns:30px minmax(42px,1fr) 14px;column-gap:3px;align-items:stretch;height:var(--fader-height);margin:0 4px}
+#mixerDialog .fader-scale{position:relative;margin:11px 0;font-size:9px;color:#b9c0c8;font-variant-numeric:tabular-nums}
+#mixerDialog .fader-tick{position:absolute;right:0;width:30px;text-align:left;line-height:1;transform:translateY(50%);font-size:9px;color:#b9c0c8}
+#mixerDialog .fader-tick::after{content:"";position:absolute;right:0;top:50%;width:6px;border-top:1px solid #7d858e}
+#mixerDialog .unity-tick{color:#f3f4dc;font-weight:700}
+#mixerDialog .unity-tick::after{border-color:#f3f4dc;width:10px}
+#mixerDialog .fader-axis{position:relative;height:100%;min-width:44px;overflow:hidden}
+#mixerDialog .fader-range{position:absolute;top:50%;left:50%;width:var(--fader-height);height:44px;transform:translate(-50%,-50%) rotate(-90deg);z-index:2}
+#mixerDialog input.mixer-fader{appearance:none;-webkit-appearance:none;writing-mode:horizontal-tb;direction:ltr;width:100%;height:44px;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;outline-offset:0;touch-action:none;cursor:ns-resize}
+#mixerDialog input.mixer-fader::-webkit-slider-runnable-track{height:8px;border:1px solid #0a0e12;border-radius:4px;background:linear-gradient(#0a0d10,#161c22);box-shadow:inset 0 1px 3px #000,0 1px #626a7466}
+#mixerDialog input.mixer-fader::-moz-range-track{height:8px;border:1px solid #0a0e12;border-radius:4px;background:linear-gradient(#0a0d10,#161c22);box-shadow:inset 0 1px 3px #000,0 1px #626a7466}
+#mixerDialog input.mixer-fader::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:22px;height:40px;margin-top:-17px;border:1px solid #161a20;border-radius:3px;background:linear-gradient(90deg,#626c78 0%,#d4d9dd 12%,#f4f6f7 24%,#c4cbd1 42%,#11161b 46%,#11161b 54%,#c0c7ce 58%,#e5e9ec 76%,#a4adb7 90%,#5d6874);box-shadow:-1px 0 1px #ffffff80,2px 2px 4px #000b}
+#mixerDialog input.mixer-fader::-moz-range-thumb{width:22px;height:40px;border:1px solid #161a20;border-radius:3px;background:linear-gradient(90deg,#626c78 0%,#d4d9dd 12%,#f4f6f7 24%,#c4cbd1 42%,#11161b 46%,#11161b 54%,#c0c7ce 58%,#e5e9ec 76%,#a4adb7 90%,#5d6874);box-shadow:-1px 0 1px #ffffff80,2px 2px 4px #000b}
+#mixerDialog .unity-mark{position:absolute;left:4px;right:4px;top:calc(25% + 5.5px);border-top:1px solid #e1dfb2aa;z-index:0}
+#mixerDialog .stem-meter{position:relative;background:#080f0d;border:1px solid #151b18;border-radius:2px;overflow:hidden;box-shadow:inset 0 0 3px #000,1px 0 #ffffff17;margin:11px 0}
+#mixerDialog .vertical-meter::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to top,transparent 0,transparent 5px,#101813aa 5px,#101813aa 6px);pointer-events:none}
+#mixerDialog .stem-meter>div{position:absolute;bottom:0;left:0;right:0;height:0;width:100%;background:linear-gradient(to top,#3cae75,#91d17a 75%,#d9d37a 92%,#e08066);background-size:100% calc(var(--fader-height) - 22px);background-position:bottom;background-repeat:no-repeat;transition:height 75ms linear}
+#mixerDialog .stem-meter[data-zone=clip]{border-color:#fb8c74;box-shadow:0 0 4px #ff735c}
+#mixerDialog .stem-meter[data-zone=clip]>div{background:#f08b70}
+#mixerDialog .level-readout{grid-row:8;display:flex;align-items:center;justify-content:space-between;gap:4px;font-variant-numeric:tabular-nums;font-size:9px;color:#c1cbd1}
+#mixerDialog .level-readout span{font-size:7px;letter-spacing:.6px;color:#a4adb8}
+#mixerDialog .level-readout output{font-size:9px;white-space:nowrap}
+#mixerDialog .stem-bus-choice{grid-row:9;display:block;font-size:8px;letter-spacing:.4px;color:#b8c9c0}
+#mixerDialog .stem-routing{grid-row:10;display:flex;align-items:center;gap:5px;min-width:0}
+#mixerDialog .stem-routing label{flex:1;min-width:0;font-size:8px;letter-spacing:.4px;color:#b1bdc5}
+#mixerDialog .stem-routing select,#mixerDialog .stem-bus-choice select{display:block;width:100%;min-height:34px;border:1px solid #58616d;border-radius:3px;padding:3px 4px;margin-top:3px;background:#232a32;color:#dbe4eb;font-size:11px;letter-spacing:0}
+#mixerDialog .channel-label{grid-row:11;align-self:stretch;display:flex;flex-direction:column;justify-content:center;margin:4px -8px 0;padding:4px 6px;background:var(--channel-color);border-top:1px solid #ffffff44;border-bottom:3px solid #0004;color:#102021;min-width:0}
+#mixerDialog .channel-label span{font-size:7px;letter-spacing:.8px;font-weight:700;color:#142a2a}
+#mixerDialog .channel-label input{display:block;width:100%;font-size:13px;font-weight:700;margin:0;padding:2px 0 0;border:0;border-radius:0;background:transparent;color:#101f20;box-shadow:none;text-overflow:ellipsis}
+#mixerDialog .bus-strip{background:linear-gradient(90deg,#2d3a38,#354743 45%,#2b3936)}
+#mixerDialog .bus-strip .stem-routing{grid-row:9 / 11;align-self:stretch;align-items:center}
+#mixerDialog .master-strip{--channel-color:#ddc07d;display:grid;position:sticky;right:0;z-index:3;width:100%;margin:0;padding:8px 8px 0;background:linear-gradient(90deg,#3b3b32,#48493c 45%,#34372f);border-color:#87816a;box-shadow:-4px 0 10px #0008}
+#mixerDialog .master-strip .strip-header{color:#eee0ad}
+#mixerDialog .master-strip .route-badge{color:#e7d8aa;background:#27291f;font-size:8px}
+#mixerDialog .master-spacer{grid-row:4 / 6}
+#masterFaderMount{grid-row:7;align-self:stretch}
+#mixerDialog .master-held{grid-row:9;display:flex;flex-direction:column;gap:4px;text-align:center;font-variant-numeric:tabular-nums;color:#cfcaa8}
+#mixerDialog .master-held small{font-size:8px;letter-spacing:1px}
+#mixerDialog .master-held output{font-size:12px}
+#mixerDialog #resetMasterPeak{grid-row:10;min-height:34px;font-size:8px;padding:5px;border-color:#7d795a}
+#mixerDialog .master-label{grid-row:11;display:flex;align-self:stretch;align-items:center;justify-content:center;margin:4px -8px 0;background:#ddc07d;color:#252719;font-size:13px;font-weight:700;letter-spacing:1.6px;border-bottom:3px solid #0004}
+#mixerDialog .memory-summary{border-top:1px solid #474e56;margin-top:8px;padding:10px 0 2px;font-size:10px;color:#bdc6cc}
+#mixerDialog .memory-heading{display:flex;align-items:center;gap:12px;justify-content:space-between}
+#mixerMemoryText{font-variant-numeric:tabular-nums}
+#mixerMemory{width:180px;height:7px;border:1px solid #46534b;background:#101715;overflow:hidden}
+#mixerMemoryFill{height:100%;width:0;background:#84ba94}
+#mixerMemory[data-over=true]{border-color:#d7917b}
+#mixerMemory[data-over=true]>div{background:#db8e76}
+#mixerMemoryHelp{line-height:1.5;color:#aeb7c0;margin:6px 0}
+#mixerDialog details.mixer-help{font-size:11px;border:1px solid #444d57;border-radius:5px;margin-top:8px;padding:10px;background:#242b32}
+#mixerDialog details summary{cursor:pointer;min-height:24px;color:#d0d9df}
+#mixerDialog details p{line-height:1.65;color:#b7c4ce}
+#mixerDialog details .mixer-file-actions{margin-top:10px}
+#mixerDialog .project-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:10px 0}
+#mixerDialog .project-actions select{min-height:38px;font-size:11px;max-width:100%}
+@media(max-width:700px){#mixerDialog{padding:10px;--fader-height:210px}#mixerDialog .dialog-heading{flex-wrap:wrap;gap:7px}#mixerSong{font-size:16px}#mixerDialog .dialog-heading>div:first-child{max-width:calc(100% - 44px)}#mixerDialog .mixer-transport{order:3;flex-basis:100%;margin:0}#mixerDialog #closeMixer{margin-left:auto}#mixerDialog .mixer-toolbar{align-items:stretch}#mixerDialog .mixer-console{grid-template-columns:minmax(0,1fr) 122px;gap:5px;padding:4px}#mixerDialog .stem-strip{flex-basis:140px}#mixerDialog .master-strip{width:122px}#mixerOutputs{margin-left:0;flex-basis:100%}#mixerDialog .routing-summary{flex-wrap:wrap}#mixerDialog .memory-heading{flex-wrap:wrap;gap:6px}#mixerMemory{width:100%}#mixerDialog .mixer-file-actions button{font-size:10px}#mixerDialog .bus-view-options span{line-height:1.5}#mixerDialog .master-strip .fader-value output{font-size:13px}}
+@media(prefers-reduced-motion:reduce){#mixerDialog .stem-meter>div{transition:none}}
+
+/* V26.16: six additive mute groups and per-song file list. */
+#mixerDialog .stem-strip{grid-template-rows:24px 24px 20px 28px 48px 26px var(--fader-height) 24px 54px 54px 34px 44px}
+#mixerDialog .channel-label,#mixerDialog .master-label{grid-row:12}
+#mixerDialog #mixerMasterMute{grid-row:11;min-height:30px;padding:4px;font-size:9px}
+#mixerMasterMute[aria-pressed=true]{background:#8a4e3a!important;border-color:#dfa989!important;color:#fff1dc!important}
+#mixerDialog .mixer-mute-groups{display:flex;align-items:center;gap:6px;overflow-x:auto;margin:5px 0 8px;padding:3px 0}
+.mixer-mute-groups>span{font-size:9px;letter-spacing:.7px;color:#b9c9c0;margin-right:3px}
+#mixerDialog .mixer-mute-groups button{flex:1 0 85px;min-height:38px;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;padding:5px}
+#mixerDialog .mixer-mute-groups button[aria-pressed=true]{background:linear-gradient(#ae6a4c,#763d30);border-color:#d9ac86;color:#fff1e1}
+#mixerDialog .track-groups{grid-row:11;position:relative;font-size:9px;z-index:4}
+#mixerDialog .track-groups summary{font-size:8px;cursor:pointer;padding:6px 3px;border:1px solid #53636b;border-radius:3px;background:#253139;color:#c1d2c4}
+#mixerDialog .group-assignment{position:absolute;bottom:calc(100% + 5px);left:-5px;right:-5px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:7px;background:#18252e;border:1px solid #8c9f99;border-radius:5px;box-shadow:0 -5px 20px #000a}
+#mixerDialog .group-assignment button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:44px;min-width:0;padding:5px 2px;font-size:8px}
+.group-assignment b{font-size:12px}.group-assignment span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#mixerDialog .group-assignment button[aria-pressed=true]{background:#6b6140;border-color:#d8c48c;color:#fff3cf}
+#mixerSongFiles{overflow-x:auto;font-size:11px;margin:10px 0}
+#mixerSongFiles table{width:100%;border-collapse:collapse}
+#mixerSongFiles th,#mixerSongFiles td{text-align:left;padding:8px 10px;border-bottom:1px solid #43535e;overflow-wrap:anywhere}
+#mixerSongFiles th{font-size:10px;color:#c8dbc9}
+
+/* Keep import guidance and preparation available without opening a help section. */
+.mixer-import-help{font-size:12px;line-height:1.6;color:#c8d8d6;margin:8px 0}
+.mixer-readiness{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:6px 0}
+.mixer-readiness #mixerStatus{flex:1;min-width:180px;margin:0}
+.mixer-readiness #prepareAudio{min-height:44px;font-size:11px}
+/* V26.16: song and master levels, mute group view, tempo and MIDI. */
+#mixerDialog .mixer-console{grid-template-columns:minmax(0,1fr) auto}
+#mixerDialog .mixer-masters{display:flex;gap:3px;min-width:0}
+#mixerDialog .mixer-masters .master-strip{position:static;width:110px;flex:0 0 110px}
+#mixerDialog .song-strip{background:linear-gradient(90deg,#2c3e3c,#3c514e 45%,#2c3e3c);border-color:#678b81;--channel-color:#89cdb8}
+#mixerDialog .song-strip .master-label{background:#89cdb8;color:#112b25}
+#mixerDialog .mixer-masters .fader-value output{font-size:15px}
+#mixerDialog .mixer-masters .fader-value button{font-size:9px;min-width:24px;padding:2px}
+#mixerDialog.mixer-narrow .mixer-masters .master-strip{width:94px;flex-basis:94px}
+#mixerDialog #mixerGroupView{padding:12px 0}
+#mixerDialog #mixerGroups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#mixerDialog #mixerGroups>span{grid-column:1/-1}
+#mixerDialog #mixerGroups button{min-height:56px;font-size:13px;overflow-wrap:anywhere}
+#mixerGroupMembers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+#mixerGroupMembers article{padding:12px;border:1px solid #4a565e;border-radius:5px;background:#222c31;font-size:12px;overflow-wrap:anywhere}
+#mixerGroupMembers p{font-size:11px;color:#b6c4cc;margin-bottom:0}
+#mixerDialog .tempo-panel{display:flex;align-items:end;flex-wrap:wrap;gap:10px;padding:14px 0;border-bottom:1px solid #4a565e}
+#mixerDialog .tempo-panel label{font-size:11px;display:grid;gap:6px}
+#mixerDialog .tempo-panel input{width:110px;min-height:40px;font-size:16px}
+#mixerDialog .tempo-panel small,#tempoStatus{flex-basis:100%;font-size:11px;color:#c5d6d0;margin:0}
+#mixerDialog .hidden{display:none!important}
+#midiDialog{width:min(640px,calc(100% - 24px));max-height:90dvh;box-sizing:border-box;padding:20px;border:1px solid #687e8d;border-radius:10px;background:#202c37;color:#e9f0f4;overflow:auto;font:14px/1.5 Arial,sans-serif}
+#midiDialog::backdrop{background:#04070bd9}
+.midi-heading,.midi-connection,.midi-learn,.midi-assignment{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.midi-heading{justify-content:space-between}.midi-heading h2{font-size:18px;margin:0}
+#midiDialog button,#midiDialog select{min-height:44px;padding:8px 12px;font:inherit;border-radius:5px;background:#303f4d;color:#edf5f8;border:1px solid #6a7c8b}
+.midi-connection,.midi-learn{margin:18px 0}.midi-learn label{display:grid;gap:5px;flex:1}.midi-assignment{border-top:1px solid #495966;padding:9px 0}.midi-assignment span{flex:1}.midi-assignment small{color:#b9d1cb}
+#midiStatus{min-height:44px;color:#e1ce91;overflow-wrap:anywhere}
+@media(max-width:700px){#mixerDialog .mixer-masters .master-strip{width:86px;flex-basis:86px;padding:5px 5px 0}#mixerDialog .mixer-masters .fader-value{flex-wrap:wrap}#mixerDialog .mixer-masters .fader-value output{font-size:12px}#mixerGroupMembers{grid-template-columns:repeat(2,minmax(0,1fr))}#mixerDialog #mixerGroups{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#globalMasterFaderMount{grid-row:7;align-self:stretch}
+#mixerDialog #mixerGroupTab[aria-pressed=true]{background:linear-gradient(#536757,#35483b);border-color:#9cbaa3}
+
+/* V26.16: large user-selected controls and a real audio overview. */
+body.has-performance-bar:not(.stage-fullscreen){padding-bottom:var(--performance-space,190px)}
+.performance-bar{position:fixed;left:0;right:0;bottom:0;z-index:35;padding:8px max(10px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));background:linear-gradient(#303942,#1b222a);border-top:1px solid #7b8b94;box-shadow:0 -8px 25px #0008;color:#dbe5eb;box-sizing:border-box;transition:opacity .15s,transform .15s}
+.performance-heading{display:flex;align-items:center;gap:8px;min-width:0;margin-bottom:6px;flex-wrap:wrap}
+#performanceSong{min-width:100px;flex:1;font-size:16px;color:#ead49a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.performance-bar button,.performance-bar select{box-sizing:border-box;border:1px solid #687783;border-radius:5px;background:linear-gradient(#414d59,#29333d);color:#e9f0f3;box-shadow:inset 0 1px #fff2,0 2px 4px #0007;font-family:inherit}
+.performance-heading button{min-height:34px;padding:5px 10px;font-size:10px;letter-spacing:.5px}
+#performanceWaveToggle[aria-pressed=true]{background:#335347;border-color:#96b99d}
+#performanceWaveTrack{font-size:11px;max-width:170px;min-height:34px;padding:4px}
+.performance-timeline{position:relative;height:28px;border:1px solid #5d6d76;border-radius:4px;background:#0f1a21;overflow:hidden;transition:height .1s}
+.performance-timeline.has-waveform{height:68px}
+.performance-timeline:focus-within{outline:2px solid #e9dc9c;outline-offset:2px}
+.performance-progress{position:absolute;left:0;top:0;bottom:0;width:0;background:#8ab89a2d;border-right:1px solid #e5d79777;pointer-events:none}
+.wave-graphic{position:absolute;inset:3px 0;pointer-events:none}
+.wave-graphic svg{display:block;width:100%;height:100%}
+.wave-graphic path{fill:#89bbae;stroke:#abd6c5;stroke-width:.8;vector-effect:non-scaling-stroke}
+.performance-cursor{position:absolute;left:0;top:0;bottom:0;width:2px;background:#efe1a8;box-shadow:0 0 5px #f1d88677;pointer-events:none}
+#performanceWaveState{position:absolute;left:8px;top:7px;font-size:10px;color:#b8c7d0;pointer-events:none}
+#performanceSeek{appearance:none;-webkit-appearance:none;position:absolute;inset:0;width:100%;height:100%;padding:0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;touch-action:none;cursor:ew-resize}
+#performanceSeek::-webkit-slider-runnable-track{height:100%;background:transparent;border:0}
+#performanceSeek::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:10px;height:28px;border:1px solid #ecdd9d;border-radius:2px;background:#e4d49355}
+.has-waveform #performanceSeek::-webkit-slider-thumb{height:68px}
+#performanceSeek::-moz-range-track{height:100%;background:transparent;border:0}
+#performanceSeek::-moz-range-thumb{width:10px;height:28px;border:1px solid #ecdd9d;border-radius:2px;background:#e4d49355}
+.has-waveform #performanceSeek::-moz-range-thumb{height:68px}
+#performanceSeek:disabled{cursor:default;opacity:.4}
+.performance-times{display:flex;justify-content:space-between;gap:10px;padding:4px 1px 5px;font-size:11px;color:#bfccd5;font-variant-numeric:tabular-nums}
+.performance-controls{display:flex;align-items:stretch;gap:7px;overflow-x:auto;padding-bottom:3px;scrollbar-color:#69837a #18232d}
+.performance-controls .performance-action{flex:1 0 84px;max-width:160px;min-height:68px;padding:8px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:11px;font-weight:700;letter-spacing:.4px;touch-action:manipulation}
+.performance-action svg{width:29px;height:28px;display:block;overflow:visible}
+.performance-action svg path{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.performance-controls .action-play{background:linear-gradient(#3f7355,#294d38);border-color:#8bbd97;color:#edf9ed}
+.action-play svg path,.action-stop svg path{fill:currentColor}
+.performance-controls .action-stop{background:linear-gradient(#804a46,#522f30);border-color:#bd8a7a;color:#fff0eb}
+.performance-controls .action-play.action-active{background:linear-gradient(#559868,#346a45);box-shadow:inset 0 1px #fff4,0 0 8px #77c58b33}
+.performance-controls .action-mute.action-active,.performance-controls [class*=action-group].action-active{background:linear-gradient(#ad654d,#763d32);border-color:#f3bf9f;color:#fff0e6}
+.performance-controls .performance-action:disabled{opacity:.4;box-shadow:none}
+.performance-controls .performance-action span:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.action-group-number{font-size:24px;line-height:27px}
+#performanceStatus{font-size:11px;color:#edc2a7;line-height:1.4}
+#performanceStatus:empty{display:none}
+body.stage-fullscreen.stage-controls-hidden .performance-bar{visibility:hidden;opacity:0;transform:translateY(110%);pointer-events:none}
+#performanceSettings{width:min(760px,calc(100% - 20px));max-width:760px;max-height:90dvh;overflow:auto;border:1px solid #7a8c99;border-radius:10px;padding:20px;background:#202d38;color:#dbe6ed;box-sizing:border-box}
+#performanceSettings::backdrop{background:#030a10ce}
+.performance-settings-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.performance-settings-heading h2{font-size:21px;margin:0}
+.performance-settings-heading button{min-width:44px;min-height:44px}
+#performanceSettings p{font-size:12px;color:#b7cbd5;line-height:1.7}
+#performanceSettings h3{font-size:15px;margin:22px 0 8px;color:#e3d098}
+.performance-settings-options{display:grid;gap:12px;margin-top:15px;font-size:12px}
+.performance-settings-options input[type=number]{width:70px;min-height:38px}
+.control-config-row{display:grid;grid-template-columns:24px minmax(140px,1fr) minmax(120px,1fr);align-items:center;gap:8px;margin-bottom:8px}
+.control-config-row span{font-size:12px;color:#aec7ba}
+.control-config-row select,.control-config-row input{min-width:0;width:100%;min-height:40px;font-size:12px}
+#performanceGroupNames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#performanceGroupNames label{font-size:11px;color:#c6d7df}
+#performanceGroupNames input{display:block;width:100%;min-width:0;min-height:40px;margin-top:5px;box-sizing:border-box;font-size:12px}
+#performanceSettingsStatus{color:#efb39f!important}
+.performance-settings-footer{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;position:sticky;bottom:-20px;background:#202d38;padding:14px 0 10px;border-top:1px solid #435966}
+.performance-settings-footer button{min-height:44px;font-size:11px}
+#performanceSettingsSave{background:#305a43;border-color:#92b9a0}
+@media(max-width:600px){.performance-bar{padding:7px 8px max(7px,env(safe-area-inset-bottom))}.performance-heading{gap:6px}#performanceSong{flex-basis:calc(100% - 195px);font-size:14px}.performance-heading button{font-size:9px;padding:5px 7px}.performance-controls .performance-action{flex-basis:82px;min-height:66px;font-size:10px}.control-config-row{grid-template-columns:20px minmax(100px,1fr);gap:5px}.control-config-row input{grid-column:2}#performanceGroupNames{grid-template-columns:repeat(2,minmax(0,1fr))}#performanceSettings{padding:14px}.performance-settings-footer{bottom:-14px}}
+@media(prefers-reduced-motion:reduce){.performance-bar,.performance-timeline{transition:none}}
+
+/* V26.16: four primary actions, with detailed mixer setup in one place. */
+header .clean-bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:min(660px,100%);gap:8px}
+header .clean-bar button{display:flex!important;align-items:center;justify-content:center;min-width:0!important;min-height:44px;padding:9px 8px;font-size:12px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+header .clean-bar button[aria-pressed=true]{background:#315a49;border-color:#9bb8a6;color:#eff9ef}
+.side-modes{display:flex;gap:6px;margin:0 0 12px}
+.side-modes button{flex:1;min-height:38px;padding:6px;font-size:11px}
+.side-modes button[aria-pressed=true]{background:#365b50;border-color:#94b7a7}
+.performance-controls.controls-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));max-height:40dvh;overflow-y:auto}
+.performance-controls.controls-wrap .performance-action{max-width:none;min-width:0}
+.control-presets{display:flex;gap:8px;margin:10px 0}
+.control-presets button{min-height:40px;font-size:11px}
+#mixerDialog .stem-strip{grid-template-rows:24px 24px 20px 28px 48px 26px var(--fader-height) 24px 54px 38px 44px}
+#mixerDialog .stem-strip:not(.master-strip){border-top:3px solid var(--channel-color);background:linear-gradient(90deg,#252c35ef,#39424aee 45%,#252c35ef),var(--channel-color)}
+#mixerDialog .channel-label,#mixerDialog .master-label{grid-row:11}
+#mixerDialog .channel-label,#mixerDialog .channel-label span,#mixerDialog .channel-label input{color:var(--channel-ink,#102021)}
+#mixerDialog button.route-badge{min-height:24px;padding:1px 4px;text-align:left;font-size:9px;letter-spacing:0;box-shadow:none}
+#mixerDialog .group-summary{grid-row:9;display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:0;min-height:44px;padding:5px;text-align:left;box-shadow:none;background:#212c33;font-size:10px}
+#mixerDialog .group-summary small{font-size:7px;color:#a9bdb7;letter-spacing:.7px}
+#mixerDialog .group-summary span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#mixerDialog .channel-setup{grid-row:10;min-height:34px;padding:5px;font-size:8px;letter-spacing:.2px}
+#mixerDialog .bus-members{grid-row:9;color:#bed0c8;font-size:9px;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+#mixerDialog .master-actions{grid-row:10;display:flex;gap:4px;min-width:0}
+#mixerDialog .master-actions #resetMasterPeak,#mixerDialog .master-actions #mixerMasterMute{flex:1;grid-row:auto;min-width:0;min-height:34px;padding:4px 2px;font-size:8px}
+#mixerDialog #mixerSettingsBtn{color:#ead8ab;border-color:#a4956f;font-size:10px;letter-spacing:.2px}
+#mixerSetupDialog{width:min(1160px,calc(100% - 20px));max-width:1160px;max-height:92dvh;box-sizing:border-box;padding:20px;border:1px solid #87938d;border-radius:10px;background:#202a34;color:#e1e8eb;box-shadow:0 20px 70px #000b}
+#mixerSetupDialog[open]{display:flex;flex-direction:column;gap:12px}
+#mixerSetupDialog::backdrop{background:#03080de0}
+.setup-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:none}
+.setup-heading h2{font-size:21px;margin:0 0 5px;color:#e4d2a3}
+#mixerSetupSong{font-size:14px;font-weight:500;color:#afc9bd}
+#mixerSetupDialog button,#mixerSetupDialog input,#mixerSetupDialog select{box-sizing:border-box;font-family:inherit}
+#mixerSetupDialog button{min-height:40px;font-size:11px}
+.setup-heading button{min-width:44px;min-height:44px}
+.setup-tabs{display:flex;gap:7px;flex:none;flex-wrap:wrap}
+.setup-tabs button{flex:1;font-weight:700;letter-spacing:.5px}
+.setup-tabs button[aria-pressed=true]{background:#355d4e;border-color:#9bbcaa;color:#ecf4eb}
+#mixerSetupHelp{flex:none;margin:0;color:#becdcf;font-size:12px;line-height:1.65}
+#mixerSetupBody{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding-right:3px}
+.setup-track-heading,.setup-track-row{display:grid;grid-template-columns:minmax(180px,.95fr) minmax(190px,1fr) minmax(225px,1.15fr);gap:16px}
+.setup-track-heading{font-size:11px;color:#b4cabd;padding:8px 12px}
+.setup-track-row,.setup-bus-row{border:1px solid #47555e;border-left:5px solid var(--channel-color);border-radius:5px;margin-bottom:9px;padding:12px;background:#28333e;align-items:start}
+.setup-identity{display:grid;grid-template-columns:26px minmax(0,1fr) 52px;gap:6px 8px;align-items:end;min-width:0}
+.setup-index{grid-column:1;grid-row:1;align-self:center;font-size:12px;color:#c9d8d1;font-weight:700}
+.setup-name{grid-column:2;grid-row:1;display:block;min-width:0}
+.setup-color{grid-column:3;grid-row:1;display:block}
+#mixerSetupDialog label{font-size:10px;color:#c4d4d5}
+#mixerSetupDialog input[type=text],#mixerSetupDialog input:not([type]),#mixerSetupDialog select{display:block;min-width:0;width:100%;min-height:40px;margin-top:5px;font-size:12px;padding:6px 8px;border:1px solid #63717b;border-radius:4px;background:#19252e;color:#eef1ee}
+#mixerSetupDialog input[type=color]{display:block;width:48px;height:40px;margin-top:5px;padding:3px;border:1px solid #63717b;border-radius:4px;background:#19252e}
+.setup-identity>button{grid-column:3;grid-row:2;min-height:25px!important;font-size:8px!important;padding:3px!important;color:#c2d6ca}
+.setup-identity>small{grid-column:1 / 3;grid-row:2;font-size:9px;line-height:1.5;color:#aabec3;overflow-wrap:anywhere}
+.setup-routing{min-width:0}
+.setup-routing>div{display:flex;gap:8px;margin-top:8px}
+.setup-routing label{flex:1;min-width:0}
+.setup-routing p{font-size:11px;line-height:1.6;margin:8px 0 4px;color:#d2e0d5}
+.setup-routing small{font-size:10px;color:#a9bfc3}
+.setup-memberships{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 8px;margin:0;padding:0;border:0;min-width:0}
+.setup-memberships legend{font-size:10px;color:#b7c6c1;margin-bottom:4px}
+.setup-group-check{display:flex;align-items:center;gap:5px;min-height:30px;padding:4px;border:1px solid #50605f;border-radius:4px;background:#202d35;min-width:0;cursor:pointer}
+#mixerSetupDialog input[type=checkbox]{width:18px;height:18px;flex:none;margin:0}
+.setup-group-check span{min-width:0;overflow-wrap:anywhere}
+.setup-bus-row{display:grid;grid-template-columns:minmax(220px,1fr) minmax(240px,1.3fr);gap:20px}
+.setup-group-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.setup-group-card{min-width:0;padding:12px;background:#28343f;border:1px solid #56645d;border-radius:5px}
+.setup-group-card>.setup-name{margin-bottom:12px}
+.setup-group-card>div{display:grid;gap:5px}
+.setup-member{display:flex;gap:7px;align-items:center;min-height:36px;padding:4px;cursor:pointer;overflow-wrap:anywhere}
+.setup-color-dot{width:10px;height:22px;border:1px solid #b8c6c744;border-radius:2px;flex:none}
+.setup-footer{flex:none;display:flex;justify-content:space-between;gap:10px;padding-top:12px;border-top:1px solid #53665e}
+#mixerSetupSave{background:#355e49;border-color:#9dbda4}
+#mixerSetupStatus{flex:none;margin:0;color:#f2b19b;font-size:12px;line-height:1.5}
+#mixerSetupStatus:empty{display:none}
+.setup-empty{font-size:13px;padding:20px;border:1px dashed #63756d}
+@media(max-width:850px){.setup-track-heading{display:none}.setup-track-row{grid-template-columns:minmax(190px,1fr) minmax(200px,1fr)}.setup-track-row .setup-memberships{grid-column:1 / -1;grid-template-columns:repeat(3,minmax(0,1fr))}.setup-group-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){header .clean-bar{gap:5px}header .clean-bar button{font-size:10px;padding:8px 4px}.setup-track-row,.setup-bus-row{grid-template-columns:minmax(0,1fr);gap:12px;padding:10px}.setup-track-row .setup-memberships{grid-template-columns:repeat(2,minmax(0,1fr))}.setup-group-grid{grid-template-columns:minmax(0,1fr)}#mixerSetupDialog{padding:13px;gap:9px}.setup-heading h2{font-size:18px}.setup-footer button{font-size:10px!important}.setup-track-row .setup-identity{grid-template-columns:26px minmax(0,1fr) 52px}}
+
+/* V26.16: mixer settings share the mixer dialog and use normal block flow. */
+header .clean-bar{grid-template-columns:minmax(0,1fr) 44px repeat(2,minmax(0,1fr))}
+header .clean-bar #settingsBtn{width:44px;padding:8px}
+.performance-button-row{display:flex;align-items:stretch;gap:7px;min-width:0}
+.performance-button-row #performanceControls{flex:1;min-width:0}
+.performance-button-row #performanceConfig{flex:0 0 38px;width:38px;min-height:44px;padding:5px;font-size:22px;border-color:#748577;align-self:stretch}
+.performance-bar.buttons-only .performance-heading,.performance-bar.buttons-only .performance-timeline,.performance-bar.buttons-only .performance-times{display:none}
+.performance-bar.icons-only .performance-action>span:last-child,.performance-bar .action-settings>span:last-child{display:none}
+.performance-bar.icons-only .performance-controls .performance-action{flex-basis:62px;min-height:56px;padding:8px 5px}
+.performance-bar.icons-only .performance-controls.controls-wrap{grid-template-columns:repeat(auto-fit,minmax(62px,1fr))}
+#mixerDialog #mixerSettingsBtn{min-width:40px;min-height:40px;font-size:24px;padding:4px}
+#mixerDialog #mixerSettingsBtn[aria-pressed=true]{background:#546051;border-color:#b7c39b}
+#mixerDialog #mixerMain .mixer-toolbar{justify-content:flex-start}
+#mixerDialog #mixerQuickStatus{font-size:12px;line-height:1.5;color:#ffb69e;padding:5px 0}
+#mixerDialog #mixerSetupDialog{display:block;width:100%;max-width:none;max-height:none;padding:8px 0 0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+#mixerDialog #mixerSetupBody{display:block;flex:none;min-height:130px;max-height:none;height:auto;overflow:visible;padding:0;margin:12px 0}
+#mixerDialog #mixerSetupDialog .setup-heading{margin:0 0 10px}
+#mixerDialog #mixerSetupDialog .setup-heading h2{font-size:18px}
+#mixerDialog #mixerSetupDialog .setup-tabs{margin-bottom:10px}
+#mixerDialog #mixerSetupDialog .setup-footer{position:sticky;bottom:-14px;background:#202a34;padding:12px 0 8px;z-index:5}
+#mixerDialog #mixerSetupLock{margin:10px 0;padding:9px;border:1px solid #89764f;background:#3b3526;color:#ebd8a8;font-size:12px;line-height:1.5}
+#mixerDialog #mixerSetupAudio{margin:12px 0}
+#mixerDialog #mixerSetupAudio .mixer-file-actions{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+#mixerDialog #mixerSetupAudio .mixer-appearance{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 0 14px;border-bottom:1px solid #43545b}
+#mixerDialog #mixerSetupAudio #mixerWidth{width:auto;max-width:220px;min-height:40px;margin:0}
+#mixerDialog.mixer-narrow .mixer-console{grid-template-columns:minmax(0,1fr) 112px;gap:5px}
+#mixerDialog.mixer-narrow .stem-strip{flex-basis:112px}
+#mixerDialog.mixer-narrow .master-strip{width:112px}
+#mixerDialog.mixer-narrow .channel-label input{font-size:12px}
+#mixerDialog.mixer-narrow .fader-bank{grid-template-columns:24px minmax(40px,1fr) 12px;column-gap:2px;margin:0}
+#mixerDialog.mixer-narrow .fader-tick{width:24px;font-size:8px}
+#mixerDialog.mixer-narrow .fader-value output{font-size:13px}
+#mixerDialog.mixer-narrow .stem-switches button{font-size:8px}
+@media(max-width:700px){#mixerDialog .dialog-heading>div:first-child{flex:1;max-width:calc(100% - 92px)}#mixerDialog #closeMixer{margin-left:0}#mixerDialog #mixerSetupDialog .setup-footer{bottom:-10px}.performance-button-row #performanceConfig{flex-basis:34px;width:34px}}
+
+/* V26.16: one shared control bar stays usable inside the native mixer modal. */
+#mixerDialog[open]{display:flex;flex-direction:column;height:96vh;height:96dvh;overflow:hidden}
+#mixerDialog>.dialog-heading{flex:none;flex-wrap:wrap}
+#mixerDialog>.dialog-heading>div:first-child{min-width:0;flex:1}
+#mixerDialog .mixer-transport{order:1}
+#mixerDialog #mixerControlsToggle{order:2;font-size:10px;letter-spacing:.5px}
+#mixerDialog #mixerControlsToggle[aria-pressed=true]{background:#355344;border-color:#92b39b}
+#mixerDialog #mixerSettingsBtn{order:3}
+#mixerDialog #closeMixer{order:4}
+#mixerWorkspace{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior-y:contain;padding-bottom:4px}
+#mixerControlsDock{flex:0 0 auto;min-width:0}
+body.stage-fullscreen.stage-controls-hidden #mixerControlsDock .performance-bar,
+#mixerControlsDock .performance-bar{position:static;visibility:visible;opacity:1;transform:none;pointer-events:auto;box-shadow:none;margin-top:8px;border:1px solid #687b78;border-radius:6px;max-height:44vh;max-height:44dvh;overflow-y:auto}
+#mixerControlsDock .performance-controls.controls-wrap{max-height:24vh;max-height:24dvh;overflow:auto}
+#mixerControlsDock .performance-button-row button{font-size:11px;min-height:56px}
+#mixerControlsDock .performance-button-row #performanceConfig{font-size:22px}
+#mixerDialog #mixerSetupDialog .setup-footer{bottom:0}
+#mixerDialog .song-file-section h3{margin:6px 0;font-size:16px;color:#e5d59d}
+#mixerFilesSummary{font-size:12px;color:#b9d4c6;margin:6px 0}
+#mixerDialog .file-name-help{font-size:11px;color:#b5c1c9;line-height:1.6}
+#mixerSongFiles{display:grid;gap:9px;margin:14px 0}
+#mixerDialog .song-file-card{display:grid;grid-template-columns:30px minmax(0,1fr) minmax(150px,.5fr);align-items:center;gap:12px;border:1px solid #4c5d60;border-left:4px solid var(--channel-color);background:#253139;padding:12px;border-radius:5px}
+.song-file-number{font-size:12px;color:#b7c8bd;align-self:start;padding-top:5px}
+.song-file-identity{min-width:0}
+#mixerDialog .song-file-identity label{font-size:10px;color:#c0d2ca;display:block}
+#mixerDialog .song-file-identity input{width:100%;max-width:none;min-height:42px;margin:5px 0 6px;padding:8px 10px;background:#18232c;color:#eff4ef;border:1px solid #65777b;border-radius:4px;font-size:15px}
+#mixerDialog .song-file-original{display:block;color:#aabec6;font-size:11px;overflow-wrap:anywhere;line-height:1.5}
+.song-file-info{display:grid;gap:6px;font-size:11px;color:#d3ded5;overflow-wrap:anywhere}
+.song-file-info small{font-size:10px;color:#a8bfc3}
+.song-files-empty{padding:20px;border:1px dashed #687f77;font-size:13px;line-height:1.6}
+#mixerDialog .mixer-help{margin-top:12px}
+#mixerDialog .mixer-help>summary{cursor:pointer;padding:10px 0;font-size:12px;color:#d3dfd5}
+@media(max-width:700px){#mixerDialog .dialog-heading>div:first-child{max-width:none;flex-basis:calc(100% - 190px)}#mixerDialog .mixer-transport{order:5;width:100%;margin-left:0}#mixerDialog #mixerControlsToggle{font-size:9px;padding:6px}#mixerControlsDock .performance-controls .performance-action{flex-basis:72px}#mixerDialog .song-file-card{grid-template-columns:24px minmax(0,1fr);gap:8px}.song-file-info{grid-column:2}}
+
+/* V26.16: neutral transport buttons, with color only for the current state. */
+#performanceControls .performance-action{background:linear-gradient(#414d59,#29333d);border-color:#687783;color:#e9f0f3}
+#performanceControls .action-play.action-active{background:linear-gradient(#559868,#346a45);border-color:#8bbd97;color:#edf9ed}
+#performanceControls .action-stop.action-active{background:linear-gradient(#804a46,#522f30);border-color:#bd8a7a;color:#fff0eb}
+#performanceControls .action-mute.action-active,#performanceControls [class*=action-group].action-active{background:linear-gradient(#ad654d,#763d32);border-color:#f3bf9f;color:#fff0e6}
+#mixerDialog .song-file-info [data-file-delete]{justify-self:end;min-height:40px;font-size:10px;color:#f1b7ab;border-color:#83625d}
+.song-file-card{touch-action:pan-y}
+.song-file-identity input{touch-action:auto}
+.wave-sections{position:absolute;inset:0;pointer-events:none}
+.wave-section{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--section-color) 23%,transparent);border-left:1px solid var(--section-color);overflow:hidden}
+.wave-section b{display:block;position:absolute;top:2px;left:4px;right:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--section-color);font-size:10px;font-weight:600;text-shadow:0 1px 3px #000}
+.wave-graphic{top:17px}
+.lyric-color-tools{align-items:center}
+.lyric-color-tools input[type=color]{width:44px;height:38px;flex:none}
+.lyric-color-tools .lyric-color-status{flex-basis:100%;font-size:11px}
+#sectionTimingDialog{width:min(740px,calc(100% - 20px));max-width:740px;max-height:94vh;max-height:94dvh;overflow:auto;padding:18px;background:#202d38;color:#dbe6ed;border:1px solid #7a8c99;border-radius:9px}
+#sectionTimingDialog::backdrop{background:#030a10ce}
+.section-timing-heading{display:flex;justify-content:space-between;gap:15px;align-items:center}
+.section-timing-heading h2{font-size:20px;margin:0 0 6px}
+#sectionTimingSong{font-size:14px;color:#e3d098}
+#sectionTimingHelp{font-size:12px;line-height:1.6;color:#bbcfcc}
+.section-timing-transport{display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:sticky;top:-18px;z-index:2;background:#202d38;padding:10px 0;border-bottom:1px solid #4a6066}
+.section-timing-transport button{min-height:44px;font-size:12px}
+#sectionTimingPosition{font-size:12px;margin-left:auto}
+#sectionTimingSeek{width:100%;min-height:32px;touch-action:none}
+#sectionTimingRows{display:grid;gap:9px;margin-top:15px}
+.section-time-row{display:grid;grid-template-columns:minmax(0,1fr) auto 42px;gap:8px;align-items:end;border-left:4px solid var(--section-color);padding:9px;background:#2b3842;border-radius:4px}
+.section-time-row label{display:flex;align-items:center;gap:12px;min-width:0;flex-wrap:wrap;font-size:13px;color:var(--section-color)}
+.section-time-row label span{min-width:80px;flex:1;overflow-wrap:anywhere}
+.section-time-row input{width:110px;font-size:14px;min-height:42px;background:#18232d}
+.section-time-row button{min-height:42px;font-size:11px}
+#sectionTimingStatus{font-size:12px;color:#f0b09c;line-height:1.6}
+.section-timing-footer{position:sticky;bottom:-18px;display:flex;justify-content:space-between;gap:10px;background:#202d38;padding:12px 0 6px}
+#sectionTimingSave{background:#355e49;border-color:#9dbda4}
+@supports not (background:color-mix(in srgb,red 20%,transparent)){.wave-section{background:var(--section-color);opacity:.35}}
+@media(max-width:520px){.section-time-row{grid-template-columns:minmax(0,1fr) 74px 36px;gap:5px}.section-time-row label{gap:4px}.section-time-row input{width:100%}.section-time-row button{padding:7px 4px}}
+
+/* V26.16: leave enough scroll room to keep the final section inside the reading area. */
+#readingTail{height:var(--reading-tail,0px);pointer-events:none}
+.action-font-symbol{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:25px;line-height:28px;white-space:nowrap}
+
+/* V26.16: song colors are visible in both lists without changing title text. */
+.song-color-picker{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid #4f626e;border-radius:6px;padding:10px;margin:12px 0}
+.song-color-picker legend{font-size:13px;color:#b8cfc4}
+.song-color-picker label{display:flex;align-items:center;gap:7px;font-size:12px}
+#creatorColorPresets{display:flex;gap:6px;flex-wrap:wrap}
+#creatorColorPresets button{width:28px;min-width:28px;min-height:32px;border:1px solid #b8c8c7;border-radius:5px;padding:0}
+#creatorClearColor{font-size:10px}
+#creatorStatus{font-size:12px;color:#f1b29e}
+#creatorStatus:empty{display:none}
+.song-row[style*="--song-color"],.library-song[style*="--song-color"]{border-left-color:var(--song-color)!important}
+.song .lyric-line.section.melody{color:var(--melody,#82c4ff)!important}
+
