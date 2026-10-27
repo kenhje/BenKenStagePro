@@ -1,4 +1,4 @@
-BenKen iPad MIDI companion — source project, V26.17
+BenKen iPad MIDI companion — source project, V26.18
 
 This small iPad/iPhone app opens the GitHub web app in WKWebView and connects
 Core MIDI to BenKen's MIDI Learn. It uses the same Web Audio playback engine;
@@ -6,8 +6,8 @@ it does not remove the web audio memory limit or introduce a new native mixer.
 The standalone native audio project from earlier work is a separate project.
 
 BUILD AND TEST ON YOUR MAC
-1. Upload the V26.17 web files to the existing GitHub repository and wait
-   until https://kenhje.github.io/BenKenStagePro/ shows V26.17.
+1. Upload the V26.18 web files to the existing GitHub repository and wait
+   until https://kenhje.github.io/BenKenStagePro/ shows V26.18.
 2. Open BenKenStagePro.xcodeproj in Xcode on your Mac.
 3. Select the BenKenStagePro target > Signing & Capabilities, choose your
    Apple development team and, if needed, a unique bundle identifier.
@@ -17,7 +17,7 @@ BUILD AND TEST ON YOUR MAC
 5. Open the app online the first time so it can load the hosted web version.
 6. Import your .benken song projects inside the app. Its storage is separate
    from Safari and any earlier BenKen native app.
-7. Open gear > SCENE > MIDI / FOOT CONTROLLER. Connect the MIDI interface,
+7. Open gear > MIDI > OPEN MIDI SETTINGS. Connect the MIDI interface,
    press CONNECT, choose START and press LEARN, then press the FCB1010 switch.
 8. Assign STOP, NEXT and mute groups in the same way. Test these with your
    existing Ui24R setup and confirm USB output routing before live use.
