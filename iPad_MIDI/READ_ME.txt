@@ -1,4 +1,4 @@
-BenKen iPad MIDI companion — source project, V26.21
+BenKen iPad MIDI companion — source project, V26.22
 
 This small iPad/iPhone app opens the GitHub web app in WKWebView and connects
 Core MIDI to BenKen's MIDI Learn. It uses the same Web Audio playback engine;
@@ -6,8 +6,8 @@ it does not remove the web audio memory limit or introduce a new native mixer.
 The standalone native audio project from earlier work is a separate project.
 
 BUILD AND TEST ON YOUR MAC
-1. Upload the V26.21 web files to the existing GitHub repository and wait
-   until https://kenhje.github.io/BenKenStagePro/ shows V26.21.
+1. Upload the V26.22 web files to the existing GitHub repository and wait
+   until https://kenhje.github.io/BenKenStagePro/ shows V26.22.
 2. Open BenKenStagePro.xcodeproj in Xcode on your Mac.
 3. Select the BenKenStagePro target > Signing & Capabilities, choose your
    Apple development team and, if needed, a unique bundle identifier.
@@ -43,6 +43,8 @@ WHAT TO VERIFY ON THE IPAD
 - Test a 2-bar and 4-bar count-in, beat lights and Stop during the count.
 - Start the metronome without backing audio and verify the selected bus.
 - Test per-entry autoplay, including an On entry followed by an Off entry.
+- Check that the page control bar stays at the screen bottom during lyrics
+  scroll, rotation and Safari/WKWebView viewport changes.
 - Confirm learned footswitches work once per press and expression volume moves.
 - If using Bluetooth, pair the MIDI adapter and repeat the playback tests.
 - Verify save/import/export and reopening of your projects in the companion app.
@@ -51,6 +53,14 @@ WHAT TO VERIFY ON THE IPAD
 This source was checked structurally but no Apple SDK, iPad, pedal or Ui24R was
 available to compile and physically validate it. No App Store or TestFlight
 upload has been performed.
+
+BACKGROUND LIMITATION
+The audio session is configured for playback and the project declares the
+audio background mode, but background multitrack/continuous click has not
+been validated. This source still uses the web audio engine. Its MIDI bridge
+forwards received commands only while UIApplication is active. Keep BenKen
+visible for live tests; switching to Mixing Station is not yet a verified
+background playback/MIDI workflow.
 
 Source uses Apple system frameworks only: SwiftUI, WebKit, Core MIDI,
 Core Audio Kit and AVFoundation. No third-party SDK or account service is added.
