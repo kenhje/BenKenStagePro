@@ -16,6 +16,16 @@
 				<string>no.benken.stage-project</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>BenKen Full Backup</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>no.benken.full-backup</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
@@ -80,6 +90,25 @@
 				</array>
 				<key>public.mime-type</key>
 				<string>application/x-benken-project</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>BenKen Full Backup Part</string>
+			<key>UTTypeIdentifier</key>
+			<string>no.benken.full-backup</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>benkenbackup</string>
+				</array>
+				<key>public.mime-type</key>
+				<string>application/x-benken-backup</string>
 			</dict>
 		</dict>
 	</array>
