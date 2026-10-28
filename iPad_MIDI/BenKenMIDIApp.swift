@@ -75,7 +75,7 @@ final class BenKenController: UIViewController, WKScriptMessageHandler, WKNaviga
     }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) { midi.refresh() }
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        let alert = UIAlertController(title: "Could not open BenKen", message: "Upload V26.20 to GitHub and open the app online once. \(error.localizedDescription)", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Could not open BenKen", message: "Upload V26.21 to GitHub and open the app online once. \(error.localizedDescription)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] _ in self?.web.reload() }); present(alert, animated: true)
     }
     func webView(_ webView: WKWebView, decidePolicyFor action: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {

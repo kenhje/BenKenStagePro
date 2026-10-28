@@ -1,4 +1,4 @@
-BenKen iPad MIDI companion — source project, V26.20
+BenKen iPad MIDI companion — source project, V26.21
 
 This small iPad/iPhone app opens the GitHub web app in WKWebView and connects
 Core MIDI to BenKen's MIDI Learn. It uses the same Web Audio playback engine;
@@ -6,8 +6,8 @@ it does not remove the web audio memory limit or introduce a new native mixer.
 The standalone native audio project from earlier work is a separate project.
 
 BUILD AND TEST ON YOUR MAC
-1. Upload the V26.20 web files to the existing GitHub repository and wait
-   until https://kenhje.github.io/BenKenStagePro/ shows V26.20.
+1. Upload the V26.21 web files to the existing GitHub repository and wait
+   until https://kenhje.github.io/BenKenStagePro/ shows V26.21.
 2. Open BenKenStagePro.xcodeproj in Xcode on your Mac.
 3. Select the BenKenStagePro target > Signing & Capabilities, choose your
    Apple development team and, if needed, a unique bundle identifier.
@@ -40,6 +40,9 @@ No SysEx is requested or sent by this companion app.
 WHAT TO VERIFY ON THE IPAD
 - Read every Ui24R output, route the stems and listen for click separation.
 - Check original-tempo and changed-tempo playback and the song/master faders.
+- Test a 2-bar and 4-bar count-in, beat lights and Stop during the count.
+- Start the metronome without backing audio and verify the selected bus.
+- Test per-entry autoplay, including an On entry followed by an Off entry.
 - Confirm learned footswitches work once per press and expression volume moves.
 - If using Bluetooth, pair the MIDI adapter and repeat the playback tests.
 - Verify save/import/export and reopening of your projects in the companion app.
