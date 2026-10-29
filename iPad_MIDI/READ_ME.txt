@@ -1,4 +1,4 @@
-BenKen iPad MIDI companion — source project, V26.28
+BenKen iPad MIDI companion — source project, V26.29
 
 This small iPad/iPhone app opens the GitHub web app in WKWebView and connects
 Core MIDI to BenKen's MIDI Learn. It uses the same Web Audio playback engine;
@@ -6,8 +6,8 @@ it does not remove the web audio memory limit or introduce a new native mixer.
 The standalone native audio project from earlier work is a separate project.
 
 BUILD AND TEST ON YOUR MAC
-1. Upload the V26.28 web files to the existing GitHub repository and wait
-   until https://kenhje.github.io/BenKenStagePro/ shows V26.28.
+1. Upload the V26.29 web files to the existing GitHub repository and wait
+   until https://kenhje.github.io/BenKenStagePro/ shows V26.29.
 2. Open BenKenStagePro.xcodeproj in Xcode on your Mac.
 3. Select the BenKenStagePro target > Signing & Capabilities, choose your
    Apple development team and, if needed, a unique bundle identifier.
@@ -71,16 +71,22 @@ background playback/MIDI workflow.
 Source uses Apple system frameworks only: SwiftUI, WebKit, Core MIDI,
 Core Audio Kit and AVFoundation. No third-party SDK or account service is added.
 
-V26.28 EXTERNAL SCREEN NOTE
+V26.29 EXTERNAL SCREEN NOTE
 The separate lyrics popup is intended for the Mac browser. This optional
 WKWebView MIDI wrapper does not implement a separate native external-display
 scene or popup presenter. On iPad 6, use system screen mirroring.
 
-V26.28 PREPARED AUDIO / APPEARANCE
+V26.29 PREPARED AUDIO / APPEARANCE
 The hosted web update adds local prepared-key PCM reuse, cancel/retry progress,
 text navigation buttons, directly editable song Notes, independent title size,
 centered lyrics, Dark/Light palettes and a shared active-button accent. Let
 each transposed song finish
-preparing once in V26.28 before testing reopening. Original audio storage is
+preparing once in V26.29 before testing reopening. Original audio storage is
 unchanged. This optional wrapper still uses the web engine and its 256 MiB
 working-memory guard; native compilation and device tests remain outstanding.
+
+V26.29 SETTINGS / SKIN
+The hosted web update adds a bounded native-scrolling Settings panel and shared
+skin colors across all ordinary buttons, fields and mixer tools. Audio engine,
+Core MIDI and the current foreground-only wrapper behavior are unchanged.
+Physical scrolling and Xcode compilation remain unverified here.
