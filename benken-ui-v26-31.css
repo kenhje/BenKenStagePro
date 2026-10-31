@@ -1,0 +1,735 @@
+/* BenKen V26.31: matching mixer and performance styles. */
+/* BenKen V26.7: channel-strip mixer, native accessible range controls. */
+#mixerBtn{color:var(--text)}
+#mixerDialog{--fader-height:clamp(170px,27dvh,260px);width:min(1320px,calc(100% - 16px));max-width:1320px;max-height:96dvh;box-sizing:border-box;padding:14px;background:var(--app-panel);color:var(--text);border:1px solid var(--app-border);border-radius:10px;overflow:auto;box-shadow:0 18px 75px #000b;font-family:Arial,Helvetica,sans-serif}
+#mixerDialog::backdrop{background:var(--ui-backdrop)}
+#mixerDialog button,#mixerDialog select,#mixerDialog input{box-sizing:border-box}
+#mixerDialog button{border-radius:5px;border:1px solid var(--app-border);background:var(--app-raised);box-shadow:inset 0 1px #ffffff19,0 2px 3px #0007;min-height:38px;padding:8px 12px;font-size:11px;color:var(--text)}
+#mixerDialog button:active{background:var(--app-raised);box-shadow:inset 0 2px 5px #0008}
+#mixerDialog button:disabled{opacity:.4}
+#mixerDialog input:focus-visible,#mixerDialog button:focus-visible,#mixerDialog select:focus-visible{outline:2px solid var(--app-border);outline-offset:2px}
+#mixerDialog .dialog-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+#mixerDialog .dialog-heading h2{font-size:14px;margin:0;letter-spacing:2px;color:var(--text)}
+#mixerSong{display:block;font-size:18px;font-weight:700;color:var(--text);margin-top:4px}
+#mixerDialog .mixer-transport{display:flex;align-items:center;gap:6px;margin-left:auto}
+#mixerDialog #mixerPlay{background:var(--app-panel);border-color:var(--app-border);min-width:78px}
+#mixerDialog #mixerStop{background:var(--app-panel);border-color:var(--app-border);min-width:68px}
+#mixerDialog #closeMixer{min-width:38px;padding:8px}
+#mixerPosition{font-size:12px;color:var(--text);min-width:66px;font-variant-numeric:tabular-nums;margin:0 5px}
+#mixerDialog .mixer-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;border-top:1px solid var(--app-border);border-bottom:1px solid var(--app-border);padding:8px 0}
+#mixerDialog .mixer-tabs,#mixerDialog .mixer-file-actions{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+#mixerDialog .mixer-tabs button{font-weight:700;letter-spacing:.7px}
+#mixerDialog .mixer-tabs button[aria-pressed=true]{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+#mixerDialog #projectImport{color:var(--text);border-color:var(--app-border)}
+#mixerDialog .output-choice{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0;font-size:10px;color:var(--text)}
+#mixerDialog .output-choice select{max-width:100%;min-height:36px;padding:4px 8px;font-size:11px}
+#mixerOutputs{font-size:11px;color:var(--text);margin-left:auto}
+#mixerStatus{font-size:12px;line-height:1.5;color:var(--text);padding:4px 0;min-height:18px;overflow-wrap:anywhere}
+#mixerStatus[data-error=true]{color:var(--ui-error)}
+#mixerDialog .routing-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;font-size:11px;color:var(--text)}
+#routingSummary[data-direct=true]{color:var(--text)}
+#mixerDialog #routeDirect{font-size:10px;color:var(--text);border-color:var(--app-border)}
+#mixerDialog .bus-view-options{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:6px 0;font-size:11px;color:var(--text)}
+#mixerDialog .bus-view-options label{white-space:nowrap}
+#mixerDialog .mixer-empty{padding:25px;border:1px dashed var(--app-border);color:var(--text);text-align:center;font-size:13px}
+#mixerDialog .mixer-console{display:grid;grid-template-columns:minmax(0,1fr) 146px;gap:10px;align-items:start;background:var(--app-panel);padding:6px;border:1px solid var(--app-border);border-top-color:#63696f;border-radius:6px;box-shadow:inset 0 1px 8px #0008}
+#mixerTracks,#mixerBuses{display:flex;gap:3px;overflow-x:auto;overflow-y:hidden;min-width:0;padding-bottom:7px;scroll-snap-type:x proximity;overscroll-behavior-x:contain;scrollbar-color:#70777d #20252b}
+#mixerDialog .stem-strip{--channel-color:#8dbaa7;flex:0 0 146px;min-width:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:24px 24px 20px 28px 48px 26px var(--fader-height) 24px 54px 54px 44px;align-items:center;box-sizing:border-box;padding:8px 8px 0;border:1px solid var(--app-border);border-bottom:0;border-radius:4px 4px 0 0;background:var(--app-panel);box-shadow:inset 1px 0 #ffffff0a,inset -1px 0 #0005;scroll-snap-align:start}
+#mixerDialog .strip-header{grid-row:1;display:flex;align-items:center;justify-content:space-between;font-size:10px;font-weight:700;letter-spacing:.6px;color:var(--text);min-width:0}
+#mixerDialog .strip-header button{border:0;background:transparent;box-shadow:none;padding:0;min-width:30px;min-height:24px;color:var(--text);font-size:11px}
+#mixerDialog .strip-kind{font-size:9px;color:var(--text)}
+#mixerDialog .route-badge{grid-row:2;font-size:9px;line-height:20px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;background:var(--app-panel);border:1px solid var(--app-border);border-left:3px solid var(--channel-color);border-radius:3px;padding:0 4px;color:var(--text);font-variant-numeric:tabular-nums}
+#mixerDialog .direct-route{border-left-color:#d5a86f;color:var(--text)}
+#mixerDialog .stem-file{grid-row:3;font-size:8px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;margin:0}
+#mixerDialog .stem-pan{grid-row:4;display:flex;align-items:center;gap:5px;font-size:8px;color:var(--text);min-width:0}
+#mixerDialog .stem-pan input{appearance:none;-webkit-appearance:none;flex:1;min-width:0;width:100%;height:24px;margin:0;padding:0;background:transparent;border:0;box-shadow:none;touch-action:none}
+#mixerDialog .stem-pan input::-webkit-slider-runnable-track{height:4px;background:#10141a;border:1px solid #111}
+#mixerDialog .stem-pan input::-moz-range-track{height:4px;background:#10141a;border:1px solid #111}
+#mixerDialog .stem-pan input::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:13px;height:19px;margin-top:-8px;border:1px solid #0b0c0f;border-radius:3px;background:linear-gradient(90deg,#7f8790,#d8dce0 42%,#1b2025 47%,#1b2025 53%,#d0d4d8 58%,#828992);box-shadow:1px 2px 3px #0008}
+#mixerDialog .stem-pan input::-moz-range-thumb{width:13px;height:19px;border:1px solid #0b0c0f;border-radius:3px;background:linear-gradient(90deg,#7f8790,#d8dce0 42%,#1b2025 47%,#1b2025 53%,#d0d4d8 58%,#828992)}
+#mixerDialog .stem-switches{grid-row:5;display:flex;align-items:center;gap:5px}
+#mixerDialog .stem-switches button{min-width:0;flex:1;min-height:44px;padding:5px 2px;font-size:9px;font-weight:700;letter-spacing:.5px}
+#mixerDialog .stem-switches .mute-on{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+#mixerDialog .stem-switches .solo-on{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+#mixerDialog .fader-value{grid-row:6;display:flex;align-items:center;justify-content:center;gap:5px;color:var(--text);font-variant-numeric:tabular-nums}
+#mixerDialog .fader-value output{font-size:15px;font-weight:700;letter-spacing:.1px}
+#mixerDialog .fader-value button{padding:0 4px;min-height:22px;min-width:22px;font-size:9px;color:var(--text)}
+#mixerDialog .fader-bank{grid-row:7;position:relative;display:grid;grid-template-columns:30px minmax(42px,1fr) 14px;column-gap:3px;align-items:stretch;height:var(--fader-height);margin:0 4px}
+#mixerDialog .fader-scale{position:relative;margin:11px 0;font-size:9px;color:var(--text);font-variant-numeric:tabular-nums}
+#mixerDialog .fader-tick{position:absolute;right:0;width:30px;text-align:left;line-height:1;transform:translateY(50%);font-size:9px;color:var(--text)}
+#mixerDialog .fader-tick::after{content:"";position:absolute;right:0;top:50%;width:6px;border-top:1px solid var(--app-border)}
+#mixerDialog .unity-tick{color:var(--text);font-weight:700}
+#mixerDialog .unity-tick::after{border-color:var(--app-border);width:10px}
+#mixerDialog .fader-axis{position:relative;height:100%;min-width:44px;overflow:hidden}
+#mixerDialog .fader-range{position:absolute;top:50%;left:50%;width:var(--fader-height);height:44px;transform:translate(-50%,-50%) rotate(-90deg);z-index:2}
+#mixerDialog input.mixer-fader{appearance:none;-webkit-appearance:none;writing-mode:horizontal-tb;direction:ltr;width:100%;height:44px;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;outline-offset:0;touch-action:none;cursor:ns-resize}
+#mixerDialog input.mixer-fader::-webkit-slider-runnable-track{height:8px;border:1px solid #0a0e12;border-radius:4px;background:linear-gradient(#0a0d10,#161c22);box-shadow:inset 0 1px 3px #000,0 1px #626a7466}
+#mixerDialog input.mixer-fader::-moz-range-track{height:8px;border:1px solid #0a0e12;border-radius:4px;background:linear-gradient(#0a0d10,#161c22);box-shadow:inset 0 1px 3px #000,0 1px #626a7466}
+#mixerDialog input.mixer-fader::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:22px;height:40px;margin-top:-17px;border:1px solid #161a20;border-radius:3px;background:linear-gradient(90deg,#626c78 0%,#d4d9dd 12%,#f4f6f7 24%,#c4cbd1 42%,#11161b 46%,#11161b 54%,#c0c7ce 58%,#e5e9ec 76%,#a4adb7 90%,#5d6874);box-shadow:-1px 0 1px #ffffff80,2px 2px 4px #000b}
+#mixerDialog input.mixer-fader::-moz-range-thumb{width:22px;height:40px;border:1px solid #161a20;border-radius:3px;background:linear-gradient(90deg,#626c78 0%,#d4d9dd 12%,#f4f6f7 24%,#c4cbd1 42%,#11161b 46%,#11161b 54%,#c0c7ce 58%,#e5e9ec 76%,#a4adb7 90%,#5d6874);box-shadow:-1px 0 1px #ffffff80,2px 2px 4px #000b}
+#mixerDialog .unity-mark{position:absolute;left:4px;right:4px;top:calc(25% + 5.5px);border-top:1px solid var(--app-border);z-index:0}
+#mixerDialog .stem-meter{position:relative;background:#080f0d;border:1px solid #151b18;border-radius:2px;overflow:hidden;box-shadow:inset 0 0 3px #000,1px 0 #ffffff17;margin:11px 0}
+#mixerDialog .vertical-meter::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to top,transparent 0,transparent 5px,#101813aa 5px,#101813aa 6px);pointer-events:none}
+#mixerDialog .stem-meter>div{position:absolute;bottom:0;left:0;right:0;height:0;width:100%;background:linear-gradient(to top,#3cae75,#91d17a 75%,#d9d37a 92%,#e08066);background-size:100% calc(var(--fader-height) - 22px);background-position:bottom;background-repeat:no-repeat;transition:height 75ms linear}
+#mixerDialog .stem-meter[data-zone=clip]{border-color:#fb8c74;box-shadow:0 0 4px #ff735c}
+#mixerDialog .stem-meter[data-zone=clip]>div{background:#f08b70}
+#mixerDialog .level-readout{grid-row:8;display:flex;align-items:center;justify-content:space-between;gap:4px;font-variant-numeric:tabular-nums;font-size:9px;color:var(--text)}
+#mixerDialog .level-readout span{font-size:7px;letter-spacing:.6px;color:var(--text)}
+#mixerDialog .level-readout output{font-size:9px;white-space:nowrap}
+#mixerDialog .stem-bus-choice{grid-row:9;display:block;font-size:8px;letter-spacing:.4px;color:var(--text)}
+#mixerDialog .stem-routing{grid-row:10;display:flex;align-items:center;gap:5px;min-width:0}
+#mixerDialog .stem-routing label{flex:1;min-width:0;font-size:8px;letter-spacing:.4px;color:var(--text)}
+#mixerDialog .stem-routing select,#mixerDialog .stem-bus-choice select{display:block;width:100%;min-height:34px;border:1px solid var(--app-border);border-radius:3px;padding:3px 4px;margin-top:3px;background:var(--app-raised);color:var(--text);font-size:11px;letter-spacing:0}
+#mixerDialog .channel-label{grid-row:11;align-self:stretch;display:flex;flex-direction:column;justify-content:center;margin:4px -8px 0;padding:4px 6px;background:var(--channel-color);border-top:1px solid #ffffff44;border-bottom:3px solid #0004;color:#102021;min-width:0}
+#mixerDialog .channel-label span{font-size:7px;letter-spacing:.8px;font-weight:700;color:#142a2a}
+#mixerDialog .channel-label input{display:block;width:100%;font-size:13px;font-weight:700;margin:0;padding:2px 0 0;border:0;border-radius:0;background:transparent;color:#101f20;box-shadow:none;text-overflow:ellipsis}
+#mixerDialog .bus-strip{background:var(--app-panel)}
+#mixerDialog .bus-strip .stem-routing{grid-row:9 / 11;align-self:stretch;align-items:center}
+#mixerDialog .master-strip{--channel-color:#ddc07d;display:grid;position:sticky;right:0;z-index:3;width:100%;margin:0;padding:8px 8px 0;background:var(--app-panel);border-color:var(--app-border);box-shadow:-4px 0 10px #0008}
+#mixerDialog .master-strip .strip-header{color:var(--text)}
+#mixerDialog .master-strip .route-badge{color:var(--text);background:var(--app-panel);font-size:8px}
+#mixerDialog .master-spacer{grid-row:4 / 6}
+#masterFaderMount{grid-row:7;align-self:stretch}
+#mixerDialog .master-held{grid-row:9;display:flex;flex-direction:column;gap:4px;text-align:center;font-variant-numeric:tabular-nums;color:var(--text)}
+#mixerDialog .master-held small{font-size:8px;letter-spacing:1px}
+#mixerDialog .master-held output{font-size:12px}
+#mixerDialog #resetMasterPeak{grid-row:10;min-height:34px;font-size:8px;padding:5px;border-color:var(--app-border)}
+#mixerDialog .master-label{grid-row:11;display:flex;align-self:stretch;align-items:center;justify-content:center;margin:4px -8px 0;background:var(--app-panel);color:var(--text);font-size:13px;font-weight:700;letter-spacing:1.6px;border-bottom:3px solid var(--app-border)}
+#mixerDialog .memory-summary{border-top:1px solid var(--app-border);margin-top:8px;padding:10px 0 2px;font-size:10px;color:var(--text)}
+#mixerDialog .memory-heading{display:flex;align-items:center;gap:12px;justify-content:space-between}
+#mixerMemoryText{font-variant-numeric:tabular-nums}
+#mixerMemory{width:180px;height:7px;border:1px solid var(--app-border);background:var(--app-panel);overflow:hidden}
+#mixerMemoryFill{height:100%;width:0;background:var(--app-panel)}
+#mixerMemory[data-over=true]{border-color:var(--ui-error)}
+#mixerMemory[data-over=true]>div{background:var(--app-panel)}
+#mixerMemoryHelp{line-height:1.5;color:var(--text);margin:6px 0}
+#mixerDialog details.mixer-help{font-size:11px;border:1px solid var(--app-border);border-radius:5px;margin-top:8px;padding:10px;background:var(--app-panel)}
+#mixerDialog details summary{cursor:pointer;min-height:24px;color:var(--text)}
+#mixerDialog details p{line-height:1.65;color:var(--text)}
+#mixerDialog details .mixer-file-actions{margin-top:10px}
+#mixerDialog .project-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:10px 0}
+#mixerDialog .project-actions select{min-height:38px;font-size:11px;max-width:100%}
+@media(max-width:700px){#mixerDialog{padding:10px;--fader-height:210px}#mixerDialog .dialog-heading{flex-wrap:wrap;gap:7px}#mixerSong{font-size:16px}#mixerDialog .dialog-heading>div:first-child{max-width:calc(100% - 44px)}#mixerDialog .mixer-transport{order:3;flex-basis:100%;margin:0}#mixerDialog #closeMixer{margin-left:auto}#mixerDialog .mixer-toolbar{align-items:stretch}#mixerDialog .mixer-console{grid-template-columns:minmax(0,1fr) 122px;gap:5px;padding:4px}#mixerDialog .stem-strip{flex-basis:140px}#mixerDialog .master-strip{width:122px}#mixerOutputs{margin-left:0;flex-basis:100%}#mixerDialog .routing-summary{flex-wrap:wrap}#mixerDialog .memory-heading{flex-wrap:wrap;gap:6px}#mixerMemory{width:100%}#mixerDialog .mixer-file-actions button{font-size:10px}#mixerDialog .bus-view-options span{line-height:1.5}#mixerDialog .master-strip .fader-value output{font-size:13px}}
+@media(prefers-reduced-motion:reduce){#mixerDialog .stem-meter>div{transition:none}}
+
+/* V26.31: six additive mute groups and per-song file list. */
+#mixerDialog .stem-strip{grid-template-rows:24px 24px 20px 28px 48px 26px var(--fader-height) 24px 54px 54px 34px 44px}
+#mixerDialog .channel-label,#mixerDialog .master-label{grid-row:12}
+#mixerDialog #mixerMasterMute{grid-row:11;min-height:30px;padding:4px;font-size:9px}
+#mixerMasterMute[aria-pressed=true]{background:var(--app-accent)!important;border-color:var(--app-border)!important;color:var(--app-ink)!important}
+#mixerDialog .mixer-mute-groups{display:flex;align-items:center;gap:6px;overflow-x:auto;margin:5px 0 8px;padding:3px 0}
+.mixer-mute-groups>span{font-size:9px;letter-spacing:.7px;color:var(--text);margin-right:3px}
+#mixerDialog .mixer-mute-groups button{flex:1 0 85px;min-height:38px;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;padding:5px}
+#mixerDialog .mixer-mute-groups button[aria-pressed=true]{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+#mixerDialog .track-groups{grid-row:11;position:relative;font-size:9px;z-index:4}
+#mixerDialog .track-groups summary{font-size:8px;cursor:pointer;padding:6px 3px;border:1px solid var(--app-border);border-radius:3px;background:var(--app-panel);color:var(--text)}
+#mixerDialog .group-assignment{position:absolute;bottom:calc(100% + 5px);left:-5px;right:-5px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:7px;background:var(--app-panel);border:1px solid var(--app-border);border-radius:5px;box-shadow:0 -5px 20px #000a}
+#mixerDialog .group-assignment button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:44px;min-width:0;padding:5px 2px;font-size:8px}
+.group-assignment b{font-size:12px}.group-assignment span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#mixerDialog .group-assignment button[aria-pressed=true]{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+#mixerSongFiles{overflow-x:auto;font-size:11px;margin:10px 0}
+#mixerSongFiles table{width:100%;border-collapse:collapse}
+#mixerSongFiles th,#mixerSongFiles td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--app-border);overflow-wrap:anywhere}
+#mixerSongFiles th{font-size:10px;color:var(--text)}
+
+/* Keep import guidance and preparation available without opening a help section. */
+.mixer-import-help{font-size:12px;line-height:1.6;color:var(--text);margin:8px 0}
+.mixer-readiness{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:6px 0}
+.mixer-readiness #mixerStatus{flex:1;min-width:180px;margin:0}
+.mixer-readiness #prepareAudio{min-height:44px;font-size:11px}
+/* V26.31: song and master levels, mute group view, tempo and MIDI. */
+#mixerDialog .mixer-console{grid-template-columns:minmax(0,1fr) auto}
+#mixerDialog .mixer-masters{display:flex;gap:3px;min-width:0}
+#mixerDialog .mixer-masters .master-strip{position:static;width:110px;flex:0 0 110px}
+#mixerDialog .song-strip{background:var(--app-panel);border-color:var(--app-border);--channel-color:#89cdb8}
+#mixerDialog .song-strip .master-label{background:var(--app-panel);color:var(--text)}
+#mixerDialog .mixer-masters .fader-value output{font-size:15px}
+#mixerDialog .mixer-masters .fader-value button{font-size:9px;min-width:24px;padding:2px}
+#mixerDialog.mixer-narrow .mixer-masters .master-strip{width:94px;flex-basis:94px}
+#mixerDialog #mixerGroupView{padding:12px 0}
+#mixerDialog #mixerGroups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#mixerDialog #mixerGroups>span{grid-column:1/-1}
+#mixerDialog #mixerGroups button{min-height:56px;font-size:13px;overflow-wrap:anywhere}
+#mixerGroupMembers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+#mixerGroupMembers article{padding:12px;border:1px solid var(--app-border);border-radius:5px;background:var(--app-panel);font-size:12px;overflow-wrap:anywhere}
+#mixerGroupMembers p{font-size:11px;color:var(--text);margin-bottom:0}
+#mixerDialog .tempo-panel{display:flex;align-items:end;flex-wrap:wrap;gap:10px;padding:14px 0;border-bottom:1px solid var(--app-border)}
+#mixerDialog .tempo-panel label{font-size:11px;display:grid;gap:6px}
+#mixerDialog .tempo-panel input{width:110px;min-height:40px;font-size:16px}
+#mixerDialog .tempo-panel small,#tempoStatus{flex-basis:100%;font-size:11px;color:var(--text);margin:0}
+#mixerDialog .hidden{display:none!important}
+#midiDialog{width:min(640px,calc(100% - 24px));max-height:90dvh;box-sizing:border-box;padding:20px;border:1px solid var(--app-border);border-radius:10px;background:var(--app-panel);color:var(--text);overflow:auto;font:14px/1.5 Arial,sans-serif}
+#midiDialog::backdrop{background:var(--ui-backdrop)}
+.midi-heading,.midi-connection,.midi-learn,.midi-assignment{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.midi-heading{justify-content:space-between}.midi-heading h2{font-size:18px;margin:0}
+#midiDialog button,#midiDialog select{min-height:44px;padding:8px 12px;font:inherit;border-radius:5px;background:var(--app-raised);color:var(--text);border:1px solid var(--app-border)}
+.midi-connection,.midi-learn{margin:18px 0}.midi-learn label{display:grid;gap:5px;flex:1}.midi-assignment{border-top:1px solid var(--app-border);padding:9px 0}.midi-assignment span{flex:1}.midi-assignment small{color:var(--text)}
+#midiStatus{min-height:44px;color:var(--text);overflow-wrap:anywhere}
+@media(max-width:700px){#mixerDialog .mixer-masters .master-strip{width:86px;flex-basis:86px;padding:5px 5px 0}#mixerDialog .mixer-masters .fader-value{flex-wrap:wrap}#mixerDialog .mixer-masters .fader-value output{font-size:12px}#mixerGroupMembers{grid-template-columns:repeat(2,minmax(0,1fr))}#mixerDialog #mixerGroups{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#globalMasterFaderMount{grid-row:7;align-self:stretch}
+#mixerDialog #mixerGroupTab[aria-pressed=true]{background:var(--app-accent);border-color:var(--app-border)}
+
+/* V26.31: large user-selected controls and a real audio overview. */
+body.has-performance-bar:not(.stage-fullscreen){padding-bottom:var(--performance-space,190px)}
+.performance-bar{position:fixed;left:0;right:0;bottom:0;z-index:35;padding:8px max(10px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));background:var(--app-panel);border-top:1px solid var(--app-border);box-shadow:0 -8px 25px #0008;color:var(--text);box-sizing:border-box;transition:opacity .15s,transform .15s}
+/* Only the page footer follows the visible viewport. Mixer controls keep their
+   existing place in the dialog and share the same buttons and audio engine. */
+#performanceHome>.performance-bar{top:var(--controls-top,auto);bottom:var(--controls-bottom,0px);left:var(--controls-left,0px);right:auto;width:var(--controls-width,100%);max-height:var(--controls-height,100dvh);overflow-y:auto;overscroll-behavior:contain}
+.performance-heading{display:flex;align-items:center;gap:8px;min-width:0;margin-bottom:6px;flex-wrap:wrap}
+.performance-song-titles{display:flex;align-items:baseline;gap:14px;flex:1 1 360px;min-width:0;max-width:100%}
+.performance-song-titles #performanceSong{flex:1 1 50%;min-width:0;margin:0}
+#performanceNext{flex:1 1 50%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;color:var(--song-color,var(--app-muted,var(--text)))}
+@media(max-width:600px){.performance-song-titles{flex-basis:100%;gap:10px}#performanceNext{font-size:12px}.performance-song-titles #performanceSong{flex-basis:50%;font-size:14px}}
+#performanceSong{min-width:100px;flex:1;font-size:16px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.performance-bar button,.performance-bar select{box-sizing:border-box;border:1px solid var(--app-border);border-radius:5px;background:var(--app-raised);color:var(--text);box-shadow:inset 0 1px #fff2,0 2px 4px #0007;font-family:inherit}
+.performance-heading button{min-height:34px;padding:5px 10px;font-size:10px;letter-spacing:.5px}
+#performanceWaveToggle[aria-pressed=true]{background:var(--app-accent);border-color:var(--app-border)}
+#performanceWaveTrack{font-size:11px;max-width:170px;min-height:34px;padding:4px}
+.performance-timeline{position:relative;height:28px;border:1px solid var(--app-border);border-radius:4px;background:var(--app-panel);overflow:hidden;transition:height .1s}
+.performance-timeline.has-waveform{height:68px}
+.performance-timeline:focus-within{outline:2px solid var(--app-border);outline-offset:2px}
+.performance-progress{position:absolute;left:0;top:0;bottom:0;width:0;background:#8ab89a2d;border-right:1px solid #e5d79777;pointer-events:none}
+.wave-graphic{position:absolute;inset:3px 0;pointer-events:none}
+.wave-graphic svg{display:block;width:100%;height:100%}
+.wave-graphic path{fill:#89bbae;stroke:#abd6c5;stroke-width:.8;vector-effect:non-scaling-stroke}
+.performance-cursor{position:absolute;left:0;top:0;bottom:0;width:2px;background:#efe1a8;box-shadow:0 0 5px #f1d88677;pointer-events:none}
+#performanceWaveState{position:absolute;left:8px;top:7px;font-size:10px;color:var(--text);pointer-events:none}
+#performanceSeek{appearance:none;-webkit-appearance:none;position:absolute;inset:0;width:100%;height:100%;padding:0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;touch-action:none;cursor:ew-resize}
+#performanceSeek::-webkit-slider-runnable-track{height:100%;background:transparent;border:0}
+#performanceSeek::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:10px;height:28px;border:1px solid #ecdd9d;border-radius:2px;background:#e4d49355}
+.has-waveform #performanceSeek::-webkit-slider-thumb{height:68px}
+#performanceSeek::-moz-range-track{height:100%;background:transparent;border:0}
+#performanceSeek::-moz-range-thumb{width:10px;height:28px;border:1px solid #ecdd9d;border-radius:2px;background:#e4d49355}
+.has-waveform #performanceSeek::-moz-range-thumb{height:68px}
+#performanceSeek:disabled{cursor:default;opacity:.4}
+.performance-times{display:flex;justify-content:space-between;gap:10px;padding:4px 1px 5px;font-size:11px;color:var(--text);font-variant-numeric:tabular-nums}
+.performance-controls{display:flex;align-items:stretch;gap:7px;overflow-x:auto;padding-bottom:3px;scrollbar-color:#69837a #18232d}
+.performance-controls .performance-action{flex:1 0 84px;max-width:160px;min-height:68px;padding:8px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:11px;font-weight:700;letter-spacing:.4px;touch-action:manipulation}
+.performance-action svg{width:29px;height:28px;display:block;overflow:visible}
+.performance-action svg path{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.performance-controls .action-play{background:var(--app-panel);border-color:var(--app-border);color:var(--text)}
+.action-play svg path,.action-stop svg path{fill:currentColor}
+.performance-controls .action-stop{background:var(--app-panel);border-color:var(--app-border);color:var(--text)}
+.performance-controls .action-play.action-active{background:var(--app-accent);box-shadow:inset 0 1px #fff4,0 0 8px #77c58b33}
+.performance-controls .action-mute.action-active,.performance-controls [class*=action-group].action-active{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+.performance-controls .performance-action:disabled{opacity:.4;box-shadow:none}
+.performance-controls .performance-action span:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.action-group-number{font-size:24px;line-height:27px}
+#performanceStatus{font-size:11px;color:var(--text);line-height:1.4}
+#performanceStatus:empty{display:none}
+body.stage-fullscreen.stage-controls-hidden .performance-bar{visibility:hidden;opacity:0;transform:translateY(110%);pointer-events:none}
+#performanceSettings{width:min(760px,calc(100% - 20px));max-width:760px;max-height:90dvh;overflow:auto;border:1px solid var(--app-border);border-radius:10px;padding:20px;background:var(--app-panel);color:var(--text);box-sizing:border-box}
+#performanceSettings::backdrop{background:var(--ui-backdrop)}
+.performance-settings-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.performance-settings-heading h2{font-size:21px;margin:0}
+.performance-settings-heading button{min-width:44px;min-height:44px}
+#performanceSettings p{font-size:12px;color:var(--text);line-height:1.7}
+#performanceSettings h3{font-size:15px;margin:22px 0 8px;color:var(--text)}
+.performance-settings-options{display:grid;gap:12px;margin-top:15px;font-size:12px}
+.performance-settings-options input[type=number]{width:70px;min-height:38px}
+.control-config-row{display:grid;grid-template-columns:24px minmax(140px,1fr) minmax(120px,1fr);align-items:center;gap:8px;margin-bottom:8px}
+.control-config-row span{font-size:12px;color:var(--text)}
+.control-config-row select,.control-config-row input{min-width:0;width:100%;min-height:40px;font-size:12px}
+#performanceGroupNames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#performanceGroupNames label{font-size:11px;color:var(--text)}
+#performanceGroupNames input{display:block;width:100%;min-width:0;min-height:40px;margin-top:5px;box-sizing:border-box;font-size:12px}
+#performanceSettingsStatus{color:var(--text)!important}
+.performance-settings-footer{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;position:sticky;bottom:-20px;background:var(--app-panel);padding:14px 0 10px;border-top:1px solid var(--app-border)}
+.performance-settings-footer button{min-height:44px;font-size:11px}
+#performanceSettingsSave{background:var(--app-panel);border-color:var(--app-border)}
+@media(max-width:600px){.performance-bar{padding:7px 8px max(7px,env(safe-area-inset-bottom))}.performance-heading{gap:6px}#performanceSong{flex-basis:calc(100% - 195px);font-size:14px}.performance-heading button{font-size:9px;padding:5px 7px}.performance-controls .performance-action{flex-basis:82px;min-height:66px;font-size:10px}.control-config-row{grid-template-columns:20px minmax(100px,1fr);gap:5px}.control-config-row input{grid-column:2}#performanceGroupNames{grid-template-columns:repeat(2,minmax(0,1fr))}#performanceSettings{padding:14px}.performance-settings-footer{bottom:-14px}}
+@media(prefers-reduced-motion:reduce){.performance-bar,.performance-timeline{transition:none}}
+
+/* V26.31: four primary actions, with detailed mixer setup in one place. */
+header .clean-bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:min(660px,100%);gap:8px}
+header .clean-bar button{display:flex!important;align-items:center;justify-content:center;min-width:0!important;min-height:44px;padding:9px 8px;font-size:12px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+header .clean-bar button[aria-pressed=true]{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+.side-modes{display:flex;gap:6px;margin:0 0 12px}
+.side-modes button{flex:1;min-height:38px;padding:6px;font-size:11px}
+.side-modes button[aria-pressed=true]{background:var(--app-accent);border-color:var(--app-border)}
+.performance-controls.controls-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));max-height:40dvh;overflow-y:auto}
+.performance-controls.controls-wrap .performance-action{max-width:none;min-width:0}
+.control-presets{display:flex;gap:8px;margin:10px 0}
+.control-presets button{min-height:40px;font-size:11px}
+#mixerDialog .stem-strip{grid-template-rows:24px 24px 20px 28px 48px 26px var(--fader-height) 24px 54px 38px 44px}
+#mixerDialog .stem-strip:not(.master-strip){border-top:3px solid var(--channel-color);background:linear-gradient(90deg,#252c35ef,#39424aee 45%,#252c35ef),var(--channel-color)}
+#mixerDialog .channel-label,#mixerDialog .master-label{grid-row:11}
+#mixerDialog .channel-label,#mixerDialog .channel-label span,#mixerDialog .channel-label input{color:var(--channel-ink,#102021)}
+#mixerDialog button.route-badge{min-height:24px;padding:1px 4px;text-align:left;font-size:9px;letter-spacing:0;box-shadow:none}
+#mixerDialog .group-summary{grid-row:9;display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:0;min-height:44px;padding:5px;text-align:left;box-shadow:none;background:var(--app-panel);font-size:10px}
+#mixerDialog .group-summary small{font-size:7px;color:var(--text);letter-spacing:.7px}
+#mixerDialog .group-summary span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#mixerDialog .channel-setup{grid-row:10;min-height:34px;padding:5px;font-size:8px;letter-spacing:.2px}
+#mixerDialog .bus-members{grid-row:9;color:var(--text);font-size:9px;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+#mixerDialog .master-actions{grid-row:10;display:flex;gap:4px;min-width:0}
+#mixerDialog .master-actions #resetMasterPeak,#mixerDialog .master-actions #mixerMasterMute{flex:1;grid-row:auto;min-width:0;min-height:34px;padding:4px 2px;font-size:8px}
+#mixerDialog #mixerSettingsBtn{color:var(--text);border-color:var(--app-border);font-size:10px;letter-spacing:.2px}
+#mixerSetupDialog{width:min(1160px,calc(100% - 20px));max-width:1160px;max-height:92dvh;box-sizing:border-box;padding:20px;border:1px solid var(--app-border);border-radius:10px;background:var(--app-panel);color:var(--text);box-shadow:0 20px 70px #000b}
+#mixerSetupDialog[open]{display:flex;flex-direction:column;gap:12px}
+#mixerSetupDialog::backdrop{background:var(--ui-backdrop)}
+.setup-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:none}
+.setup-heading h2{font-size:21px;margin:0 0 5px;color:var(--text)}
+#mixerSetupSong{font-size:14px;font-weight:500;color:var(--text)}
+#mixerSetupDialog button,#mixerSetupDialog input,#mixerSetupDialog select{box-sizing:border-box;font-family:inherit}
+#mixerSetupDialog button{min-height:40px;font-size:11px}
+.setup-heading button{min-width:44px;min-height:44px}
+.setup-tabs{display:flex;gap:7px;flex:none;flex-wrap:wrap}
+.setup-tabs button{flex:1;font-weight:700;letter-spacing:.5px}
+.setup-tabs button[aria-pressed=true]{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+#mixerSetupHelp{flex:none;margin:0;color:var(--text);font-size:12px;line-height:1.65}
+#mixerSetupBody{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding-right:3px}
+.setup-track-heading,.setup-track-row{display:grid;grid-template-columns:minmax(180px,.95fr) minmax(190px,1fr) minmax(225px,1.15fr);gap:16px}
+.setup-track-heading{font-size:11px;color:var(--text);padding:8px 12px}
+.setup-track-row,.setup-bus-row{border:1px solid var(--app-border);border-left:5px solid var(--channel-color);border-radius:5px;margin-bottom:9px;padding:12px;background:var(--app-panel);align-items:start}
+.setup-identity{display:grid;grid-template-columns:26px minmax(0,1fr) 52px;gap:6px 8px;align-items:end;min-width:0}
+.setup-index{grid-column:1;grid-row:1;align-self:center;font-size:12px;color:var(--text);font-weight:700}
+.setup-name{grid-column:2;grid-row:1;display:block;min-width:0}
+.setup-color{grid-column:3;grid-row:1;display:block}
+#mixerSetupDialog label{font-size:10px;color:var(--text)}
+#mixerSetupDialog input[type=text],#mixerSetupDialog input:not([type]),#mixerSetupDialog select{display:block;min-width:0;width:100%;min-height:40px;margin-top:5px;font-size:12px;padding:6px 8px;border:1px solid var(--app-border);border-radius:4px;background:var(--app-raised);color:var(--text)}
+#mixerSetupDialog input[type=color]{display:block;width:48px;height:40px;margin-top:5px;padding:3px;border:1px solid var(--app-border);border-radius:4px;background:var(--app-raised)}
+.setup-identity>button{grid-column:3;grid-row:2;min-height:25px!important;font-size:8px!important;padding:3px!important;color:var(--text)}
+.setup-identity>small{grid-column:1 / 3;grid-row:2;font-size:9px;line-height:1.5;color:var(--text);overflow-wrap:anywhere}
+.setup-routing{min-width:0}
+.setup-routing>div{display:flex;gap:8px;margin-top:8px}
+.setup-routing label{flex:1;min-width:0}
+.setup-routing p{font-size:11px;line-height:1.6;margin:8px 0 4px;color:var(--text)}
+.setup-routing small{font-size:10px;color:var(--text)}
+.setup-memberships{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 8px;margin:0;padding:0;border:0;min-width:0}
+.setup-memberships legend{font-size:10px;color:var(--text);margin-bottom:4px}
+.setup-group-check{display:flex;align-items:center;gap:5px;min-height:30px;padding:4px;border:1px solid var(--app-border);border-radius:4px;background:var(--app-panel);min-width:0;cursor:pointer}
+#mixerSetupDialog input[type=checkbox]{width:18px;height:18px;flex:none;margin:0}
+.setup-group-check span{min-width:0;overflow-wrap:anywhere}
+.setup-bus-row{display:grid;grid-template-columns:minmax(220px,1fr) minmax(240px,1.3fr);gap:20px}
+.setup-group-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.setup-group-card{min-width:0;padding:12px;background:var(--app-panel);border:1px solid var(--app-border);border-radius:5px}
+.setup-group-card>.setup-name{margin-bottom:12px}
+.setup-group-card>div{display:grid;gap:5px}
+.setup-member{display:flex;gap:7px;align-items:center;min-height:36px;padding:4px;cursor:pointer;overflow-wrap:anywhere}
+.setup-color-dot{width:10px;height:22px;border:1px solid var(--app-border);border-radius:2px;flex:none}
+.setup-footer{flex:none;display:flex;justify-content:space-between;gap:10px;padding-top:12px;border-top:1px solid var(--app-border)}
+#mixerSetupSave{background:var(--app-panel);border-color:var(--app-border)}
+#mixerSetupStatus{flex:none;margin:0;color:var(--text);font-size:12px;line-height:1.5}
+#mixerSetupStatus:empty{display:none}
+.setup-empty{font-size:13px;padding:20px;border:1px dashed var(--app-border)}
+@media(max-width:850px){.setup-track-heading{display:none}.setup-track-row{grid-template-columns:minmax(190px,1fr) minmax(200px,1fr)}.setup-track-row .setup-memberships{grid-column:1 / -1;grid-template-columns:repeat(3,minmax(0,1fr))}.setup-group-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){header .clean-bar{gap:5px}header .clean-bar button{font-size:10px;padding:8px 4px}.setup-track-row,.setup-bus-row{grid-template-columns:minmax(0,1fr);gap:12px;padding:10px}.setup-track-row .setup-memberships{grid-template-columns:repeat(2,minmax(0,1fr))}.setup-group-grid{grid-template-columns:minmax(0,1fr)}#mixerSetupDialog{padding:13px;gap:9px}.setup-heading h2{font-size:18px}.setup-footer button{font-size:10px!important}.setup-track-row .setup-identity{grid-template-columns:26px minmax(0,1fr) 52px}}
+
+/* V26.31: mixer settings share the mixer dialog and use normal block flow. */
+header .clean-bar{grid-template-columns:minmax(0,1fr) 44px repeat(2,minmax(0,1fr))}
+header .clean-bar #settingsBtn{width:44px;padding:8px}
+.performance-button-row{display:flex;align-items:stretch;gap:7px;min-width:0}
+.performance-button-row #performanceControls{flex:1;min-width:0}
+.performance-button-row #performanceConfig{flex:0 0 38px;width:38px;min-height:44px;padding:5px;font-size:22px;border-color:var(--app-border);align-self:stretch}
+.performance-bar.buttons-only .performance-heading,.performance-bar.buttons-only .performance-timeline,.performance-bar.buttons-only .performance-times{display:none}
+.performance-bar.icons-only .performance-action>span:last-child,.performance-bar .action-settings>span:last-child{display:none}
+.performance-bar.icons-only .performance-controls .performance-action{flex-basis:62px;min-height:56px;padding:8px 5px}
+.performance-bar.icons-only .performance-controls.controls-wrap{grid-template-columns:repeat(auto-fit,minmax(62px,1fr))}
+#mixerDialog #mixerSettingsBtn{min-width:40px;min-height:40px;font-size:24px;padding:4px}
+#mixerDialog #mixerSettingsBtn[aria-pressed=true]{background:var(--app-accent);border-color:var(--app-border)}
+#mixerDialog #mixerMain .mixer-toolbar{justify-content:flex-start}
+#mixerDialog #mixerQuickStatus{font-size:12px;line-height:1.5;color:var(--text);padding:5px 0}
+#mixerDialog #mixerSetupDialog{display:block;width:100%;max-width:none;max-height:none;padding:8px 0 0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+#mixerDialog #mixerSetupBody{display:block;flex:none;min-height:130px;max-height:none;height:auto;overflow:visible;padding:0;margin:12px 0}
+#mixerDialog #mixerSetupDialog .setup-heading{margin:0 0 10px}
+#mixerDialog #mixerSetupDialog .setup-heading h2{font-size:18px}
+#mixerDialog #mixerSetupDialog .setup-tabs{margin-bottom:10px}
+#mixerDialog #mixerSetupDialog .setup-footer{position:sticky;bottom:-14px;background:var(--app-panel);padding:12px 0 8px;z-index:5}
+#mixerDialog #mixerSetupLock{margin:10px 0;padding:9px;border:1px solid var(--app-border);background:var(--app-panel);color:var(--text);font-size:12px;line-height:1.5}
+#mixerDialog #mixerSetupAudio{margin:12px 0}
+#mixerDialog #mixerSetupAudio .mixer-file-actions{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+#mixerDialog #mixerSetupAudio .mixer-appearance{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 0 14px;border-bottom:1px solid var(--app-border)}
+#mixerDialog #mixerSetupAudio #mixerWidth{width:auto;max-width:220px;min-height:40px;margin:0}
+#mixerDialog.mixer-narrow .mixer-console{grid-template-columns:minmax(0,1fr) auto;gap:5px}
+#mixerDialog.mixer-narrow .stem-strip{flex-basis:112px}
+#mixerDialog.mixer-narrow .master-strip{width:112px}
+#mixerDialog.mixer-narrow .channel-label input{font-size:12px}
+#mixerDialog.mixer-narrow .fader-bank{grid-template-columns:24px minmax(40px,1fr) 12px;column-gap:2px;margin:0}
+#mixerDialog.mixer-narrow .fader-tick{width:24px;font-size:8px}
+#mixerDialog.mixer-narrow .fader-value output{font-size:13px}
+#mixerDialog.mixer-narrow .stem-switches button{font-size:8px}
+@media(max-width:700px){#mixerDialog .dialog-heading>div:first-child{flex:1;max-width:calc(100% - 92px)}#mixerDialog #closeMixer{margin-left:0}#mixerDialog #mixerSetupDialog .setup-footer{bottom:-10px}.performance-button-row #performanceConfig{flex-basis:34px;width:34px}}
+
+/* V26.31: one shared control bar stays usable inside the native mixer modal. */
+#mixerDialog[open]{display:flex;flex-direction:column;height:96vh;height:96dvh;overflow:hidden}
+#mixerDialog>.dialog-heading{flex:none;flex-wrap:wrap}
+#mixerDialog>.dialog-heading>div:first-child{min-width:0;flex:1}
+#mixerDialog .mixer-transport{order:1}
+#mixerDialog #mixerControlsToggle{order:2;font-size:10px;letter-spacing:.5px}
+#mixerDialog #mixerControlsToggle[aria-pressed=true]{background:var(--app-accent);border-color:var(--app-border)}
+#mixerDialog #mixerSettingsBtn{order:3}
+#mixerDialog #closeMixer{order:4}
+#mixerWorkspace{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior-y:contain;padding-bottom:4px}
+#mixerControlsDock{flex:0 0 auto;min-width:0}
+body.stage-fullscreen.stage-controls-hidden #mixerControlsDock .performance-bar,
+#mixerControlsDock .performance-bar{position:static;visibility:visible;opacity:1;transform:none;pointer-events:auto;box-shadow:none;margin-top:8px;border:1px solid var(--app-border);border-radius:6px;max-height:44vh;max-height:44dvh;overflow-y:auto}
+#mixerControlsDock .performance-controls.controls-wrap{max-height:24vh;max-height:24dvh;overflow:auto}
+#mixerControlsDock .performance-button-row button{font-size:11px;min-height:56px}
+#mixerControlsDock .performance-button-row #performanceConfig{font-size:22px}
+#mixerDialog #mixerSetupDialog .setup-footer{bottom:0}
+#mixerDialog .song-file-section h3{margin:6px 0;font-size:16px;color:var(--text)}
+#mixerFilesSummary{font-size:12px;color:var(--text);margin:6px 0}
+#mixerDialog .file-name-help{font-size:11px;color:var(--text);line-height:1.6}
+#mixerSongFiles{display:grid;gap:9px;margin:14px 0}
+#mixerDialog .song-file-card{display:grid;grid-template-columns:30px minmax(0,1fr) minmax(150px,.5fr);align-items:center;gap:12px;border:1px solid var(--app-border);border-left:4px solid var(--channel-color);background:var(--app-panel);padding:12px;border-radius:5px}
+.song-file-number{font-size:12px;color:var(--text);align-self:start;padding-top:5px}
+.song-file-identity{min-width:0}
+#mixerDialog .song-file-identity label{font-size:10px;color:var(--text);display:block}
+#mixerDialog .song-file-identity input{width:100%;max-width:none;min-height:42px;margin:5px 0 6px;padding:8px 10px;background:var(--app-raised);color:var(--text);border:1px solid var(--app-border);border-radius:4px;font-size:15px}
+#mixerDialog .song-file-original{display:block;color:var(--text);font-size:11px;overflow-wrap:anywhere;line-height:1.5}
+.song-file-info{display:grid;gap:6px;font-size:11px;color:var(--text);overflow-wrap:anywhere}
+.song-file-info small{font-size:10px;color:var(--text)}
+.song-files-empty{padding:20px;border:1px dashed var(--app-border);font-size:13px;line-height:1.6}
+#mixerDialog .mixer-help{margin-top:12px}
+#mixerDialog .mixer-help>summary{cursor:pointer;padding:10px 0;font-size:12px;color:var(--text)}
+@media(max-width:700px){#mixerDialog .dialog-heading>div:first-child{max-width:none;flex-basis:calc(100% - 190px)}#mixerDialog .mixer-transport{order:5;width:100%;margin-left:0}#mixerDialog #mixerControlsToggle{font-size:9px;padding:6px}#mixerControlsDock .performance-controls .performance-action{flex-basis:72px}#mixerDialog .song-file-card{grid-template-columns:24px minmax(0,1fr);gap:8px}.song-file-info{grid-column:2}}
+
+/* V26.31: neutral transport buttons, with color only for the current state. */
+#performanceControls .performance-action{background:var(--app-panel);border-color:var(--app-border);color:var(--text)}
+#performanceControls .action-play.action-active{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+#performanceControls .action-stop.action-active{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+#performanceControls .action-mute.action-active,#performanceControls [class*=action-group].action-active{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+#mixerDialog .song-file-info [data-file-delete]{justify-self:end;min-height:40px;font-size:10px;color:var(--text);border-color:var(--app-border)}
+.song-file-card{touch-action:pan-y}
+.song-file-identity input{touch-action:auto}
+.wave-sections{position:absolute;inset:0;pointer-events:none}
+.wave-section{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--section-color) 23%,transparent);border-left:1px solid var(--section-color);overflow:hidden}
+.wave-section b{display:block;position:absolute;top:2px;left:4px;right:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--section-color);font-size:10px;font-weight:600;text-shadow:0 1px 3px #000}
+.wave-graphic{top:17px}
+.lyric-color-tools{align-items:center}
+.lyric-color-tools input[type=color]{width:44px;height:38px;flex:none}
+.lyric-color-tools .lyric-color-status{flex-basis:100%;font-size:11px}
+#sectionTimingDialog{width:min(740px,calc(100% - 20px));max-width:740px;max-height:94vh;max-height:94dvh;overflow:auto;padding:18px;background:var(--app-panel);color:var(--text);border:1px solid var(--app-border);border-radius:9px}
+#sectionTimingDialog::backdrop{background:var(--ui-backdrop)}
+.section-timing-heading{display:flex;justify-content:space-between;gap:15px;align-items:center}
+.section-timing-heading h2{font-size:20px;margin:0 0 6px}
+#sectionTimingSong{font-size:14px;color:var(--text)}
+#sectionTimingHelp{font-size:12px;line-height:1.6;color:var(--text)}
+.section-timing-transport{display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:sticky;top:-18px;z-index:2;background:var(--app-panel);padding:10px 0;border-bottom:1px solid var(--app-border)}
+.section-timing-transport button{min-height:44px;font-size:12px}
+#sectionTimingPosition{font-size:12px;margin-left:auto}
+#sectionTimingSeek{width:100%;min-height:32px;touch-action:none}
+#sectionTimingRows{display:grid;gap:9px;margin-top:15px}
+.section-time-row{display:grid;grid-template-columns:minmax(0,1fr) auto 42px;gap:8px;align-items:end;border-left:4px solid var(--section-color);padding:9px;background:var(--app-panel);border-radius:4px}
+.section-time-row label{display:flex;align-items:center;gap:12px;min-width:0;flex-wrap:wrap;font-size:13px;color:var(--section-color)}
+.section-time-row label span{min-width:80px;flex:1;overflow-wrap:anywhere}
+.section-time-row input{width:110px;font-size:14px;min-height:42px;background:var(--app-raised)}
+.section-time-row button{min-height:42px;font-size:11px}
+#sectionTimingStatus{font-size:12px;color:var(--text);line-height:1.6}
+.section-timing-footer{position:sticky;bottom:-18px;display:flex;justify-content:space-between;gap:10px;background:var(--app-panel);padding:12px 0 6px}
+#sectionTimingSave{background:var(--app-panel);border-color:var(--app-border)}
+@supports not (background:color-mix(in srgb,red 20%,transparent)){.wave-section{background:var(--section-color);opacity:.35}}
+@media(max-width:520px){.section-time-row{grid-template-columns:minmax(0,1fr) 74px 36px;gap:5px}.section-time-row label{gap:4px}.section-time-row input{width:100%}.section-time-row button{padding:7px 4px}}
+
+/* V26.31: leave enough scroll room to keep the final section inside the reading area. */
+#readingTail{height:var(--reading-tail,0px);pointer-events:none}
+.action-font-symbol{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:25px;line-height:28px;white-space:nowrap}
+
+/* V26.31: song colors are visible in both lists without changing title text. */
+.song-color-picker{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--app-border);border-radius:6px;padding:10px;margin:12px 0}
+.song-color-picker legend{font-size:13px;color:var(--text)}
+.song-color-picker label{display:flex;align-items:center;gap:7px;font-size:12px}
+#creatorColorPresets{display:flex;gap:6px;flex-wrap:wrap}
+#creatorColorPresets button{width:28px;min-width:28px;min-height:32px;border:1px solid var(--app-border);border-radius:5px;padding:0}
+#creatorClearColor{font-size:10px}
+#creatorStatus{font-size:12px;color:var(--text)}
+#creatorStatus:empty{display:none}
+.song-row[style*="--song-color"],.library-song[style*="--song-color"]{border-left-color:var(--song-color)!important}
+.song .lyric-line.section.melody{color:var(--melody,#82c4ff)!important}
+
+/* V26.31: reserve both master strips; compact their internals at every width. */
+#mixerDialog .mixer-console,#mixerDialog.mixer-narrow .mixer-console{grid-template-columns:minmax(0,1fr) auto;max-width:100%;min-width:0}
+#mixerDialog .mixer-masters{display:flex;flex-shrink:0;width:max-content;max-width:100%;gap:3px}
+#mixerDialog .mixer-masters .master-strip{min-width:0;overflow:hidden}
+#mixerDialog .mixer-masters .fader-bank{grid-template-columns:18px minmax(44px,1fr) 8px;column-gap:2px;margin:0}
+#mixerDialog .mixer-masters .fader-tick{width:18px;font-size:8px}
+#mixerDialog .mixer-masters .fader-tick::after{width:3px}
+#mixerDialog .mixer-masters .fader-value{display:grid;grid-template-columns:minmax(0,1fr) 24px;gap:2px}
+#mixerDialog .mixer-masters .fader-value output{min-width:0;font-size:12px;text-align:center;white-space:nowrap}
+#mixerDialog .mixer-masters .fader-value button{min-width:0;width:24px;padding:0;font-size:8px}
+#mixerDialog .mixer-masters .level-readout{flex-wrap:wrap;gap:2px;font-size:8px}
+#mixerDialog .mixer-masters .level-readout output{font-size:9px;max-width:100%;white-space:nowrap}
+html{scroll-behavior:auto!important}
+#readingMotion{overflow-anchor:none}
+body.auto-scrolling{overflow-anchor:none}
+body.auto-scrolling #readingMotion{will-change:transform}
+#mixerDialog .tempo-panel{display:block;padding:12px 0}
+#mixerDialog .tempo-main{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+#mixerDialog .tempo-main>label{font-size:12px;font-weight:700}
+#mixerDialog .tempo-stepper{display:flex;align-items:stretch;gap:4px}
+#mixerDialog .tempo-stepper button{min-width:44px;min-height:44px;font-size:22px;line-height:1}
+#mixerDialog .tempo-stepper #tempoTarget{width:95px;margin:0;text-align:center;font-size:20px;font-variant-numeric:tabular-nums}
+#tempoSource{border-top:1px solid var(--app-border);margin:12px 0;padding-top:10px}
+#tempoSource summary{cursor:pointer;font-size:12px;color:var(--text);min-height:32px}
+.tempo-original-tools,#tempoEstimateActions{display:flex;align-items:end;gap:8px;flex-wrap:wrap;margin:10px 0}
+#tempoDetectResult{font-size:12px;color:var(--text);min-height:18px;overflow-wrap:anywhere}
+#tempoStatus{margin-top:8px;font-size:12px}
+#mixerDialog{--master-strip-width:110px}
+#mixerDialog.mixer-narrow{--master-strip-width:94px}
+#mixerDialog .mixer-masters .master-strip,#mixerDialog.mixer-narrow .mixer-masters .master-strip{width:var(--master-strip-width);flex:0 0 var(--master-strip-width)}
+@media(max-width:700px){#mixerDialog,#mixerDialog.mixer-narrow{--master-strip-width:86px}}
+/* V26.31: one view at a time and a shared mute row below Tracks. */
+#mixerDialog #mixerTrackGroups #mixerGroups{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:8px 0}
+#mixerDialog #mixerTrackGroups #mixerGroups>span{display:none}
+#mixerDialog #mixerTrackGroups #mixerGroups button{min-width:0;max-width:none;min-height:44px;font-size:11px;white-space:nowrap}
+#mixerDialog #mixerGroups button[aria-pressed=true]{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+#mixerDialog .dialog-heading>div:first-child{flex:1;min-width:0;max-width:none}
+#mixerAppearance{padding:10px 0 14px;border-bottom:1px solid var(--app-border);margin-bottom:12px}
+#mixerAppearance h3{font-size:12px;text-transform:uppercase;letter-spacing:1px;margin:0 0 9px;color:var(--text)}
+#mixerDialog #mixerAppearance .mixer-appearance{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px}
+#mixerDialog #mixerAppearance label{display:flex;align-items:center;gap:7px}
+#mixerDialog #mixerAppearance #mixerWidth{width:auto;max-width:220px;min-height:40px;margin:0}
+#mixerDialog #mixerAppearance #mixerControlsToggle{font-size:11px;min-height:40px}
+.settings-tool-section{border-top:1px solid var(--line);padding:12px 0;margin-top:8px}
+.settings-tool-section summary{cursor:pointer;min-height:34px;font-size:14px;font-weight:600}
+.settings-tool-section .tool-import,.settings-tool-section .tool-label{display:grid;gap:7px;font-size:12px;margin:8px 0}
+.settings-tool-section .tool-label textarea{width:100%;min-height:90px}
+@media(max-width:700px){#mixerDialog #mixerTrackGroups #mixerGroups{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Playback blockers remain visible with icon-only and docked controls. */
+.performance-audio-notice{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 8px;padding:8px 10px;border:1px solid var(--app-border);border-radius:5px;color:var(--text);background:var(--app-panel);font-size:12px;line-height:1.5}
+.performance-audio-notice[data-error=true]{color:var(--ui-error);border-color:var(--ui-error);background:var(--app-panel)}
+#performanceAudioMessage{flex:1;min-width:160px;overflow-wrap:anywhere}
+#performanceAudioAction{min-height:44px;padding:6px 10px;font-size:11px;flex-shrink:0}
+.new-track-format{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;margin:10px 0}
+.new-track-format select{min-height:44px;min-width:130px}
+.new-track-format span{color:var(--text);font-size:11px}
+
+/* Common Practice / Live mode controls. */
+.practice-mode-choice{display:flex;gap:9px;flex-wrap:wrap;margin:8px 0 12px}
+.practice-mode-choice button{min-height:48px;padding:10px 16px;font-weight:700;font-size:12px}
+.practice-mode-choice button[aria-pressed=true],.performance-controls .action-practice.action-active,.performance-controls .action-autoplay.action-active{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+.output-mode-badge{display:inline-block;font-size:10px;letter-spacing:1px;color:var(--text);margin-top:7px}
+.output-mode-badge[data-mode=stereo]{color:var(--text)}
+#fullBackupDialog{width:min(640px,calc(100% - 24px));box-sizing:border-box;max-height:90dvh;overflow:auto;padding:20px;border:1px solid var(--app-border);border-radius:10px;background:var(--app-panel);color:var(--text)}
+#fullBackupDialog::backdrop{background:var(--ui-backdrop)}
+.backup-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.backup-heading h2{font-size:20px;margin:0}.backup-heading button{min-width:44px;min-height:44px}
+#fullBackupStatus{font-size:14px;line-height:1.7;overflow-wrap:anywhere}.backup-actions{display:flex;gap:10px;flex-wrap:wrap}.backup-actions button{min-height:48px;font-size:12px}
+
+/* Per-entry autoplay keeps the existing song button and a separate touch target. */
+.setlist-song-entry{display:flex;align-items:stretch;gap:5px;margin-bottom:5px;min-width:0}.setlist-song-entry .song-row{flex:1;min-width:0;margin:0!important}.setlist-auto{flex:0 0 48px;min-height:44px;padding:5px;font-size:9px;letter-spacing:.3px;border-radius:5px}.setlist-auto[aria-pressed=true]{background:var(--app-accent);color:var(--app-ink);border-color:var(--app-border)}.set-autoplay-row{display:flex!important;align-items:center;gap:10px;margin:8px 0}.set-autoplay-row span{flex:1}.set-autoplay-row select{min-height:44px;min-width:100px}
+.click-settings{margin-top:18px;padding-top:14px;border-top:1px solid var(--app-border)}.click-settings h3{font-size:16px;color:var(--text);margin:0 0 12px}.click-setting-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.click-setting-grid label{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px}.click-setting-grid input[type=number],.click-setting-grid select{min-height:44px;max-width:100%;box-sizing:border-box}.click-setting-grid input[type=number]{width:95px}.click-actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.click-actions button{min-height:44px;font-size:11px}#clickStatus{font-size:12px;line-height:1.5}#clickToggle[aria-pressed=true]{background:var(--app-accent);border-color:var(--app-border)}
+.click-visual{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:7px 9px;margin:0 0 7px;border:1px solid var(--app-border);border-radius:5px;background:var(--app-panel)}#clickPhase{font-size:12px;font-weight:700;color:var(--text);letter-spacing:.4px}.click-lights{display:flex;gap:7px;flex-wrap:wrap}.beat-light{width:16px;height:16px;border:1px solid #72847d;border-radius:50%;background:#20342d}.beat-light.lit{background:#9ef0bd;box-shadow:0 0 8px #9ef0bd77}.beat-light.downbeat.lit{background:#ffe0a0;box-shadow:0 0 8px #ffe0a077}.performance-bar.counting-in .performance-controls .action-play{background:var(--app-panel);border-color:var(--app-border);color:var(--text)}.performance-controls .action-countIn.action-active{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}.performance-controls .action-metronome.action-active{background:var(--app-accent);border-color:var(--app-border);color:var(--app-ink)}
+@media(max-width:600px){.click-setting-grid{grid-template-columns:minmax(0,1fr)}.click-visual{gap:7px}.beat-light{width:14px;height:14px}}
+
+.transpose-panel{padding:12px 0;border-top:1px solid var(--app-border);margin-top:14px}
+.transpose-panel h3{font-size:13px;margin:0 0 10px;color:var(--text)}
+.transpose-controls{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.transpose-controls button{min-height:44px;min-width:44px}
+#transposeValue{width:70px;text-align:center;font-variant-numeric:tabular-nums}
+#transposeInfo,#transposeStatus{font-size:12px;line-height:1.6}
+#transposeStatus:empty{display:none}
+
+/* V26.31: equal primary buttons and equal mixer tabs, including Settings. */
+header .clean-bar{grid-template-columns:repeat(4,minmax(0,1fr))}
+header .clean-bar button,header .clean-bar #settingsBtn{width:100%;height:46px;min-height:46px;padding:8px}
+#mixerDialog .mixer-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));width:100%;gap:6px}
+#mixerDialog .mixer-tabs button,#mixerDialog .mixer-tabs #mixerSettingsBtn{width:100%;min-width:0;height:48px;min-height:48px;padding:6px 4px;white-space:normal;line-height:1.15;font-size:11px;letter-spacing:.2px}
+#mixerDialog .mixer-tabs #mixerSettingsBtn{font-size:24px;order:0}
+#mixerDialog #mixerWorkspace>.mixer-toolbar{padding:0 0 8px;flex:none}
+@media(max-width:600px){#mixerDialog .mixer-tabs{gap:4px}#mixerDialog .mixer-tabs button{font-size:9px;padding:5px 2px}}
+
+/* V26.31: general settings own project/backup/output tools; mixer settings focus on tracks. */
+#mixerDialog .mixer-tabs #mixerSettingsBtn{font-size:11px;gap:4px}
+#mixerDialog .mixer-tabs #mixerSettingsBtn span{font-size:18px}
+#settingsContent .mixer-help{display:block;margin:12px 0;padding:12px;border:1px solid var(--app-border);border-radius:6px;font-size:13px;line-height:1.6}
+#settingsContent .mixer-help>summary{cursor:pointer;font-weight:700;color:var(--text)}
+#settingsContent .project-actions,#settingsContent .output-choice,#settingsContent .routing-summary{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+#settingsContent .project-actions select,#settingsContent .output-choice select{max-width:100%;width:auto;min-height:44px}
+#settingsContent #projectImport{margin:10px 0}
+#settingsContent .memory-heading{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+#settingsContent #mixerMemory{height:8px;width:180px;max-width:100%;border:1px solid var(--app-border);background:var(--app-panel)}
+#settingsContent #mixerMemoryFill{height:100%;background:var(--app-panel)}
+#settingsContent #projectStatus,#settingsContent #outputStatus{font-size:12px;color:var(--text);overflow-wrap:anywhere}
+.setlist-quick{display:grid;grid-template-columns:minmax(0,1fr);gap:7px;margin:12px 0}
+.setlist-quick label{font-size:11px;color:var(--text)}
+.setlist-quick select,.setlist-quick button{width:100%;min-width:0;min-height:44px;margin:0;font-size:12px}
+.setlist-quick #sideAddSongs{background:var(--app-panel);border-color:var(--app-border)}
+#setlistAddDialog{width:min(660px,calc(100% - 20px));max-width:660px;max-height:94vh;max-height:94dvh;box-sizing:border-box;padding:18px;background:var(--app-panel);color:var(--text);border:1px solid var(--app-border);border-radius:9px;overflow:auto}
+#setlistAddDialog::backdrop{background:var(--ui-backdrop)}
+.setlist-add-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.setlist-add-heading h2{font-size:20px;margin:0}
+.setlist-add-heading button{font-size:24px;min-width:44px;min-height:44px}
+.setlist-add-target{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.setlist-add-target label{display:grid;gap:6px;font-size:12px;min-width:0}
+#setlistAddDialog input[type=search],#setlistAddDialog input[type=text],#setlistAddDialog select{width:100%;min-width:0;max-width:none;box-sizing:border-box;min-height:44px;margin:0;background:var(--app-raised);border:1px solid var(--app-border);color:var(--text);border-radius:4px;padding:9px;font-size:14px}
+#setlistAddResults{display:grid;gap:6px}
+#setlistAddDialog .setlist-add-row{display:flex;align-items:center;gap:12px;min-height:58px;padding:9px;background:var(--app-panel);border-radius:4px;border-left:4px solid var(--song-color,#67877d);cursor:pointer}
+#setlistAddDialog .setlist-add-row input{width:24px;height:24px;flex:none}
+.setlist-add-row span{min-width:0;display:grid;gap:5px}
+.setlist-add-row strong{font-size:15px;overflow-wrap:anywhere}
+.setlist-add-row small{font-size:11px;color:var(--text);overflow-wrap:anywhere}
+.setlist-add-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;position:sticky;bottom:-18px;background:var(--app-panel);padding:12px 0 4px;border-top:1px solid var(--app-border);margin-top:14px}
+.setlist-add-footer button{min-height:44px;font-size:12px}
+#setlistAddSave{background:var(--app-panel);border-color:var(--app-border)}
+#setlistAddCount,#setlistAddStatus{font-size:12px}
+#setlistAddStatus{color:var(--text)}
+#mixerDialog .song-file-info [data-file-replace]{min-height:40px;font-size:10px;border-color:var(--app-border)}
+@media(max-width:600px){#mixerDialog .mixer-tabs #mixerSettingsBtn{font-size:8px;gap:2px}.setlist-add-target{grid-template-columns:1fr}.setlist-add-footer{flex-wrap:wrap}}
+
+/* V26.31: accessible editor close buttons, a compact vertical library and mixer controls. */
+#songCreator{z-index:110}
+.song-editor-heading{position:sticky;top:-18px;z-index:7;display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--app-panel);padding:8px 0;border-bottom:1px solid var(--app-border)}
+.song-editor-heading h3{font-size:19px;margin:0}
+#creatorClose{min-width:44px;min-height:44px;font-size:25px;flex:none}
+#songCreator .lyrics-editor-box>.setting-row{position:sticky;bottom:-18px;z-index:6;padding:12px 0 4px;background:var(--app-panel)}
+#libraryMenu .library-mode-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+#libraryMenu .library-menu-item{padding:7px 4px;min-height:38px;font-size:11px;letter-spacing:0}
+#libraryResults{display:block;margin-top:10px;padding-top:6px}
+#libraryResults .library-song{display:flex;width:100%;min-width:0;min-height:48px}
+#libraryResults .library-song button:first-child{white-space:normal;overflow-wrap:anywhere}
+.side.library-active{max-height:calc(100dvh - 150px - var(--performance-space,0px));min-height:280px;overflow-y:auto;overflow-x:hidden}
+#mixerDialog .mixer-tabs{grid-template-columns:repeat(6,minmax(0,1fr))}
+#mixerDialog .mixer-tabs #mixerControlsToggle{height:48px;min-height:48px;font-size:11px;order:0}
+#settingsContent details[data-tool]{border:1px solid var(--app-border);border-radius:6px;margin:10px 0;padding:10px}
+#settingsContent details[data-tool]>summary{cursor:pointer;color:var(--text);min-height:36px;font-size:14px}
+#settingsContent details[data-tool]>summary small{display:block;font-size:11px;color:var(--text);line-height:1.5;padding-top:5px}
+#settingsContent details[data-tool] label{display:block;margin:10px 0;font-size:12px}
+#settingsContent #externalDisplayStatus{font-size:12px;color:var(--text)}
+@media(max-width:600px){#mixerDialog .mixer-tabs #mixerControlsToggle{font-size:8px}#mixerDialog .mixer-tabs #mixerSettingsBtn span{font-size:14px}.side.library-active{min-height:320px}}
+
+/* V26.31: equal text navigation, proportional title, Notes and app skins. */
+header .clean-bar #settingsBtn,header .clean-bar button{width:100%;height:46px;min-height:46px;font-size:12px;font-weight:700;padding:8px;letter-spacing:.5px}
+#title{font-size:var(--title-size,30px);line-height:1.15;overflow-wrap:anywhere}
+#notesDialog{width:min(720px,calc(100% - 20px));max-height:90vh;max-height:90dvh;overflow:auto;background:var(--app-panel);color:var(--text);border:1px solid var(--app-border);border-radius:10px;padding:18px}
+#notesDialog::backdrop{background:var(--ui-backdrop)}
+.notes-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;position:sticky;top:-18px;background:var(--app-panel);padding:10px 0}
+.notes-heading h2{font-size:20px;margin:0}
+#notesClose{width:44px;min-height:44px;font-size:24px}
+#notesSong{color:var(--title);font-size:18px;font-weight:600}
+#notesBody h3{font-size:12px;color:var(--app-accent)}
+#notesBody p{white-space:pre-wrap;overflow-wrap:anywhere;font-size:var(--size);line-height:1.5}
+.skin-settings{border-bottom:1px solid var(--app-border);padding-bottom:14px;margin-bottom:14px}
+#skinSelect{min-height:44px;max-width:100%;width:250px}
+.skin-previews{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:650px;margin:12px 0}
+.skin-previews button{min-height:78px!important;display:flex;align-items:center;justify-content:space-between;gap:6px;text-align:left;padding:10px!important;background:var(--preview-bg)!important;color:var(--preview-text)!important;border:1px solid var(--preview-accent)!important;font-size:12px;box-shadow:inset 0 -24px var(--preview-panel)!important}
+.skin-previews button i{display:block;width:18px;height:18px;background:var(--preview-accent);border-radius:50%;flex:none}
+.skin-previews button[aria-pressed=true]{outline:2px solid var(--preview-accent);outline-offset:1px}
+.skin-shape{display:flex;align-items:center;gap:10px;font-size:13px;margin:12px 0}
+#skinShape{min-height:42px;width:auto;max-width:65%}
+.skin-custom summary{font-size:13px;color:var(--app-accent);cursor:pointer;min-height:40px;display:list-item;padding:7px 0}
+body[data-skin]:not([data-skin=classic]){background:var(--bg);color:var(--text)}
+body[data-skin]:not([data-skin=classic]) header,
+body[data-skin]:not([data-skin=classic]) .settings,
+body[data-skin]:not([data-skin=classic]) .side,
+body[data-skin]:not([data-skin=classic]) .main,
+body[data-skin]:not([data-skin=classic]) dialog,
+body[data-skin]:not([data-skin=classic]) .lyrics-editor-box,
+body[data-skin]:not([data-skin=classic]) .gallery-card{background:var(--app-panel);color:var(--text);border-color:var(--app-border)}
+body[data-skin]:not([data-skin=classic]) .main{background:var(--bg)}
+body[data-skin]:not([data-skin=classic]) button,
+body[data-skin]:not([data-skin=classic]) input,
+body[data-skin]:not([data-skin=classic]) select,
+body[data-skin]:not([data-skin=classic]) textarea{background:var(--app-raised);color:var(--text);border-color:var(--app-border)}
+
+body[data-skin]:not([data-skin=classic]) .performance-bar{background:var(--app-panel);border-color:var(--app-border);color:var(--text)}
+body[data-skin]:not([data-skin=classic]) #performanceControls .performance-action:not(.action-active){background:var(--app-raised);color:var(--text);border-color:var(--app-border)}
+body[data-skin]:not([data-skin=classic]) #mixerDialog .stem-strip:not(.master-strip){background:var(--app-raised)}
+body[data-skin]:not([data-skin=classic]) #mixerDialog .master-strip{background:var(--app-panel)}
+body[data-skin]:not([data-skin=classic]) #mixerDialog .route-badge,
+body[data-skin]:not([data-skin=classic]) #mixerDialog .group-summary,
+body[data-skin]:not([data-skin=classic]) #mixerDialog .setup-track-row,
+body[data-skin]:not([data-skin=classic]) #mixerDialog .setup-bus-row,
+body[data-skin]:not([data-skin=classic]) #mixerDialog .setup-group-card,
+body[data-skin]:not([data-skin=classic]) #mixerDialog .song-file-card{background:var(--app-panel);color:var(--text)}
+body[data-skin]:not([data-skin=classic]) .quick-editor-tools,
+body[data-skin]:not([data-skin=classic]) .song-editor-heading,
+body[data-skin]:not([data-skin=classic]) #songCreator .lyrics-editor-box>.setting-row,
+body[data-skin]:not([data-skin=classic]) #mixerDialog #mixerSetupDialog .setup-footer,
+body[data-skin]:not([data-skin=classic]) .setlist-add-footer{background:var(--app-panel)}
+body[data-skin]:not([data-skin=classic]) .setting-title,
+body[data-skin]:not([data-skin=classic]) #performanceSong{color:var(--title)}
+body[data-button-shape=square] button,body[data-button-shape=square] input,body[data-button-shape=square] select{border-radius:2px!important}
+body[data-button-shape=outline] button:not(.performance-action):not([data-skin-preset]):not([aria-pressed=true]):not(.active):not(.chosen){background:transparent!important;box-shadow:none!important}
+
+@media(max-width:600px){header .clean-bar button,header .clean-bar #settingsBtn{font-size:10px}.skin-previews{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* V26.31: independent title and centered chord/lyric pairs with shared columns. */
+.song .chord-pair{font-size:inherit}
+.song.text-centered{text-align:center}
+.song.text-centered .chord-pair{width:max-content;max-width:100%;margin-left:auto!important;margin-right:auto!important;text-align:left}
+.lyric-type-settings{gap:18px}.lyric-type-settings label{display:flex;align-items:center;gap:8px}
+#songNotesInput{display:block;min-height:180px;resize:vertical;line-height:1.5;font-size:16px;margin-top:8px}
+.notes-actions{display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:-18px;padding:10px 0;background:var(--app-panel)}
+.notes-actions button{min-width:90px;min-height:44px}#notesStatus{font-size:12px;line-height:1.5;min-height:1.5em;color:var(--app-muted,var(--text))}
+
+/* Every active button shares the chosen accent, including transport and mixer. */
+html body[data-skin] button:is(.active,.chosen,.action-active,.mute-on,.solo-on,[aria-pressed=true]),
+html body[data-skin] #mixerDialog button:is(.active,.chosen,.action-active,.mute-on,.solo-on,[aria-pressed=true]),
+html body[data-skin] #settings button:is(.active,.chosen,.action-active,.mute-on,.solo-on,[aria-pressed=true]),
+html body[data-skin] #performanceBar button:is(.active,.chosen,.action-active,.mute-on,.solo-on,[aria-pressed=true]),
+html body[data-skin] #settingsBtn[aria-pressed=true]{background:var(--app-accent)!important;color:var(--app-ink)!important;border-color:var(--app-accent)!important;box-shadow:inset 0 1px #ffffff25!important}
+body[data-skin] input[type=checkbox],body[data-skin] input[type=radio]{accent-color:var(--app-accent)}
+/* Shared neutral surfaces keep Light mode coherent in nested dialogs and mixer. */
+body[data-skin]:not([data-skin=classic]) :is(.setup-header,.setup-footer,.performance-settings-footer,.section-timing-footer,.library-menu,.setlist-quick,.setlist-add-heading,.lyrics-editor-tools,.quick-editor-tools,.gallery-heading,.backup-heading,.notes-heading,.notes-actions){background:var(--app-panel);color:var(--text);border-color:var(--app-border)}
+body[data-skin]:not([data-skin=classic]) :is(.foot,.subtle,.meta,.stem-file,.stem-pan,.strip-header,.strip-kind,.level-readout,.fader-value,.fader-value output,.bus-members,.group-summary small,.performance-times,#performanceStatus,#performanceAudioMessage,#mixerSetupSong,#songFileStatus,.setup-section-note){color:var(--app-muted)}
+body[data-skin]:not([data-skin=classic]) :is(.setup-heading h2,.setup-heading h3,.setup-title,.settings-tool-section summary,.performance-settings-heading h2,.click-settings h3,.section-timing-heading h2){color:var(--title)}
+body[data-skin]:not([data-skin=classic]) :is(#mixerConsole,.mixer-scroll,.mixer-bus-scroll,.mixer-viewport,.performance-empty,.setup-group-card,.section-timing-row,.song-file-info,.song-file-row,.click-visual,.backup-part){background:var(--app-panel);color:var(--text);border-color:var(--app-border)}
+body[data-skin]:not([data-skin=classic]) :is(.setup-track-row,.setup-bus-row,.setup-group-card,.song-file-card){border-color:var(--app-border)}
+body[data-skin]:not([data-skin=classic]) #mixerDialog :is(.stem-strip,.master-strip,.route-badge,.group-summary,.channel-setup,.master-actions button){color:var(--text);border-color:var(--app-border)}
+body[data-skin]:not([data-skin=classic]) #mixerDialog :is(.master-label,.master-label input,.fader-scale,.fader-scale .zero){color:var(--text)}
+body[data-skin]:not([data-skin=classic]) :is(.poster,.lyrics-editor-heading,.lyrics-editor-box>.setting-row){background:var(--app-panel);color:var(--text);border-color:var(--app-border)}
+body[data-skin] #settingsBtn{background:var(--app-raised)!important;color:var(--text)!important;border-color:var(--app-border)!important}
+html body[data-skin]:not([data-skin=classic]) :is(#mixerDialog,#mixerSetupDialog,#performanceSettings,#sectionTimingDialog,#notesDialog,#midiDialog,#setlistAddDialog,#fullBackupDialog){background:var(--app-panel);color:var(--text);border-color:var(--app-border)}
+html body[data-skin]:not([data-skin=classic]) :is(#mixerDialog,#mixerSetupDialog,#performanceSettings,#sectionTimingDialog,#notesDialog,#midiDialog,#setlistAddDialog,#fullBackupDialog) :is(button,select,input:not([type=range]):not([data-field=name]):not([data-bus-field=name]),textarea){background:var(--app-raised);color:var(--text);border-color:var(--app-border)}
+html body[data-skin]:not([data-skin=classic]) #mixerDialog :is(.fader-value,.fader-value output,.level-readout,.stem-file,.stem-pan,.bus-members,.group-summary small,.strip-header,.strip-kind){color:var(--app-muted)}
+html body[data-skin]:not([data-skin=classic]) #mixerDialog :is(.master-label,.master-label input,.fader-scale,.fader-scale .zero){color:var(--text)}
+html body[data-skin]:not([data-skin=classic]) :is(#mixerSetupDialog,#performanceSettings,#sectionTimingDialog,#fullBackupDialog) :is(p,label,small,h3,.setup-index,.setup-identity>small,.setup-track-heading,.setup-bus-heading,.control-config-row>span){color:var(--text)}
+html body[data-skin]:not([data-skin=classic]) :is(#mixerStatus,#mixerOutputs,#mixerSetupSong,#mixerSetupHelp,#mixerPosition,#performanceStatus,#songMeta,#routingSummary){color:var(--app-muted)}
+html body[data-skin]:not([data-skin=classic]) :is(#mixerSong,#performanceSong){color:var(--title)}
+#notesBody p{font-size:18px}
+
+/* V26.31: one scrollable Settings surface, independent from the reading page. */
+html body #settings{position:fixed;z-index:60;top:var(--settings-top,110px);left:var(--settings-left,10px);width:var(--settings-width,calc(100% - 20px));height:var(--settings-height,calc(100dvh - 130px));max-width:1200px;margin:0;padding:12px;display:grid;grid-template-columns:160px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:10px 16px;overflow:hidden;background:var(--app-panel);color:var(--text);border:1px solid var(--app-border);border-radius:8px;box-shadow:0 12px 38px #0006}
+#settings .settings-heading{grid-column:1 / -1;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;border-bottom:1px solid var(--app-border);padding-bottom:8px}
+#settingsTitle{font-size:18px;font-weight:600;margin:0;color:var(--text)}
+#settingsClose{width:44px;min-height:44px;padding:4px;font-size:24px}
+html body #settings #nav{min-height:0;min-width:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;margin:0;padding:0 6px 0 0;display:block}
+html body #settings #settingsContent{min-height:0;min-width:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;padding:0 8px 20px 0;scroll-behavior:auto;touch-action:auto}
+html body #settings #nav button{display:block;width:100%;min-height:44px;white-space:normal}
+@media(max-width:700px){html body #settings{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr);gap:8px;padding:10px}html body #settings #nav{display:flex;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;padding:0 0 4px}html body #settings #nav button{width:auto;flex:0 0 auto;white-space:nowrap}html body #settings #settingsContent{padding-right:3px}}
+/* Uniform text/surfaces on every ordinary button, including Classic and nested mixer tools. */
+html body[data-skin] button:not([data-skin-preset]):not([data-song-color]){background:var(--app-raised)!important;color:var(--text)!important;border-color:var(--app-border)!important}
+html body[data-button-shape=outline] button:not(.performance-action):not([data-skin-preset]):not([data-song-color]):not([aria-pressed=true]):not(.active):not(.chosen){background:transparent!important}
+html body[data-skin] :is(header,.side,.lyrics-editor,.chord-gallery,#mixerDialog,#settings,#performanceBar,#performanceSettings,#midiDialog,#notesDialog,#setlistAddDialog,#fullBackupDialog) button:is(.active,.chosen,.action-active,.mute-on,.solo-on,[aria-pressed=true]),
+html body[data-skin] button:is(.active,.chosen,.action-active,.mute-on,.solo-on,[aria-pressed=true]),
+html body[data-skin] #settingsBtn[aria-pressed=true]{background:var(--app-accent)!important;color:var(--app-ink)!important;border-color:var(--app-accent)!important}
+html body[data-skin] #mixerDialog .master-label,html body[data-skin] #mixerDialog .master-label input{background:var(--app-accent);color:var(--app-ink)!important}
+html body[data-skin] button:not([data-skin-preset]):not([data-song-color]) :is(span,small,b,strong){color:inherit}
+.progress>div,#mixerMemoryFill,#settingsContent #mixerMemoryFill{background:var(--app-accent)}
+#mixerMemory[data-over=true]>div,#settingsContent #mixerMemory[data-over=true]>div{background:var(--ui-error)}
+
+/* V26.31: the optional setlist stays beside the scrolling reading surface. */
+#shell.setlist-pinned:not(.hide-list)>.side{position:sticky;top:var(--setlist-top,120px);align-self:start;min-height:0;max-height:var(--setlist-height,calc(100dvh - 320px));overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;touch-action:auto;scroll-behavior:auto}
+@media(max-width:700px){
+ #shell.setlist-pinned:not(.hide-list){display:grid;grid-template-columns:minmax(110px,34%) minmax(0,1fr)!important;gap:6px;align-items:start}
+ #shell.setlist-pinned:not(.hide-list)>.side{display:block!important;width:auto!important;margin:0;padding:8px}
+ #shell.setlist-pinned .side-modes{flex-wrap:wrap;gap:4px;margin-bottom:8px}
+ #shell.setlist-pinned .side-modes button{flex-basis:100%;min-width:0;font-size:10px}
+ #shell.setlist-pinned .setlist-quick{grid-template-columns:minmax(0,1fr);gap:5px}
+ #shell.setlist-pinned .setlist-quick button{grid-column:1}
+ #shell.setlist-pinned .setlist-quick select{width:100%;min-width:0}
+ #shell.setlist-pinned .side h3{font-size:12px;overflow-wrap:anywhere}
+ #shell.setlist-pinned .song-row{font-size:12px;padding:8px 4px;overflow-wrap:anywhere}
+ #shell.setlist-pinned .setlist-song-entry{flex-wrap:wrap}
+ #shell.setlist-pinned .setlist-auto{min-width:0;font-size:9px;min-height:30px}
+ #shell.setlist-pinned .set-controls{flex-wrap:wrap}
+ #shell.setlist-pinned .set-controls button{min-width:30px;padding:6px}
+ #shell.setlist-pinned .mobile-list-head{gap:4px;font-size:10px}
+ #shell.setlist-pinned #closeMobileList{min-width:32px;min-height:38px;padding:4px}
+ #shell.setlist-pinned .main{padding:10px 7px}
+}
+
+/* V26.31: cue assignment shares the Settings skin and native scrolling. */
+.ui24r-panel{max-width:900px;color:var(--text)}
+.ui24r-panel p{font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.ui24r-panel>label{display:block;margin:12px 0 7px;font-size:13px}
+#ui24rHost{width:min(100%,280px);min-height:44px}
+.ui24r-assignment{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+.ui24r-assignment label{display:grid;gap:6px;font-size:13px}
+.ui24r-assignment select{width:100%;min-width:0;min-height:44px}
+#ui24rStatus{color:var(--app-accent);min-height:1.6em}
+#ui24rSong{font-size:18px;color:var(--title)}
+@media(max-width:600px){.ui24r-assignment{grid-template-columns:minmax(0,1fr)}}
+

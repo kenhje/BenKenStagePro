@@ -1,13 +1,26 @@
-BenKen iPad MIDI companion — source project, V26.30
+BenKen iPad MIDI / Ui24R companion — source project, V26.31
 
 This small iPad/iPhone app opens the GitHub web app in WKWebView and connects
 Core MIDI to BenKen's MIDI Learn. It uses the same Web Audio playback engine;
 it does not remove the web audio memory limit or introduce a new native mixer.
 The standalone native audio project from earlier work is a separate project.
 
+UI24R CUES IN THIS VERSION
+The app now includes a native, private-LAN WebSocket bridge for the cue
+connection. The web UI is at SETTINGS > UI24R. After building, press PREPARE
+OFFLINE ACCESS while online to cache soundcraft-ui-connection 7.0.3 in the app.
+Then join the mixer Wi-Fi, enter its local IPv4 address and press CONNECT.
+Allow Local Network permission. READ CUES lists actual show/cue names. Select
+a song and SAVE LINK to remember its cue. Open that show on the mixer first.
+LOAD CUE NOW is a manual test; AUTO-RECALL follows subsequent song selections.
+Read/save-link and enabling Auto-recall do not issue recall commands. The
+bridge is app source and has not been compiled or tested with hardware here.
+GitHub/Safari alone does not enable this native network connection. The cache
+and local-network behavior must be tested offline on the actual device.
+
 BUILD AND TEST ON YOUR MAC
-1. Upload the V26.30 web files to the existing GitHub repository and wait
-   until https://kenhje.github.io/BenKenStagePro/ shows V26.30.
+1. Upload the V26.31 web files to the existing GitHub repository and wait
+   until https://kenhje.github.io/BenKenStagePro/ shows V26.31.
 2. Open BenKenStagePro.xcodeproj in Xcode on your Mac.
 3. Select the BenKenStagePro target > Signing & Capabilities, choose your
    Apple development team and, if needed, a unique bundle identifier.
@@ -17,7 +30,7 @@ BUILD AND TEST ON YOUR MAC
 5. Open the app online the first time so it can load the hosted web version.
 6. Import your .benken song projects inside the app. Its storage is separate
    from Safari and any earlier BenKen native app.
-7. Open gear > MIDI > OPEN MIDI SETTINGS. Connect the MIDI interface,
+7. Open SETTINGS > MIDI > OPEN MIDI SETTINGS. Connect the MIDI interface,
    press CONNECT, choose START and press LEARN, then press the FCB1010 switch.
 8. Assign STOP, NEXT and mute groups in the same way. Test these with your
    existing Ui24R setup and confirm USB output routing before live use.
@@ -71,21 +84,21 @@ background playback/MIDI workflow.
 Source uses Apple system frameworks only: SwiftUI, WebKit, Core MIDI,
 Core Audio Kit and AVFoundation. No third-party SDK or account service is added.
 
-V26.30 EXTERNAL SCREEN NOTE
+V26.31 EXTERNAL SCREEN NOTE
 The separate lyrics popup is intended for the Mac browser. This optional
 WKWebView MIDI wrapper does not implement a separate native external-display
 scene or popup presenter. On iPad 6, use system screen mirroring.
 
-V26.30 PREPARED AUDIO / APPEARANCE
+V26.31 PREPARED AUDIO / APPEARANCE
 The hosted web update adds local prepared-key PCM reuse, cancel/retry progress,
 text navigation buttons, directly editable song Notes, independent title size,
 centered lyrics, Dark/Light palettes and a shared active-button accent. Let
 each transposed song finish
-preparing once in V26.30 before testing reopening. Original audio storage is
+preparing once in V26.31 before testing reopening. Original audio storage is
 unchanged. This optional wrapper still uses the web engine and its 256 MiB
 working-memory guard; native compilation and device tests remain outstanding.
 
-V26.30 SETTINGS / SKIN
+V26.31 SETTINGS / SKIN
 The hosted web update adds a bounded native-scrolling Settings panel and shared
 skin colors across all ordinary buttons, fields and mixer tools. Audio engine,
 Core MIDI and the current foreground-only wrapper behavior are unchanged.
