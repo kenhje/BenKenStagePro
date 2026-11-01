@@ -1,0 +1,19 @@
+BENKEN FØLGERSIDE 26.37.1
+
+Tidtelleren er fjernet fra følgersiden. Rekkefølgen øverst er nå:
+knapper, låttittel, NEXT. Artist/toneart og forbindelsesstatus står under.
+
+Denne lille oppdateringen gjøres bare i Xcode. Mixeren viser fortsatt V26.37.
+
+1. Pakk ut ZIP-filen. Høyreklikk BenKenMIDIApp.swift og velg Åpne med > TextEdit.
+2. Inne i tekstvinduet: trykk Cmd+A og Cmd+C for å kopiere hele koden.
+3. I ditt eksisterende Xcode-prosjekt: åpne BenKenMIDIApp 2.swift, trykk Cmd+A
+   og Cmd+V for å erstatte innholdet. Første linje skal være import SwiftUI.
+   Bruk den eksisterende filen, slik at det bare er én kopi av appkoden.
+4. Lagre med Cmd+S og trykk Run med iPaden valgt.
+5. Velg SETTINGS > NETWORK > START HOST igjen. Følgerne åpner den nye lenken
+   eller skanner den nye QR-koden.
+
+Ingen endring i filhåndtering, lyd, MIDI, Ui24R eller nettverksprotokoll.
+19 eksisterende JavaScript/modellsjekker bestått med den nye følgersiden.
+Swift-bygget og den nye utformingen er ikke testet fysisk her.
