@@ -1,41 +1,63 @@
-IPAD — TEST AV LOKALT NETTVERK (NATIVE 26.31.3)
+BENKEN NATIVE LOCAL HOST / FOLLOW — 26.37 TEST BUILD
 
-OPPDATER I XCODE
-1. Åpne ditt eksisterende BenKenStagePro-prosjekt.
-2. Velg app-filen du bruker: hos deg BenKenMIDIApp 2.swift.
-3. Åpne nye BenKenMIDIApp.swift fra denne mappen i en teksteditor.
-   Kopier HELE innholdet, erstatt hele innholdet i din eksisterende
-   BenKenMIDIApp 2.swift i Xcode og lagre med Cmd+S.
-   Ikke legg til enda en kopi av Swift-filen i prosjektet.
-4. Velg tilkoblet iPad øverst og trykk Run (trekanten).
-Behold ditt Team, Bundle Identifier og installerte app. Ikke slett appen.
-MIDIService.swift trenger ingen endring.
+This native update is needed for START HOST. A GitHub update alone cannot
+start a local server from the old app. Followers only need a browser.
 
-TEST
-1. BenKen > Settings > Ui24R Cue Follow.
-2. Med internett: PREPARE OFFLINE ACCESS én gang for å lagre biblioteket.
-3. Bytt til samme lokale Wi-Fi som Ui24R. Skriv mikserens IP, f.eks. 10.10.1.1.
-4. TEST LOCAL NETWORK. Godkjenn Lokalt nettverk dersom iPad spør.
-5. Testen viser HTTP-svar eller iPads konkrete feil/feilkode. Ta bilde av
-   denne meldingen hvis det ikke virker. Ved HTTP-svar: prøv CONNECT.
+1. Publish the V26.37 web files on the existing GitHub Pages site first.
+2. Open your existing BenKenStagePro project in Xcode on the Mac.
+3. Open the Swift file containing your app (on your Mac it was named
+   BenKenMIDIApp 2.swift). Replace its ENTIRE contents with the contents of
+   BenKenMIDIApp.swift from this folder. Save the file.
+   Do not add a second app file or another @main entry.
+4. In your existing target's Info settings, keep Privacy - Local Network
+   Usage Description. Its value can be updated to:
+   Share song lyrics, chords and playback position with browsers on the
+   same local network, and connect to Soundcraft Ui24R cues.
+   The supplied Info.plist is a reference with the existing keys preserved.
+   Keep your signing, bundle identifier and existing project settings.
+5. Keep the existing MIDIService.swift. A matching copy is included only
+   if you need to compare it; there is no new MIDI requirement here.
+6. Select your physical iPad as the Run destination, unlock it, then Run.
+   Do not delete the installed BenKen app or clear its data.
 
-Testen laster ikke ned forbindelsesbiblioteket først. Den leser rotadressen
-og sender ingen cue-, snapshot- eller showkommando. HTTP-svar viser at en
-server kan nås; det bekrefter ikke alene at Ui24R-cueprotokollen fungerer.
-Den tidligere timeout-feilen er ikke bekreftet rettet på fysisk enhet.
+No external package or new source-file registration is required. Network,
+Darwin and CoreImage are Apple system frameworks imported by the app file.
+The existing MIDI, Ui24R bridge, startup screen and download handling are kept.
 
-HVIS TESTEN SIER AT TILLATELSESBESKRIVELSEN MANGLER
-Den kontrollerer den faktisk installerte appen. I Xcode: velg TARGET > Info.
-Privacy - Local Network Usage Description må ha en forklarende verdi.
-Medfølgende Info.plist viser prosjektets oppsett. Behold egne innstillinger;
-ikke overskriv en tilpasset plist ukritisk. Kontroller at target bruker
-riktig Info.plist og kjør Run igjen.
+FIRST TWO-DEVICE TEST
+- Open the updated app with internet once, so V26.37 has loaded.
+- Connect the host and follower to the same Wi-Fi/router (for example the
+  network used by Ui24R). That network need not have internet access.
+- On the host: SETTINGS > NETWORK > START HOST.
+- On the follower: scan the displayed QR code with its camera, or open the
+  complete displayed http:// local link in Safari, Chrome or another browser.
+- Select a song and test play/pause, seeking, transpose and next song.
+  The follower should display the lyrics/chords without importing any song.
+- Check A-/A+, CHORDS and FOLLOW on the follower. These affect only that screen.
+- Test with the internet connection unavailable after the initial setup.
+  The follower page and its scripts are served directly by the host app.
 
-Hvis BenKen vises i iPad > Innstillinger > Personvern og sikkerhet > Lokalt
-nettverk, må bryteren være på. Manglende oppføring alene påviser ikke årsaken.
-Samme IP kan også testes i Safari på den samme iPad-en og mikserens Wi-Fi.
-Testen tillater bare private IPv4-adresser på port 80.
+Keep the host app open, its screen unlocked and its device awake. This first
+LAN version does not promise background or locked-screen hosting. Keep the
+follower screen awake as well. Reopening a follower page reconnects using the
+same link while that host session remains active.
 
-Den innebygde JavaScript-broen er modelltestet med BenKen V26.35. Her finnes
-ikke Xcode/Apple SDK. Swift-kompilering og virkelig Ui24R-forbindelse må
-prøves på Mac/iPad. GitHub-oppdatering alene legger ikke til native knappen.
+If no address is shown, connect to Wi-Fi/Ethernet and START HOST again. Guest
+Wi-Fi/client isolation can prevent devices on the same named Wi-Fi from
+communicating. If Wi-Fi/IP changes, scan the updated QR code. If the host is
+stopped, restarted or the app page reloads, start a new session and share its
+new link. The old link will no longer work. Local addresses are IPv4.
+
+SCOPE OF THIS TEST BUILD
+Only the selected song text, transposed chords, next title, display colors,
+section timing and transport position are sent. Audio stays on the host.
+The follower cannot start/stop/seek the host or alter its files/settings.
+The native HTTP endpoint is read-only, requires the session code for song
+state, accepts private-network peers, and provides no file or audio route.
+Anyone with the local session link on that network can view the shared song.
+Use your trusted rehearsal network; this is local HTTP, not public hosting.
+
+JavaScript/model checks are automated. No Apple SDK is installed in the
+build environment: native Swift compilation, the actual iPad server, QR
+scanning, browser layout and Wi-Fi performance still require device testing.
+If Xcode reports a build error, send the exact red error message.
