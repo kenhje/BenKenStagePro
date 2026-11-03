@@ -1,12 +1,12 @@
-Web V26.80 + Native V27.17
+Web V26.81 + Native V27.18
 
 Denne rettingen krever ny native app på iPad og iPhone:
 1. Behold en full sikkerhetskopi av biblioteket ditt. Ikke slett den eksisterende appen.
-2. Oppdater alle webfilene fra V26.80 samlet på GitHub Pages, som tidligere.
-3. Pakk ut BenKen_Stage_Pro_V27_17_Native_Swipe.zip. Åpne App/BenKenStagePro.xcodeproj.
+2. Oppdater alle webfilene fra V26.81 samlet på GitHub Pages, som tidligere.
+3. Pakk ut BenKen_Stage_Pro_V27_18_Swipe_Pan.zip. Åpne App/BenKenStagePro.xcodeproj.
 4. Velg riktig enhet og trykk Run. Gjenta for både iPad og iPhone.
-5. Kontroller V26.80 i appen og aktiver SWIPE LEFT / RIGHT TO CHANGE SONG under Lyrics.
+5. Kontroller V26.81 i appen og aktiver SWIPE LEFT / RIGHT TO CHANGE SONG under Lyrics.
 
-Bundle ID, utviklerteam, nettadresse og datalager er beholdt fra den vanlige appen. Sveiping bruker iOS direkte i Native V27.17. Nettleseren og eldre native versjoner beholder web-reserven, som ikke har løst problemet på dine enheter.
+Bundle ID, utviklerteam, nettadresse og datalager er beholdt fra den vanlige appen. Sveiping bruker iOS direkte i Native V27.18. Nettleseren og eldre native versjoner beholder web-reserven, som ikke har løst problemet på dine enheter.
 
 Faktisk berøring på enhetene dine må bekreftes etter installasjon.
