@@ -1,5 +1,5 @@
 BenKen Stage Pro – oppdatering til vanlig app
-Web V26.75 / Native V27.16
+Web V26.76 / Native V27.16
 
 1. I din vanlige BenKen-app: Settings > Backup & restore > CREATE FULL BACKUP. Behold alle delene med lyd i Files/iCloud.
 2. Pakk ut webpakken og publiser alle filene samlet til det eksisterende GitHub Pages-nettstedet, på samme sted som før. Webpakken inneholder ikke testbibliotek.
