@@ -1,0 +1,13 @@
+BenKen Stage Pro – oppdatering til vanlig app
+Web V26.75 / Native V27.16
+
+1. I din vanlige BenKen-app: Settings > Backup & restore > CREATE FULL BACKUP. Behold alle delene med lyd i Files/iCloud.
+2. Pakk ut webpakken og publiser alle filene samlet til det eksisterende GitHub Pages-nettstedet, på samme sted som før. Webpakken inneholder ikke testbibliotek.
+3. Pakk ut BenKen_Stage_Pro_V27_16_Main_App.zip. Åpne App/BenKenStagePro.xcodeproj. Velg BenKenStagePro, riktig enhet og trykk Run.
+4. Denne pakken bruker den opprinnelige identiteten no.benken.stagepro.midicompanion og samme utviklerteam som din vanlige BenKen Stage Pro-app. Den oppdaterer den vanlige appen. Den separate BenKen Native Test beholder sin egen identitet.
+5. Ikke slett den vanlige appen først. Nettadresse, standard WebKit-datalager, lagringsnøkkel og lyddatabase er beholdt slik at eksisterende bibliotek kan brukes.
+6. Kontroller låtantall, noen lydspor, setlister, routing, tempo og transponering før større øving. Hvis biblioteket likevel ikke vises: stopp og bruk fullbackupen, ikke importer testbiblioteket.
+
+Ingen låter er flyttet eller endret av denne oppdateringspakken. Hele biblioteket ditt er ikke tilgjengelig i vårt isolerte prøveoppsett; test med alle låtene etter installasjonen.
+
+Denne pakken er klargjort for testing i hovedappen; dette er ikke en publisering til App Store.
