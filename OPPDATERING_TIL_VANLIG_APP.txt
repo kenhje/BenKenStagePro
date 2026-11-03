@@ -1,5 +1,7 @@
+V26.77 er en weboppdatering. Har du allerede Native V27.16, trenger du kun å oppdatere webfilene på GitHub og åpne appen igjen. Ingen ny Xcode-bygging er nødvendig.
+
 BenKen Stage Pro – oppdatering til vanlig app
-Web V26.76 / Native V27.16
+Web V26.77 / Native V27.16
 
 1. I din vanlige BenKen-app: Settings > Backup & restore > CREATE FULL BACKUP. Behold alle delene med lyd i Files/iCloud.
 2. Pakk ut webpakken og publiser alle filene samlet til det eksisterende GitHub Pages-nettstedet, på samme sted som før. Webpakken inneholder ikke testbibliotek.
