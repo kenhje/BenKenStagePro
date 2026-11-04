@@ -1,4 +1,4 @@
-BenKen Stage Pro Web V26.99 · Native V27.22
+BenKen Stage Pro Web V26.100 · Native V27.22
 
 Play og Next har nå bare svært svak gjennomsiktighet.
 Ingen endringer i Controls-funksjoner eller lydmotor.
