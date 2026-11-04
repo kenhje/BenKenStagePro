@@ -1,8 +1,6 @@
-BenKen adaptations of established color palettes. No affiliation or endorsement.
-Nord: https://www.nordtheme.com/docs/colors-and-palettes/
-Dracula: https://draculatheme.com/contribute
-Solarized (Ethan Schoonover): https://ethanschoonover.com/solarized/
-
-Original palette hex values mapped to BenKen UI roles. Audio routing, imported region colors and track colors are not rewritten.
-
-V26.91: Vice, Warm, Cool, Earth, Pastel and Spectrum are BenKen color sets inspired by the supplied palette-strip reference; they are not claimed official REAPER palettes.
+Web V26.92 reference palettes
+Classic (REAPER): exact user-provided REAPER type/color table: Intro fc7a7e, Verse fead76, Chorus f8ff87, Bridge a0ff91, Solo 70e4ff, Outro 7093fe, Melody fc74ff. Latest region screenshot corroborates the six visible types after accounting for its embedded display ICC profile.
+Sunset: coordinated interpretation of both supplied beach/sunset color-strip references.
+Lavender: explicit reference swatches FFFAAC, EEA2AF, 9DA0D7, 35738C, 033F40.
+Fjord: coordinated interpretation of supplied lake/mountain color-strip reference.
+Reference photographs are not distributed in this package. These are BenKen display presets, not an official REAPER theme.

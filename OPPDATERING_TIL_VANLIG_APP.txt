@@ -1,21 +1,25 @@
-BenKen Stage Pro — Web V26.91
+BenKen Stage Pro — Web V26.92
 4. november 2026
 
-KUN WEBOPPDATERING. Behold Native V27.22. Ingen ny Xcode-bygging er nødvendig.
-Publiser alle filene fra denne pakken samlet, vent til GitHub Pages er ferdig og åpne appen igjen.
+Kun weboppdatering. Behold Native V27.22; ingen ny Xcode-bygging.
+Publiser alle webfilene samlet og vent til GitHub Pages er ferdig.
 
-Settings > Appearance:
-App skin og Color palettes er to sammenleggbare felt. De starter lukket og viser valgt navn. Mens du velger skin/palett forblir det åpne feltet åpent.
-Dark har oransje knapper/aksenter. Studio Black har mørkere grå bakgrunn og flater.
-Seks nye koordinerte paletter: Vice, Warm, Cool, Earth, Pastel og Spectrum. Hver har ti farger, i tillegg til Nord, Dracula og Solarized-palettene.
-Skinbytte beholder egne tekst-, akkord-, seksjons- og sporfarger. Et eksplisitt palettvalg erstatter Personalization-fargene, som beskrevet i menyen. Importerte REAPER-regionfarger og sporfarger beholdes.
+Settings > Appearance > Color palettes har fire valg:
+Classic (REAPER), Sunset, Lavender og Fjord.
+App skin og Color palettes kan fortsatt klappes sammen.
 
-Settings > Audio & playback > Missing audio:
-SHOW MISSING AUDIO WARNINGS styrer visning av manglende lyd.
-SHOW “SONGS HAVE MISSING AUDIO” AT STARTUP styrer oppstartsvarselet separat. Slå av for å slippe varselet ved neste oppstart. Valget huskes på enheten.
-Oppstartsvarselet har også SHOW AT STARTUP som kan slås av direkte.
-Disse valgene endrer ikke lydfilene og gjør ikke manglende filer spillbare.
+RESET TO CLASSIC bruker Classic (REAPER) og disse regionfargene fra REAPER-oversikten:
+Intro #fc7a7e
+Verse #fead76
+Chorus #f8ff87
+Bridge #a0ff91
+Solo #70e4ff
+Outro #7093fe
+Melody #fc74ff
+Navn og farger vises under den valgte paletten. Importerte regionnavn endres ikke. Når «Override REAPER region colors with Personalization» er av, brukes fortsatt de faktiske fargene fra importen. Når valget er på, brukes palettens farge per regiontype.
 
-About og manual er oppdatert. Native lydmotor, tempo, MIDI Clock og routing er uendret.
+Sunset kombinerer solnedgangsbildenes sjø-, rosa- og ferskentoner. Lavender følger den oppgitte gule/rosa/lavendel/teal-paletten. Fjord bruker innsjøbildets duse rosa-, grønne-, teal- og marineblå toner. Mørke leseflater og lyse tekstfarger sørger for kontrast.
+Et palettvalg erstatter Personalization-farger. Sporfarger og lydinnstillinger beholdes. Oppstartsvarselets av/på-valg fra V26.91 er beholdt.
+About og manual oppdatert.
 Laget til BenKen™
 Copyright © Kenneth Hjelle 2026
