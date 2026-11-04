@@ -1,4 +1,4 @@
-BenKen Stage Pro · Web V26.104 · Native V27.23 unchanged
+BenKen Stage Pro · Web V26.105 · Native V27.23 unchanged
 
 Navy & Copper is now the default skin for new installations and when no skin was selected. Existing selected skins and saved personal colours are preserved. Classic (REAPER) is unchanged.
 
