@@ -1,0 +1,6 @@
+BenKen adaptations of established color palettes. No affiliation or endorsement.
+Nord: https://www.nordtheme.com/docs/colors-and-palettes/
+Dracula: https://draculatheme.com/contribute
+Solarized (Ethan Schoonover): https://ethanschoonover.com/solarized/
+
+Original palette hex values mapped to BenKen UI roles. Audio routing, imported region colors and track colors are not rewritten.
