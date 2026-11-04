@@ -1,4 +1,4 @@
-BenKen Stage Pro Web V26.98 · Native V27.22
+BenKen Stage Pro Web V26.99 · Native V27.22
 
 Song Loudness er nå egen rad i Settings → AUDIO & PLAYBACK. Knappen i Song Master heter SONG LOUDNESS. Den kan også velges som en Controls-knapp via Controls & fullscreen → Button order and labels.
 Fremdriftslinjen viser samlet prosent under analyse av låt eller setliste, og status viser gjeldende låt/fil. Avbrutt analyse beholder faktisk fremdrift; ferdige/skippede låter telles i totalen.

@@ -1,4 +1,4 @@
-BenKen Stage Pro Web V26.98 · Native V27.22
+BenKen Stage Pro Web V26.99 · Native V27.22
 
 Store Controls-knapper har gjennomsiktige flater. Rettet vis/skjul i fullskjerm.
 Last opp webfilene som ved tidligere oppdateringer. Native/Xcode trenger ikke bygges på nytt.
