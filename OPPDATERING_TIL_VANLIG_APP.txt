@@ -1,4 +1,4 @@
-Web V26.85 / Native V27.18
+Web V26.86 / Native V27.18
 
 Oppdater webfilene på GitHub. Du trenger ikke bygge på nytt i Xcode når Native V27.18 allerede er installert.
-Kontroller Web V26.85 i About på begge enheter. Behold eksisterende app og bibliotek.
+Kontroller Web V26.86 i About på begge enheter. Behold eksisterende app og bibliotek.
