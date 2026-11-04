@@ -4,3 +4,5 @@ Dracula: https://draculatheme.com/contribute
 Solarized (Ethan Schoonover): https://ethanschoonover.com/solarized/
 
 Original palette hex values mapped to BenKen UI roles. Audio routing, imported region colors and track colors are not rewritten.
+
+V26.91: Vice, Warm, Cool, Earth, Pastel and Spectrum are BenKen color sets inspired by the supplied palette-strip reference; they are not claimed official REAPER palettes.

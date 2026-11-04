@@ -1,26 +1,21 @@
-BenKen Stage Pro — Native V27.21 / Web V26.89
+BenKen Stage Pro — Web V26.91
 4. november 2026
 
-Bygg App/BenKenStagePro.xcodeproj i denne nye Native-mappen over eksisterende app. Ikke slett appen eller biblioteket. Samme appidentitet og lagring beholdes.
-Native V27.21 inneholder lydrettingene og oppstartsrettingen. Web V26.87/26.88 kan fortsatt brukes. Web V26.89 oppdaterer About og lydstatusvisningen; den anbefales, men er ikke nødvendig for selve native lydrettingen.
+KUN WEBOPPDATERING. Behold Native V27.22. Ingen ny Xcode-bygging er nødvendig.
+Publiser alle filene fra denne pakken samlet, vent til GitHub Pages er ferdig og åpne appen igjen.
 
-BAKGRUNNSAVSPILLING
-Audio Units for spillere, klikk og miksing reserverer minst 4096 frames per renderblokk før motoren startes. Dette er kapasitet for iOS-bakgrunnskjøring, ikke en endring av ditt valgte hardwarebuffer. La bufferen stå på 1024 under første test.
-Kontinuerlig signalmåling på lydstrømmen er slått av ved vanlig iPad/iPhone-avspilling for å redusere belastning. Mac-signaldiagnostikk og offline lydtester er beholdt.
-Reelt bytte av lydutgang, frakobling eller en annen app som avbryter lydøkten kan fortsatt stoppe avspillingen. Ingen automatisk omstart ved et slikt avbrudd.
+Settings > Appearance:
+App skin og Color palettes er to sammenleggbare felt. De starter lukket og viser valgt navn. Mens du velger skin/palett forblir det åpne feltet åpent.
+Dark har oransje knapper/aksenter. Studio Black har mørkere grå bakgrunn og flater.
+Seks nye koordinerte paletter: Vice, Warm, Cool, Earth, Pastel og Spectrum. Hver har ti farger, i tillegg til Nord, Dracula og Solarized-palettene.
+Skinbytte beholder egne tekst-, akkord-, seksjons- og sporfarger. Et eksplisitt palettvalg erstatter Personalization-fargene, som beskrevet i menyen. Importerte REAPER-regionfarger og sporfarger beholdes.
 
-KLARGJØRING
-Spor med uendret tempo og tonehøyde hopper over TimePitch-behandlingen. Filverifisering og klargjøring til 48 kHz beholdes; dette kan fortsatt ta tid, særlig med store filer og endret tempo/toneart. Verifiserte eksisterende lydcacher gjenbrukes.
-Native lydstatus viser tid for filverifisering/installering og for klargjøring/innlasting, samt sist registrerte lydavbrudd. Web V26.89 forklarer at signalmåling er slått av på iOS.
+Settings > Audio & playback > Missing audio:
+SHOW MISSING AUDIO WARNINGS styrer visning av manglende lyd.
+SHOW “SONGS HAVE MISSING AUDIO” AT STARTUP styrer oppstartsvarselet separat. Slå av for å slippe varselet ved neste oppstart. Valget huskes på enheten.
+Oppstartsvarselet har også SHOW AT STARTUP som kan slås av direkte.
+Disse valgene endrer ikke lydfilene og gjør ikke manglende filer spillbare.
 
-TEST
-1. Bruk Native, buffer 1024 og en låt uten tempo- eller toneartsendring.
-2. Start avspilling, gå til Hjem-skjermen og la den spille minst ett minutt.
-3. Gå tilbake, åpne Mixing Station mens samme låt spiller, og prøv minst ett minutt.
-4. Gjenta med multitrack, separat USB-routing, tempo og transponering på ditt vanlige oppsett.
-Hvis det stopper: åpne Settings > Audio & playback > Native audio status og lagre rapporten før du klargjør en annen låt. Rapporten inneholder tidspunkt/målinger og siste registrerte lydavbrudd.
-
-Bygging og automatiske lydtester erstatter ikke fysisk iPad/iPhone-testing. Appbytte og Mixing Station må fortsatt bekreftes på dine enheter før livebruk.
-
+About og manual er oppdatert. Native lydmotor, tempo, MIDI Clock og routing er uendret.
 Laget til BenKen™
 Copyright © Kenneth Hjelle 2026
