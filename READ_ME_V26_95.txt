@@ -1,4 +1,4 @@
-BenKen Stage Pro Web V26.97 · Native V27.22
+BenKen Stage Pro Web V26.98 · Native V27.22
 
 Large live buttons viser kun Play og Next med litt gjennomsiktig bakgrunn.
 Vanlig Controls-oppsett beholdes når Large live buttons slås av.

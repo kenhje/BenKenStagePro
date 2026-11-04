@@ -1,4 +1,4 @@
-BenKen Stage Pro Web V26.97 · Native V27.22
+BenKen Stage Pro Web V26.98 · Native V27.22
 
 Mixer → TRACKS → SONG → LUFS
 1. Velg Target LUFS (−60 til −5, standard −14).
