@@ -1,28 +1,26 @@
-BenKen Stage Pro — Web V26.87 / Native V27.19
+BenKen Stage Pro — Native V27.21 / Web V26.89
 4. november 2026
 
-DENNE OPPDATERINGEN TRENGER BÅDE WEBFILENE OG NY BYGGING I XCODE.
-Publiser alle webfilene samlet. Åpne App/BenKenStagePro.xcodeproj i den nye Native-mappen. Velg din enhet og bygg over den eksisterende BenKen Stage Pro-appen. Ikke slett appen. Samme appidentitet og datalager er beholdt. Ta backup med lyd før oppdatering.
+Bygg App/BenKenStagePro.xcodeproj i denne nye Native-mappen over eksisterende app. Ikke slett appen eller biblioteket. Samme appidentitet og lagring beholdes.
+Native V27.21 inneholder lydrettingene og oppstartsrettingen. Web V26.87/26.88 kan fortsatt brukes. Web V26.89 oppdaterer About og lydstatusvisningen; den anbefales, men er ikke nødvendig for selve native lydrettingen.
 
 BAKGRUNNSAVSPILLING
-Velg Native under Settings > Audio & playback. Start en låt, bytt til Mixing Station, og kontroller at lyden fortsetter. Tilbake i BenKen skal tidsvisningen oppdateres.
-Webdelen pauser ikke lenger den nye native motoren ved pagehide, og unødvendige meldinger om uendret lydrute ignoreres. Native lyd og MIDI Clock er uavhengige av nettleserens tidtakere.
-Ved stopp i visningsprosessen fortsetter aktiv native avspilling. STOP AUDIO vises før RETRY kan brukes.
-Reelt bytte/frakobling av lydutgang og lydavbrudd stopper fortsatt avspillingen. Tvangsavslutting av BenKen stopper lyden. Automatisk neste låt i bakgrunnen er ikke bekreftet.
+Audio Units for spillere, klikk og miksing reserverer minst 4096 frames per renderblokk før motoren startes. Dette er kapasitet for iOS-bakgrunnskjøring, ikke en endring av ditt valgte hardwarebuffer. La bufferen stå på 1024 under første test.
+Kontinuerlig signalmåling på lydstrømmen er slått av ved vanlig iPad/iPhone-avspilling for å redusere belastning. Mac-signaldiagnostikk og offline lydtester er beholdt.
+Reelt bytte av lydutgang, frakobling eller en annen app som avbryter lydøkten kan fortsatt stoppe avspillingen. Ingen automatisk omstart ved et slikt avbrudd.
 
-MIDI CLOCK
-Settings > MIDI & pedals > MIDI CLOCK OUTPUT.
-Stopp musikken. Velg én tilkoblet MIDI-utgang, slå på Send MIDI Clock with playback og lagre. Innstillingen huskes lokalt på hver enhet.
-Clock følger låtens avspillingstempo, også ved tempoendring, uavhengig av manuelt metronomtempo. Krever kjent BPM mellom 20 og 300 og Native-motoren.
-Send Start / Stop er valgfritt og av som standard. START sendes på første musikkslag etter count-in ved start fra begynnelsen. Clock sendes også under count-in. Pause/stopp/lydavbrudd sender STOP når valget er på.
-Seek eller resume flytter ikke looperens posisjon og sender ikke ny START. Begynn fra låtstart for felles start. Looperens lagrede looper må være satt opp for ekstern temposync.
-Velg ekstern MIDI/USB-temposync på RC-600. Enheten må vises som MIDI-utgang; hvis direkte USB ikke fungerer, bruk kompatibelt USB–MIDI-interface til DIN MIDI IN.
-Ved MIDI-frakobling eller klokkeavbrudd fortsetter lyden uten Clock. Stopp og start igjen for ny synkronisering.
+KLARGJØRING
+Spor med uendret tempo og tonehøyde hopper over TimePitch-behandlingen. Filverifisering og klargjøring til 48 kHz beholdes; dette kan fortsatt ta tid, særlig med store filer og endret tempo/toneart. Verifiserte eksisterende lydcacher gjenbrukes.
+Native lydstatus viser tid for filverifisering/installering og for klargjøring/innlasting, samt sist registrerte lydavbrudd. Web V26.89 forklarer at signalmåling er slått av på iOS.
 
-KONTROLLERT
-iOS Simulator og Mac Catalyst bygger. 35 Swift-tester, 2 hoppet over, ingen feil; inkludert virkelig CoreMIDI-kommunikasjon med virtuell testutgang og tidsstemplede Clock/Start/Stop-meldinger.
-Web-regresjoner passerer, inklusive count-in, tempo, sveip, menyer og bakgrunnsvalg. MIDI-meny og lagring er kontrollert med simulert enhet.
-Fysisk iPad/Mixing Station og RC-600 er IKKE testet her. Dette må prøves med ditt fulle lydoppsett før livebruk. Ha konserten tilgjengelig på reserveenheten.
+TEST
+1. Bruk Native, buffer 1024 og en låt uten tempo- eller toneartsendring.
+2. Start avspilling, gå til Hjem-skjermen og la den spille minst ett minutt.
+3. Gå tilbake, åpne Mixing Station mens samme låt spiller, og prøv minst ett minutt.
+4. Gjenta med multitrack, separat USB-routing, tempo og transponering på ditt vanlige oppsett.
+Hvis det stopper: åpne Settings > Audio & playback > Native audio status og lagre rapporten før du klargjør en annen låt. Rapporten inneholder tidspunkt/målinger og siste registrerte lydavbrudd.
+
+Bygging og automatiske lydtester erstatter ikke fysisk iPad/iPhone-testing. Appbytte og Mixing Station må fortsatt bekreftes på dine enheter før livebruk.
 
 Laget til BenKen™
 Copyright © Kenneth Hjelle 2026
