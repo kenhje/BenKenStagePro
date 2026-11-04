@@ -1,4 +1,4 @@
-BenKen Stage Pro — Web V26.96
+BenKen Stage Pro — Web V26.97
 4. november 2026
 
 Kun weboppdatering. Behold Native V27.22. Ingen ny Xcode-bygging.

@@ -1,0 +1,8 @@
+Loudness reference: ITU-R BS.1770-5 Annex 1 (2023), stereo integrated loudness.
+https://www.itu.int/dms_pubrec/itu-r/rec/bs/R-REC-BS.1770-5-202311-I!!PDF-E.pdf
+
+48 kHz offline decode. Two specified K-weighting filters per channel. 400 ms blocks with 75% overlap. Absolute gate −70 LUFS, relative gate −10 LU. No channel weighting beyond L/R = 1. Excludes selected click/cue tracks from loudness, but includes every file track in sample-peak checks.
+
+Not Annex 2 true-peak metering or certified EBU compliance. Peak protection is a −3 dBFS sample ceiling before FX, for the full stereo fold and saved USB outputs. The gain is also capped by existing Song Master max 2 (+6.02 dB). No live limiter, file rewriting, compression or change to Native processing.
+
+Validation covers 997 Hz calibration (mono −3.01 LUFS, stereo approximately 0), gate behavior, gain linearity, chunk continuity, routing/balance/fold-down, persistence/rollback, reset, missing tracks and setlist deduplication. Physical-device and full-library verification is pending.
