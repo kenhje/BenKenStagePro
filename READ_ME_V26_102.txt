@@ -1,4 +1,4 @@
-BenKen Stage Pro Web V26.103 · Native V27.23 unchanged
+BenKen Stage Pro Web V26.104 · Native V27.23 unchanged
 4 November 2026
 
 Direct output-bus dropdown at the top of every track in Mixer → Tracks. Tap once to see bus names and USB outputs. Choose a bus without opening the track settings. Direct USB remains available.
