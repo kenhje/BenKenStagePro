@@ -1,0 +1,12 @@
+USB-lydkort — BenKen Web V26.109 / Native V27.25
+Test separat: Ui24R, PreSonus-kortet, SSL12 og iD4.
+Bruk bare USB-utganger som kortet faktisk tilbyr. Rutingen for Ui24R passer ikke automatisk på de andre kortene.
+
+1. Koble kortet til før BenKen åpnes. Native → Live / USB. Kontroller enhet, utganger og riktig lyd per spor.
+2. Åpne BenKen først, koble deretter til kortet mens avspillingen er stoppet. Se om valgt låt klargjøres uten omstart.
+3. Med avspilling stoppet: koble USB ut og inn. Bruk REFRESH OUTPUTS hvis forbindelsen ikke kommer tilbake. Mikseren skal ikke trenge omstart.
+4. Spill en låt. Åpne Hjem-skjerm og Mixing Station. Se etter avbrudd eller hakking.
+5. Bytt låt og prøv count-in, tempo og transponering på utvalgte spor. Se at fremdriften vises og forsvinner ved Ready eller feil.
+6. Ved feil: send lydstatusrapport og noter kort, enhet, Native/Web-versjon, hub/strøm, tilkoblingsrekkefølge og hva som ble trykket.
+
+Å koble fra aktivt lydkort under avspilling kan stoppe lyden. Appen skal ikke starte musikk automatisk eller sende USB-spor til høyttalerne som fallback.
