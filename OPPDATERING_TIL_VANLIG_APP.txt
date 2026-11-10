@@ -1,8 +1,8 @@
-BenKen Stage Pro V26.163
+BenKen Stage Pro V26.164
 10 November 2026
 
 Web update: refreshed skins and simplified appearance settings.
 Deploy the contents of this package together, including index.html, versioned assets and sw.js.
 No new native update required. Native V27.31 supports automatic cache; V27.32 supports logo startup.
-See READ_ME_V26_163.txt and Settings > About for release details.
+See READ_ME_V26_164.txt and Settings > About for release details.
 Physical iPad/iPhone verification remains pending.
