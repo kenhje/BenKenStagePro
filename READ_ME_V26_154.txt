@@ -5,3 +5,5 @@ Edit chord chart: choose LISTEN & EDIT to hear the saved song and watch the curr
 Bar highlighting requires exact synced sections or enabled REAPER regions, known tempo and explicit | bars in played order. Estimated timing and automatic repeat expansion are not used. No new native update required (27.31 cache; 27.32 logo startup). English About history and feature list retained. Physical iPad/iPhone/audio verification remains pending.
 
 DEMO: Settings → Lyrics & scrolling → ADD CHORD CHART DEMO adds a separate 38.4-second original instrumental, 100 BPM, 4/4, 16 bars and four synced regions. Opens Listen & edit. The included BenKen_Chord_Chart_Demo.benken can also be imported as a project. Recorded audio stays the same when chart chords are edited.
+
+TRY IT: Press PLAY in the demo editor, wait for the highlighted bar to move, then EDIT CURRENT BAR to select its written chord. Change Bm to B7 to see the draft preview update. PLAY SELECTED BAR returns to its exact synced position. CANCEL keeps the original chart; SAVE keeps your changes.
