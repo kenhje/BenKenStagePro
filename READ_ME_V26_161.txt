@@ -1,0 +1,2 @@
+BenKen V26.161 — 10 November 2026
+Lyrics / ChordPro > Import mode > Keep chords, add lyrics. Uses incoming lyrics without their bracketed chords. Existing inline chords are placed on safely matching words; unmatched or repeated chord lines and plain chord-only rows remain in CHORDS TO PLACE after the lyrics. Move them into position in Edit lyrics after import. Existing audio, routing, settings and separate chord charts are preserved. Preview before saving; a text backup downloads first. Physical iPad verification pending.
