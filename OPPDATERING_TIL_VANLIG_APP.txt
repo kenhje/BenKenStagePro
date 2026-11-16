@@ -1,6 +1,6 @@
-BenKen Stage Pro V26.171
+BenKen Stage Pro V26.172
 16. november 2026
 
-Web-oppdatering: notater i sangteksten (5 farger), EDIT LYRICS- og + NOTE-knapper, og LYRICS ONLY per sang.
-Ingen ny Xcode-bygging nødvendig utover V27.33 (anbefalt for permanent lydbibliotek).
-Fysisk test på iPad gjenstår.
+Web-oppdatering: REAPER-oppdateringer beholder teksten, tempo og taktart fra REAPER Export V6, Detect tempo virker på iPad, automatisk og manuell BPM.
+Bruk REAPER-scriptene i mappa "REAPER Scripts V6".
+Ingen ny Xcode-bygging nødvendig utover V27.33.
