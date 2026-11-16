@@ -28,6 +28,13 @@
    const result=await post({command:'audioWarmFinish',token,stereo:mode==='stereo'});check();if(!result.ready)throw Error('Concert audio could not be prepared.');return result;
   } finally {signal?.removeEventListener('abort',abort);if(poll)root.clearInterval(poll);await post({command:'audioWarmCancel',token}).catch(()=>{})}
  }
+ // V26.176: MIDI Clock is always 24 pulses per QUARTER note. Song BPM in x/8 meters (REAPER's divided BPM,
+ // e.g. 6/8 at 180) counts eighth notes, so the clock sends 180 × 4/8 = 90 quarter-note BPM. Playback speed is included.
+ function clockBpm(song,fallback){
+  const bpm=root.StageTempo.config(song)?.targetBpm||root.StageTempo.metadata(song)||fallback,den=Number(song?.timeSignature?.denominator);
+  const value=[2,4,8,16].includes(den)?bpm*4/den:bpm;return Math.min(300,Math.max(20,value));
+ }
+ root.BenKenClockBpm=clockBpm;
  class NativePlayer {
   constructor({notify=()=>{},mode,host}){
    this.native=true;this.supportsTrackEQ=root.BenKenMainAudio?.trackEQ===true;this.notify=notify;this.host=host;this.mode=mode==='stereo'?'stereo':'usb';this.tracks=[];this.buffers=[];this.info=new Map();this.duration=0;this.sourceDuration=0;this.position=0;this.playing=false;this.preparing=false;this.preparationProgress=null;this.preparationStarted=0;this.loadError='';this.generation=0;this.channels=2;this.reportedChannels=2;this.master=1;this.globalMaster=1;this.masterMuted=false;this.muteGroups=new Set();this.buses=[];this.busNodes=new Map();this.nodes=[];this.decodedBytes=0;this.requiredBytes=0;this.cacheHits=0;this.masterFX={enabled:false};this.compressorReduction=0;this.startOffset=0;this.startTime=0;this.transportState='stopped';this.sampledAt=now();this._token='';this._control=Promise.resolve();this._polling=false;this._mixKey='';this._endSerial=0;this._counting=false;this._playSerial=0;this._metersAvailable=false;this._outputPeak=0;this._trackPeaks=new Map();this._meterSampledAt=0;this._lastPoll=0;
@@ -106,7 +113,7 @@
    const serial=++this._playSerial,token=this._token;await this._control.catch(()=>{});await this.flushMix();if(serial!==this._playSerial||token!==this._token)return;
    const cfg=root.StageClick.config(this.host.song()),bus=this.buses.find(b=>b.id===cfg.bus),count=delay>0?Math.round(delay*cfg.bpm/60/cfg.beatsPerBar):0;
    const click={...cfg,countInBars:count,output:bus?.output||3,volume:(bus?.mute||this.masterMuted)?0:clamp(cfg.volume*(bus?.gain??1)*this.master*this.globalMaster,0,1)};
-   this.startOffset=this.position>=this.duration?0:this.position;this.stopAt=stopAt;const state=await post({command:'audioPlay',token,position:this.startOffset,stopAt,click,midiBpm:root.StageTempo.config(this.host.song())?.targetBpm||root.StageTempo.metadata(this.host.song())||cfg.bpm});
+   this.startOffset=this.position>=this.duration?0:this.position;this.stopAt=stopAt;const state=await post({command:'audioPlay',token,position:this.startOffset,stopAt,click,midiBpm:clockBpm(this.host.song(),cfg.bpm)});
    if(serial!==this._playSerial||token!==this._token)return;this._accept(state,token);this.startTime=now()+(state.countRemaining||0);this.transportState='playing';onScheduled?.(this.startTime);this.notify({playing:this.playing});
   }
   _command(command,position){
@@ -161,5 +168,5 @@
   };
   new MutationObserver(install).observe(document.documentElement,{childList:true,subtree:true});install();
  }
- root.StageNativeAudio={VERSION:'26.175',available,warm:transferWarm,Player:NativePlayer,Click:NativeClick,mountAudioStatus};
+ root.StageNativeAudio={VERSION:'26.176',available,warm:transferWarm,Player:NativePlayer,Click:NativeClick,mountAudioStatus};
 })(typeof window!=='undefined'?window:globalThis);

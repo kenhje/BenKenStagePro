@@ -51,7 +51,7 @@
  dialog.addEventListener('cancel',e=>{e.preventDefault();finish()});
  root.addEventListener('resize',position);root.visualViewport?.addEventListener('resize',position);root.visualViewport?.addEventListener('scroll',position);
  get('askBenKenHome').onclick=()=>app.openHelp('ASK');
- root.StageWelcome={VERSION:'26.175',open};
+ root.StageWelcome={VERSION:'26.176',open};
  let addingDemo=false;
  async function addDemo(){
   const button=get('welcomeDemo'),status=get('welcomeDemoStatus');
