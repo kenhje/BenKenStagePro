@@ -1,5 +1,4 @@
-BenKen Stage Pro V26.174
-16. november 2026
+BenKen Stage Pro V26.175
+17. november 2026
 
-Enklere tempo-side i Mikser > Tempo. Inneholder alt fra V26.170-173.
-Ingen ny Xcode-bygging nødvendig utover V27.33.
+Krever Native V27.34 (bygg BenKen_Stage_Pro_V27_34_Eight_Transpose i Xcode) for å transponere mer enn tre spor.
