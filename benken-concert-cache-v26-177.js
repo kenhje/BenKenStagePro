@@ -32,5 +32,5 @@
  root.addEventListener('benken-audio-changed',()=>{pause();ready.clear();retry.clear()});
  document.addEventListener('click',e=>{if(e.target.closest('[data-clear-audio-cache]'))clear()});
  root.setInterval(tick,1000);
- root.StageConcertCache={VERSION:'26.176',busy:()=>clearing,status:()=>({supported:supported(),preparing:!!active,clearing,ready:ready.size,message:status()})};
+ root.StageConcertCache={VERSION:'26.177',busy:()=>clearing,status:()=>({supported:supported(),preparing:!!active,clearing,ready:ready.size,message:status()})};
 })(window);
