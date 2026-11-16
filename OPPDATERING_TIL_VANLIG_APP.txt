@@ -1,6 +1,5 @@
-BenKen Stage Pro V26.173
+BenKen Stage Pro V26.174
 16. november 2026
 
-Automatisk tempo er på som standard, og ny knapp DETECT TEMPO FOR ALL SONGS under Mikser > Tempo.
-Inneholder også alt fra V26.170-172.
+Enklere tempo-side i Mikser > Tempo. Inneholder alt fra V26.170-173.
 Ingen ny Xcode-bygging nødvendig utover V27.33.

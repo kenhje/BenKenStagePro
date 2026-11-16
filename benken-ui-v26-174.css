@@ -2402,3 +2402,17 @@ body.hide-extra-info [data-extra-info].import-guide{display:none!important}
 #noteEditor .note-actions #noteEditorDelete{margin-right:auto}
 #noteEditor p.foot{opacity:.75;font-size:13px;margin:8px 0 0}
 #songLyricsOnly[aria-pressed="true"]{outline:2px solid currentColor}
+
+/* V26.174: simpler tempo page — song tempo first, extras folded away. */
+.tempo-panel>section,.tempo-panel>details{margin:0 0 14px}
+.tempo-simple,.tempo-speed{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 16px}
+.tempo-panel h3{margin:0 0 10px;font-size:15px;letter-spacing:.06em}
+.tempo-simple-row{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.tempo-song-bpm{display:flex;flex-direction:column;gap:6px;font-weight:600}
+.tempo-song-bpm input{font-size:28px;width:140px;text-align:center;padding:8px}
+.tempo-simple-row #tempoDetect{min-height:52px;padding:0 22px}
+#tempoMeterInfo{margin:10px 0 0}
+.tempo-more,.click-more{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 14px}
+.tempo-more>summary,.click-more>summary{cursor:pointer;font-weight:600;padding:4px 0}
+.tempo-more[open]>*:not(summary),.click-more[open]>*:not(summary){margin-top:10px}
+.click-simple{margin-bottom:10px}
