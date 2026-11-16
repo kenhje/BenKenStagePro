@@ -1,6 +1,6 @@
 (function(root){
 'use strict';
-const VERSION='26.177',SHARP=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],FLAT=['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+const VERSION='26.178',SHARP=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],FLAT=['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
 const mod=n=>((n%12)+12)%12,esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function pitch(key){const m=String(key||'').match(/^([A-G])([#b]?)/);return m?mod(({C:0,D:2,E:4,F:5,G:7,A:9,B:11})[m[1]]+(m[2]==='#'?1:m[2]==='b'?-1:0)):null;}
 function names(style='auto',key='C'){if(style==='flat')return FLAT;if(style==='sharp')return SHARP;const p=pitch(key);if(p===null)return SHARP;const signature=mod(p+(/m$/.test(key)?3:0));return [1,3,5,8,10].includes(signature)||signature===6&&!String(key).includes('#')?FLAT:SHARP;}

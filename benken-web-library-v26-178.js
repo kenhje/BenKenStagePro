@@ -38,5 +38,5 @@ function mount(container,{state:db,save,changed,busy:blocked}){
  }
  account();if(client.session)run(load);return {dispose(){disposed=true}};
 }
-root.BenKenWebLibrary={VERSION:'26.177',Client,payload,equal,state,attach,apply,esc,loginMarkup,wireLogin,mount};
+root.BenKenWebLibrary={VERSION:'26.178',Client,payload,equal,state,attach,apply,esc,loginMarkup,wireLogin,mount};
 })(typeof window!=='undefined'?window:globalThis);

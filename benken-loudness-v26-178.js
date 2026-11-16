@@ -1,6 +1,6 @@
 (function(root){
 'use strict';
-const VERSION='26.177',RATE=48000,CHUNK=48000,MAX_PCM=192*1024*1024;
+const VERSION='26.178',RATE=48000,CHUNK=48000,MAX_PCM=192*1024*1024;
 const excluded=t=>/(^|[\s_\-.])(click|cue|cues|metronome|count[ -]?in)([\s_\-.]|$)/i.test(t.name+' '+(t.fileName||''));
 function included(song,tracks){const saved=song.playback?.loudnessInclude;return new Set(Array.isArray(saved)?saved:tracks.filter(t=>!excluded(t)).map(t=>t.id))}
 function fingerprint(song,state){return JSON.stringify({tracks:root.StageProject.tracks(song),include:[...included(song,root.StageProject.tracks(song))],buses:root.StageProject.buses(state)})}
@@ -34,7 +34,7 @@ function mount(o){
   if(!tracks.length)throw Error('No audio tracks.');if(!tracks.some(t=>selected.has(t.id)))throw Error('Select at least one musical track under Tracks & measurement.');
   if(Number(song.duration)>520)throw Error('This song is too long for on-device analysis. Analyse a shorter stereo export instead.');
   const missing=await missingTracks(tracks,o.mixer.repo,check);if(missing.length)throw Error('Missing audio: '+missing.join('; '));
-  jobName='benken-loudness-temp-'+root.crypto.randomUUID();workerFailed=false;activeWorker=new root.Worker('./benken-loudness-worker-v26-177.js');
+  jobName='benken-loudness-temp-'+root.crypto.randomUUID();workerFailed=false;activeWorker=new root.Worker('./benken-loudness-worker-v26-178.js');
   activeWorker.onmessage=e=>{if(typeof e.data.progress==='number'){progressSong(.85+.14*e.data.progress);return}const p=pending.get(e.data.id);if(!p)return;pending.delete(e.data.id);e.data.error?p.reject(Error(e.data.error)):p.resolve(e.data.value)};
   activeWorker.onerror=e=>{workerFailed=true;pending.forEach(p=>p.reject(Error(e.message||'Loudness worker failed.')));pending.clear()};
   try{
