@@ -1,6 +1,6 @@
-BenKen Stage Pro V26.172
+BenKen Stage Pro V26.173
 16. november 2026
 
-Web-oppdatering: REAPER-oppdateringer beholder teksten, tempo og taktart fra REAPER Export V6, Detect tempo virker på iPad, automatisk og manuell BPM.
-Bruk REAPER-scriptene i mappa "REAPER Scripts V6".
+Automatisk tempo er på som standard, og ny knapp DETECT TEMPO FOR ALL SONGS under Mikser > Tempo.
+Inneholder også alt fra V26.170-172.
 Ingen ny Xcode-bygging nødvendig utover V27.33.
