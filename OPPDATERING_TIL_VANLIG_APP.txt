@@ -1,7 +1,6 @@
-BenKen Stage Pro V26.170
+BenKen Stage Pro V26.171
 16. november 2026
 
-Web-oppdatering: permanent lydbibliotek, Relink Missing Audio og automatisk gjenoppkobling av USB-lydkort.
-Last opp ALLE filene i denne mappa samlet til GitHub (index.html, de versjonerte filene, sw.js og demo-filene).
-Krever Native V27.33 (bygg BenKen_Stage_Pro_V27_33_Audio_Safety i Xcode) for permanent lagring, USB-gjenoppkobling og at RC-600 huskes på navn.
-Fysisk test på iPad med Ui24R, 6 spor og RC-600 gjenstår.
+Web-oppdatering: notater i sangteksten (5 farger), EDIT LYRICS- og + NOTE-knapper, og LYRICS ONLY per sang.
+Ingen ny Xcode-bygging nødvendig utover V27.33 (anbefalt for permanent lydbibliotek).
+Fysisk test på iPad gjenstår.

@@ -161,5 +161,5 @@
   };
   new MutationObserver(install).observe(document.documentElement,{childList:true,subtree:true});install();
  }
- root.StageNativeAudio={VERSION:'26.170',available,warm:transferWarm,Player:NativePlayer,Click:NativeClick,mountAudioStatus};
+ root.StageNativeAudio={VERSION:'26.171',available,warm:transferWarm,Player:NativePlayer,Click:NativeClick,mountAudioStatus};
 })(typeof window!=='undefined'?window:globalThis);

@@ -217,7 +217,7 @@
   return '<section class="skin-settings"><details id="appearanceSkins" class="appearance-section"><summary>App skin<span class="appearance-current">'+(presets[id(opts)]?.name||'Custom / My skin')+'</span></summary><div class="appearance-body"><select id="skinSelect" aria-label="App skin">'+skinOptions+'<option value="custom"'+(id(opts)==='custom'?' selected':'')+'>Custom / My skin</option></select><p class="foot">Skins set the reading background, menus and controls. Your lyric, chord, section and track colors are kept.</p><div class="skin-previews">'+skinPreviews+'</div><label class="skin-shape">Button style<select id="skinShape"><option value="soft">Soft corners</option><option value="square">Square corners</option><option value="outline">Outline</option></select></label><details class="skin-custom"><summary>Customize app colors</summary>'+Object.entries({panel:'Panels',raised:'Buttons & fields',border:'Borders',accent:'All active buttons'}).map(([key,label])=>'<div class="color-setting-row"><label for="skinColor-'+key+'">'+label+'</label><input id="skinColor-'+key+'" data-skin-color="'+key+'" type="color" value="'+colors[key]+'"></div>').join('')+'</details></div></details></section>';
  }
 
- root.StageTheme={VERSION:'26.170',presets,visible,paletteIds,choosePalette,readingColor,ink,id,appearance,choose,customize,snapshot,apply,markup};
+ root.StageTheme={VERSION:'26.171',presets,visible,paletteIds,choosePalette,readingColor,ink,id,appearance,choose,customize,snapshot,apply,markup};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -344,7 +344,7 @@
   $('ui24rSave').onclick=()=>run(()=>controller.link(o.song(),{show:$('ui24rShow').value,cue:$('ui24rCue').value}));$('ui24rRemove').onclick=()=>run(()=>controller.link(o.song(),null));$('ui24rAuto').onchange=e=>run(()=>controller.setAuto(e.target.checked));$('ui24rLoad').onclick=()=>run(()=>controller.recall(o.song(),{manual:true}));
   root.addEventListener('pagehide',()=>controller.disconnect());draw();return {refresh:draw,selected:song=>{const token=++selection;return controller.selected(song).then(ok=>{if(!ok&&token===selection)o.report?.('Ui24R: '+controller.snapshot().message);return ok})},controller}
  }
- root.StageUi24R={VERSION:'26.170',LIBRARY_URL,LIBRARY_CACHE,address,validLink,create,nativeWebSocket,mount};
+ root.StageUi24R={VERSION:'26.171',LIBRARY_URL,LIBRARY_CACHE,address,validLink,create,nativeWebSocket,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -376,7 +376,7 @@
   if(root.ResizeObserver){const observer=new root.ResizeObserver(pin);observer.observe(doc.querySelector('header'));const bar=doc.getElementById('performanceBar');if(bar)observer.observe(bar)}
   return {isOpen,setOpen,pin,content,resetScroll:()=>{content.scrollTop=0}};
  }
- root.StageSettings={VERSION:'26.170',geometry,mount};
+ root.StageSettings={VERSION:'26.171',geometry,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -466,7 +466,7 @@
    }catch(error){if(!committed)for(const part of created)await this.store.remove(part).catch(()=>{});if(error.name==='AbortError')throw error;this.disabled=true;return false}
   }
  }
- root.StagePrepared={VERSION:'26.170',Cache,IndexedStore,timed,CHUNK,MAX_BYTES};
+ root.StagePrepared={VERSION:'26.171',Cache,IndexedStore,timed,CHUNK,MAX_BYTES};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -523,7 +523,7 @@
   $('setlistAddResults').addEventListener('change',e=>{const el=e.target.closest('[data-setlist-pick]');if(!el)return;const i=Number(el.dataset.setlistPick);if(!snapshot[i])return;el.checked?selected.add(i):selected.delete(i);$('setlistAddCount').textContent=selected.size+' selected';$('setlistAddSave').disabled=!selected.size||!target()});
   return {open,close};
  }
- root.StageSetlist={VERSION:'26.170',mount,sidebarGeometry,mountSidebar};
+ root.StageSetlist={VERSION:'26.171',mount,sidebarGeometry,mountSidebar};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -588,7 +588,7 @@
  let drafts=null;
  try{if(root.localStorage)drafts=new DraftStore(root.localStorage,undefined,text=>{const node=root.document?.getElementById('status');if(node)node.textContent=text})}catch{}
  if(drafts&&root.addEventListener){root.addEventListener('pagehide',()=>drafts.captureAll());root.document?.addEventListener('visibilitychange',()=>drafts.captureAll())}
- root.StageLive={VERSION:'26.170',validSetAutoplay,setFlags,setEnabled,writeFlag,dropSet,doubleTap,autoplay,DraftStore,drafts};
+ root.StageLive={VERSION:'26.171',validSetAutoplay,setFlags,setEnabled,writeFlag,dropSet,doubleTap,autoplay,DraftStore,drafts};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -612,7 +612,7 @@
  async function part(plan,index,repo){
   const entries=plan.groups[index];if(!entries)throw Error('Unknown backup part.');const parts=[];
   for(const a of entries){const file=await repo.get(a.id);if(!file||bytes(file)!==a.size)throw Error('Audio changed during backup. Create a new backup.');parts.push(file.data instanceof Blob?file.data:new Blob([file.data]))}
-  const manifest={format:'BenKen Full Backup',version:plan.version,appVersion:'26.170',id:plan.id,index,count:plan.partCount,assets:entries};if(index===0){manifest.state=plan.state;manifest.catalog=plan.assets;if(plan.version===4)manifest.missing=plan.missing}
+  const manifest={format:'BenKen Full Backup',version:plan.version,appVersion:'26.171',id:plan.id,index,count:plan.partCount,assets:entries};if(index===0){manifest.state=plan.state;manifest.catalog=plan.assets;if(plan.version===4)manifest.missing=plan.missing}
   const metadata=new TextEncoder().encode(JSON.stringify(manifest));if(metadata.length>MAX_HEADER)throw Error('The backup metadata is too large.');const header=new Uint8Array(12);header.set(new TextEncoder().encode(MAGIC));new DataView(header.buffer).setUint32(8,metadata.length,true);return new Blob([header,metadata,...parts],{type:'application/x-benken-backup'})
  }
  async function header(file){
@@ -651,7 +651,7 @@
    try{restored=await unpack(files,o.mixer.repo);o.apply(restored.state,{restoreDevice});committed=true;root.StageLive.drafts?.reset();o.changed();await o.mixer.load();status(restored.missing.length?'Backup restored with '+restored.missing.length+' missing audio file(s). Reconnect them in Audio & Files → REPLACE FILE. Your previous local audio copies are kept.':'Full backup restored. Your previous local audio copies are kept.');return true}catch(error){if(restored&&!committed)for(const id of restored.created)await o.mixer.repo.remove(id).catch(()=>{});status(error.message);return false}finally{busy=false;buttons()}}
   return {open,restore,busy:()=>busy,isOpen:()=>$('fullBackupDialog').hasAttribute('open')}
  }
- root.StageBackup={VERSION:'26.170',PART_BYTES,plan,part,inspect,unpack,mount};
+ root.StageBackup={VERSION:'26.171',PART_BYTES,plan,part,inspect,unpack,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -700,20 +700,37 @@
   }).join(' ');
   return html;
  }
+ // V26.170 notes in lyrics: one line {note COLOR: text}. Notes live in the song text, so they scroll with
+ // the lyrics and are saved with the song, independent of audio files. Colours: yellow, red, blue, green, purple.
+ const NOTE_COLORS=['yellow','red','blue','green','purple'];
+ const NOTE_RX=/^\s*\{\s*note(?:\s+(yellow|red|blue|green|purple))?\s*:\s*([^{}]*?)\s*\}\s*$/i;
+ function parseNote(raw){const m=String(raw||'').match(NOTE_RX);return m?{color:(m[1]||'yellow').toLowerCase(),text:m[2]}:null}
+ function noteLine(color,text){const c=NOTE_COLORS.includes(color)?color:'yellow',t=String(text||'').replace(/[{}]/g,'').replace(/\s*\r?\n\s*/g,' / ').trim();return '{note '+c+': '+t+'}'}
+ function editNote(text,{line,after=null,color='yellow',note='',remove=false}){
+  const lines=String(text||'').split(/\r?\n/);
+  if(after!=null){const at=Math.max(-1,Math.min(lines.length-1,Number(after)));if(!String(note).trim())return text;lines.splice(at+1,0,noteLine(color,note));return lines.join('\n')}
+  if(!Number.isInteger(line)||!parseNote(lines[line]))throw Error('The note has changed. Close and open the song again.');
+  if(remove||!String(note).trim())lines.splice(line,1);else lines[line]=noteLine(color,note);return lines.join('\n')
+ }
  function render(text,{centerLines=false,hideChords=false,onlyChords=false,transpose=v=>v,sectionColors=[],sectionButtons=false,colorLyricsBySection=false}={}){
   const stack=[],out=[];let sectionIndex=0,lyricTint=null;
   const textStyle=()=>colorLyricsBySection&&hex(lyricTint)?' style="color:'+lyricTint+'"':'';
-  for(const raw of String(text||'').split(/\r?\n/)){
-   const h=header(raw);if(h){const tint=sectionColors[sectionIndex],label='<span class="section-label">'+esc(h.label)+'</span>';lyricTint=tint;out.push('<div class="lyric-line section '+h.type+'" data-section-index="'+sectionIndex+++'"'+(hex(tint)?' style="color:'+tint+'"':'')+'>'+(sectionButtons?'<button type="button" class="lyric-section-button" data-section-play>'+label+'</button>':label)+'</div>');continue}
+  const rows=String(text||'').split(/\r?\n/);
+  // Every rendered row carries data-line (its line in the song text) so notes can be added and edited in place.
+  for(let li=0;li<rows.length;li++){const before=out.length;step(rows[li],li);for(let k=before;k<out.length;k++)out[k]=out[k].replace('<div class="lyric-line','<div data-line="'+li+'" class="lyric-line')}
+  return out.join('');
+  function step(raw,li){
+   const note=parseNote(raw);if(note){if(!onlyChords)out.push('<div class="lyric-line lyric-note note-'+note.color+'" role="button" tabindex="0" aria-label="Note: '+esc(note.text)+'. Tap to edit."><span class="lyric-note-text">'+esc(note.text)+'</span></div>');return}
+   const h=header(raw);if(h){const tint=sectionColors[sectionIndex],label='<span class="section-label">'+esc(h.label)+'</span>';lyricTint=tint;out.push('<div class="lyric-line section '+h.type+'" data-section-index="'+sectionIndex+++'"'+(hex(tint)?' style="color:'+tint+'"':'')+'>'+(sectionButtons?'<button type="button" class="lyric-section-button" data-section-play>'+label+'</button>':label)+'</div>');return}
    const trimmed=raw.trim(),colorOnly=/^\{\s*(?:color\s*:\s*#[0-9a-f]{6}|kor|\/color|\/kor)\s*\}$/i.test(trimmed);
-   if(/^\{\s*[^{}]+\s*\}$/.test(trimmed)&&!colorOnly)continue;
-   const line=inline(raw,stack,transpose);if(colorOnly)continue;
-   if(onlyChords){if(line.marks.length)out.push('<div class="lyric-line chord-pair chords-only-line"><div class="chord-line">'+esc(line.marks.map(mark=>mark.chord).join('    '))+'</div></div>');continue}
-   if(hideChords&&line.marks.length){if(line.plain.trim())out.push('<div class="lyric-line"'+textStyle()+'>'+line.html+'</div>');continue}
-   if(centerLines&&line.marks.length){const words=centredWords(line);if(words){out.push('<div class="lyric-line centred-chord-flow"'+textStyle()+'>'+words+'</div>');continue}}
+   if(/^\{\s*[^{}]+\s*\}$/.test(trimmed)&&!colorOnly)return;
+   const line=inline(raw,stack,transpose);if(colorOnly)return;
+   if(onlyChords){if(line.marks.length)out.push('<div class="lyric-line chord-pair chords-only-line"><div class="chord-line">'+esc(line.marks.map(mark=>mark.chord).join('    '))+'</div></div>');return}
+   if(hideChords&&line.marks.length){if(line.plain.trim())out.push('<div class="lyric-line"'+textStyle()+'>'+line.html+'</div>');return}
+   if(centerLines&&line.marks.length){const words=centredWords(line);if(words){out.push('<div class="lyric-line centred-chord-flow"'+textStyle()+'>'+words+'</div>');return}}
    if(line.marks.length){let chords='',end=0;for(const mark of line.marks){const col=Math.max(mark.pos,end);chords+=' '.repeat(Math.max(0,col-[...chords].length))+mark.chord;end=col+[...mark.chord].length+1}out.push('<div class="lyric-line chord-pair"><div class="chord-line">'+esc(chords)+'</div><div class="lyric-text"'+textStyle()+'>'+(line.html||'&nbsp;')+'</div></div>')}
    else out.push('<div class="lyric-line'+(line.plain?'':' blank-line')+'"'+textStyle()+'>'+(line.html||'&nbsp;')+'</div>')
-  }return out.join('')
+  }
  }
  function validateSaved(timing){
   if(timing==null)return;
@@ -761,7 +778,7 @@
  function parseTime(value){const v=String(value).trim().replace(',','.');if(!v)return null;const m=v.match(/^(\d{1,4}):([0-5]\d(?:\.\d{1,3})?)$/);if(m)return Number(m[1])*60+Number(m[2]);if(/^\d+(?:\.\d{1,3})?$/.test(v))return Number(v);throw Error('Use mm:ss, for example 01:24, or seconds.')}
  function time(value){if(value===null||!Number.isFinite(value))return '';const n=Math.round(value*100)/100,whole=Math.floor(n);return String(Math.floor(whole/60)).padStart(2,'0')+':'+String(whole%60).padStart(2,'0')+(n%1?'.'+String(Math.round((n%1)*100)).padStart(2,'0'):'')}
  function interpolate(time,anchors){if(!anchors.length)return 0;if(time<=anchors[0].time)return anchors[0].y;for(let i=1;i<anchors.length;i++)if(time<=anchors[i].time){const a=anchors[i-1],b=anchors[i];return b.time===a.time?b.y:a.y+(b.y-a.y)*Math.max(0,Math.min(1,(time-a.time)/(b.time-a.time)))}return anchors[anchors.length-1].y}
- root.StageLyrics={VERSION:'26.170',esc,hex,colorRange,header,sections,signature,inline,render,validateSaved,saved,validateStarts,segments,sectionColor,segmentColor,headingColors,parseTime,time,interpolate};
+ root.StageLyrics={VERSION:'26.171',esc,hex,colorRange,header,sections,signature,inline,render,NOTE_COLORS,parseNote,noteLine,editNote,validateSaved,saved,validateStarts,segments,sectionColor,segmentColor,headingColors,parseTime,time,interpolate};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -806,7 +823,7 @@
   root.addEventListener('pagehide',close);
   return {open,close,refresh,frame,isOpen};
  }
- root.StageDisplay={VERSION:'26.170',mount};
+ root.StageDisplay={VERSION:'26.171',mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -835,7 +852,7 @@
   root.addEventListener('pagehide',stop);root.document.addEventListener('visibilitychange',()=>{if(!root.document.hidden)tick()});refresh();
   return {start,stop,tick,refresh,state:()=>state,urls:()=>[...urls]};
  }
- root.StageLAN={VERSION:'26.170',transport,validLink,mount};
+ root.StageLAN={VERSION:'26.171',transport,validLink,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -898,14 +915,14 @@
   }
   return {advance,reset,settled:()=>value===null||(Math.abs(value-target)<.15&&Math.abs(velocity)<.5)}
  }
- root.StageReading={VERSION:'26.170',frame,position,timeAt,anchors,continuousPosition,continuousTime,createScroller,createFollower};
+ root.StageReading={VERSION:'26.171',frame,position,timeAt,anchors,continuousPosition,continuousTime,createScroller,createFollower};
 })(typeof window!=='undefined'?window:globalThis);
 
 
 // stage-fx.js
 (function(root){
  'use strict';
- const WORKLET_URL='benken-master-fx-v26-170.js',loaded=new WeakMap(),bands=['low','mid','mid2','high'],defaultWidth=2*Math.asinh(.5)/Math.LN2*Math.sin(2*Math.PI*1000/48000)/(2*Math.PI*1000/48000);
+ const WORKLET_URL='benken-master-fx-v26-171.js',loaded=new WeakMap(),bands=['low','mid','mid2','high'],defaultWidth=2*Math.asinh(.5)/Math.LN2*Math.sin(2*Math.PI*1000/48000)/(2*Math.PI*1000/48000);
  const eqDefaults={enabled:false,low:0,mid:0,mid2:0,high:0,lowHz:120,midHz:1000,mid2Hz:3000,highHz:8000,midWidth:defaultWidth,mid2Width:defaultWidth};
  const compDefaults={enabled:false,threshold:-18,ratio:2,makeup:0,attack:10,release:150,knee:6};
  function object(value,message){if(value!=null&&(typeof value!=='object'||Array.isArray(value)))throw Error(message);return value||{}}
@@ -933,7 +950,7 @@
   await moduleFor(context);const node=new root.AudioWorkletNode(context,'benken-linked-compressor',{numberOfInputs:1,numberOfOutputs:1,outputChannelCount:[channels],channelCount:channels,channelCountMode:'explicit',channelInterpretation:'discrete'});
   node.port.onmessage=e=>{if(Number.isFinite(e.data?.reduction))onReduction(e.data.reduction)};applyCompressor(node,value,context);return node;
  }
- root.StageFX={VERSION:'26.170',WORKLET_URL,bands,eqDefaults,compDefaults,eq,compressor,q,filters,applyEQ,response,compressDb,applyCompressor,masterNode};
+ root.StageFX={VERSION:'26.171',WORKLET_URL,bands,eqDefaults,compDefaults,eq,compressor,q,filters,applyEQ,response,compressDb,applyCompressor,masterNode};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -997,7 +1014,7 @@
    }return out;
   }
  }
- root.StageRegionLoop={VERSION:'26.170',region,Controller};
+ root.StageRegionLoop={VERSION:'26.171',region,Controller};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1067,7 +1084,7 @@
   try{for(const a of manifest.assets){if(needed&&!needed.has(a.id))continue;const key=id();mapping.set(a.id,key);await repo.put(key,{name:a.name,type:a.type,data:await blob.slice(a.start,a.start+a.size).arrayBuffer()});created.push(key)}}catch(e){for(const key of created)await repo.remove(key).catch(()=>{});throw e}
   for(const song of state.songs){if(song.audioId){if(mapping.has(song.audioId))song.audioId=mapping.get(song.audioId);else delete song.audioId;}if(song.playback?.tracks)for(const t of song.playback.tracks){const original=t.assetId,entry=manifest.assets.find(a=>a.id===original);if(entry){t.fileBytes=entry.size;if(!t.fileName)t.fileName=entry.name}t.assetId=mapping.get(original)}}return root.StageCore.normalize(state);
  }
- root.StageProject={VERSION:'26.170',MAGIC,MAX_TRACKS,MAX_BUSES,clickBus,usedBuses,color,track,bus,buses,muteGroups,groupNames,mergeSong,routeDirect,tracks,masterGain,assets,audioReferences,missingAudioMessage,validateState,pack,inspect,unpack,id};
+ root.StageProject={VERSION:'26.171',MAGIC,MAX_TRACKS,MAX_BUSES,clickBus,usedBuses,color,track,bus,buses,muteGroups,groupNames,mergeSong,routeDirect,tracks,masterGain,assets,audioReferences,missingAudioMessage,validateState,pack,inspect,unpack,id};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1147,7 +1164,7 @@
   add.onclick=()=>{if(blocked()||!flush())return;try{const values=rules(o.state());values.push({id:root.StageProject.id(),name:'New rule',keywords:[],bus:null});store(values);draw()}catch(error){status.textContent=error.message}};
   draw();return {draw,refresh,flush};
  }
- root.StageImportRules={VERSION:'26.170',normalize,validate,defaults,rules,match,mount};
+ root.StageImportRules={VERSION:'26.171',normalize,validate,defaults,rules,match,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1213,7 +1230,7 @@
   const s=result.stats,parts=[s.created+' new',s.renamed+' renamed',s.moved+' moved'];if(s.kept)parts.push(s.kept+' unmatched section'+(s.kept===1?'':'s')+' kept at the end');
   return 'Lyric sections: '+parts.join(' · ')+'. Existing words, chords and text-color tags are kept.'+(result.unsectioned?' Text without section headings stays before the imported sections.':'');
  }
- root.StageReaperLyrics={VERSION:'26.170',label,blocks,validate,associate,sync,summary};
+ root.StageReaperLyrics={VERSION:'26.171',label,blocks,validate,associate,sync,summary};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1291,7 +1308,7 @@
    $('reaperImportNew').onclick=()=>finish({target:-1,mappings:[],...options()});$('reaperImportCancel').onclick=()=>finish(null);dialog.oncancel=event=>{event.preventDefault();finish(null)};dialog.showModal();
   });
  }
- root.StageReaper={VERSION:'26.170',validate,isExport,mapping,timedRegions,selection,plan,choose};
+ root.StageReaper={VERSION:'26.171',validate,isExport,mapping,timedRegions,selection,plan,choose};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1380,7 +1397,7 @@
   }
   return best.raw>=.16?{bpm:Math.round(best.bpm*10)/10,confidence:Math.min(.85,best.raw),method:'music'}:null
  }
- root.StageTempo={VERSION:'26.170',config,ratio,metadata,bpmLimits,stepBpm,detect,plan,render,prepare};
+ root.StageTempo={VERSION:'26.171',config,ratio,metadata,bpmLimits,stepBpm,detect,plan,render,prepare};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1445,7 +1462,7 @@
   }
   if(cancelled())throw abort();return items.map(x=>x.output)
  }
- root.StageTranspose={VERSION:'26.170',config,follows,factor,prepare};
+ root.StageTranspose={VERSION:'26.171',config,follows,factor,prepare};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1709,7 +1726,7 @@
   meterMaster(){if(!this.playing&&!this.click?.active)return 0;this.syncMeters();return this.peak(this.masterAnalysers)}
   tick(){if(!this.playing)return;this.regions.tick();if(this.context.state!=='running'){this.pause();return}const max=Number(this.context.destination.maxChannelCount);if(max>0&&max!==this.reportedChannels){this.pause();this.notify({error:'The audio device changed. Check the outputs and prepare the audio again.'});return}const end=this.stopAt??this.duration;if(this.currentTime>=end){const practiceEnd=this.stopAt!=null;this.pause();this.position=end;this.transportState='stopped';this.stopAt=null;this.notify({ended:true,practiceEnd})}}
  }
- root.StageAudio={VERSION:'26.170',STABILITY_MODE:true,level,waveInfo,MAX_DECODED,MediaRepository,BrowserPlayer};
+ root.StageAudio={VERSION:'26.171',STABILITY_MODE:true,level,waveInfo,MAX_DECODED,MediaRepository,BrowserPlayer};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1777,7 +1794,7 @@
    return {counting,beat:n%c.config.beatsPerBar,beats:c.config.beatsPerBar,bar:Math.floor(n/c.config.beatsPerBar)+1,bars:c.config.countInBars,bpm:c.config.bpm,flash:elapsed-n*c.period<Math.min(.16,c.period*.65)}
   }
  }
- root.StageClick={headerFlash,songCountBeats,VERSION:'26.170',settings,config,Engine};
+ root.StageClick={headerFlash,songCountBeats,VERSION:'26.171',settings,config,Engine};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1897,7 +1914,7 @@
   $('mixerSetupClose').onclick=$('mixerSetupCancel').onclick=close;
   return {open,close,refresh,flush,fileTracks:()=>draft?.tracks,isOpen:()=>!!draft}
  }
- root.StageMixerSettings={VERSION:'26.170',mount,signature};
+ root.StageMixerSettings={VERSION:'26.171',mount,signature};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1932,7 +1949,7 @@
   o.element.addEventListener('dblclick',e=>{const input=e.target.closest('.mixer-fader');if(input)reset(input,clock(e),o.song())},{capture:true});
   return {clear}
  }
- root.StageFaderGestures={VERSION:'26.170',mount};
+ root.StageFaderGestures={VERSION:'26.171',mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -2000,7 +2017,7 @@
   }
   bindGraph('fxEqGraph','eq');bindGraph('fxCompGraph','compressor');return {openTrack:id=>open('eq',id),openMaster:()=>open('compressor'),refresh,busy:()=>pending};
  }
- root.StageFXPanel={VERSION:'26.170',mount};
+ root.StageFXPanel={VERSION:'26.171',mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -2095,6 +2112,7 @@
    invalidateProject();if(song===o.song())player.update(song.playback.tracks)
   }
   function readiness(){
+   if(o.song()?.lyricsOnly===true)return {ready:false,show:false,lyricsOnly:true,text:'Lyrics only song. Audio is off.',action:'files'};
    const tracks=getTracks();if(transposeError)return {ready:tracks.length>0&&!loading&&!importing&&player.buffers.length===tracks.length&&!player.routeError(),show:true,error:true,text:transposeError,action:'transposeSettings'};const prompt=gate.current();if(clickError)return {ready:tracks.length>0&&!loading&&!importing&&player.buffers.length===tracks.length&&!player.routeError(),show:true,error:true,text:clickError,action:'metronomeSettings'};if(!tracks.length&&click.running&&prompt)return {ready:false,show:true,text:'Tap STOP again to confirm.'};
    if(!tracks.length)return {ready:false,show:false,text:'Add audio files to this song.',action:'files'};
    if(importing)return {ready:false,show:true,text:'Copying audio files to this device…'};
@@ -2208,14 +2226,14 @@
   }
   function load(autoIds,transpose,preparedAudio){return pendingLoad=loadAudio(autoIds,transpose,preparedAudio)}
   async function loadAudio(autoIds=new Set(),transpose=root.StageTranspose.config(o.song()),preparedAudio=null){
-   transposeError='';view=['tracks','buses','groups','tempo'].includes(o.state().opts.mixerView)?o.state().opts.mixerView:'tracks';showAllBuses=o.state().opts.busShowAll===true;   clickError='';gate.clear();tempoDetectSerial++;tempoDetecting=false;tempoEstimate=null;$('tempoEstimateActions').classList.add('hidden');gestures?.clear();const mine=++generation,song=o.song();let tracks=getTracks();loading=true;heldPeak=heldSongPeak=0;prepared=null;$('projectShare').disabled=$('projectDownload').disabled=true;draw();
-   player.setMasterMuted(o.state().opts.masterMuted===true);player.setMuteGroups(new Set((Array.isArray(o.state().opts.mutedGroups)?o.state().opts.mutedGroups:[]).filter(g=>Number.isInteger(g)&&g>=1&&g<=6)));player.setMaster(root.StageProject.masterGain(song));player.setMasterFX(o.state().opts.masterCompressor);message(tracks.length?'Preparing local audio files…':'Add backing, click or other audio stems.');
+   transposeError='';view=['tracks','buses','groups','tempo'].includes(o.state().opts.mixerView)?o.state().opts.mixerView:'tracks';showAllBuses=o.state().opts.busShowAll===true;   clickError='';gate.clear();tempoDetectSerial++;tempoDetecting=false;tempoEstimate=null;$('tempoEstimateActions').classList.add('hidden');gestures?.clear();const mine=++generation,song=o.song();let tracks=song?.lyricsOnly===true?[]:getTracks();loading=true;heldPeak=heldSongPeak=0;prepared=null;$('projectShare').disabled=$('projectDownload').disabled=true;draw();
+   player.setMasterMuted(o.state().opts.masterMuted===true);player.setMuteGroups(new Set((Array.isArray(o.state().opts.mutedGroups)?o.state().opts.mutedGroups:[]).filter(g=>Number.isInteger(g)&&g>=1&&g<=6)));player.setMaster(root.StageProject.masterGain(song));player.setMasterFX(o.state().opts.masterCompressor);message(song?.lyricsOnly===true?'Lyrics only song: audio is off. Turn off LYRICS ONLY to use the audio files again.':tracks.length?'Preparing local audio files…':'Add backing, click or other audio stems.');
    try{
     if(song&&!song.playback?.tracks&&song.audioId){const legacy=await repo.get(song.audioId);if(mine!==generation||song!==o.song())return false;if(legacy?.data)absentLegacy.delete(song);else absentLegacy.add(song);tracks=getTracks()}
     void auditLocalFiles(tracks,song,mine);
     const ready=await player.load(tracks,repo,root.StageTempo.ratio(song),transpose,preparedAudio);if(mine!==generation||song!==o.song()||!ready)return false;
     for(let i=0;i<tracks.length;i++)if(autoIds.has(tracks[i].id)&&player.buffers[i]?.numberOfChannels===1)tracks[i].stereo=false;
-    if(autoIds.size)commit(tracks,song);
+    if(autoIds.size&&song?.lyricsOnly!==true)commit(tracks,song);
     loading=false;if(tracks.length){o.ready?.(song);o.duration?.(player.sourceDuration)}
     const error=player.routeError();message(error||('Locally ready · '+tracks.length+' tracks'+(player.decodedBytes?' · '+Math.ceil(player.decodedBytes/1048576)+' MiB audio in memory':'')+(player.cacheHits?' · saved key loaded':'')+(player.cacheWarning?' · '+player.cacheWarning:'')),!!error);draw();return true
    }catch(error){if(mine===generation){loading=false;message(error.message,true);draw()}return false}
@@ -2329,6 +2347,7 @@
    const list=[...files||[]],song=o.song(),mine=generation;if(!list.length)return;
    if(!song||player.playing||click.running||importing)return message('Select a song and stop playback before importing.',true);
    if(setup?.flush()===false)return;
+   if(song.lyricsOnly===true){delete song.lyricsOnly;o.save();o.lyricsOnlyChanged?.()}
    let tracks=getTracks();const created=[],autoIds=new Set(),stereoNew=o.state().opts.newTrackFormat==='stereo';let committed=false;
    importing=true;draw();message('Copying audio files to this device…');
    try{
@@ -2601,7 +2620,7 @@
   $('mixerWidth').onchange=e=>{const previous=o.state().opts.mixerWidth,next=['narrow','extra-narrow'].includes(e.target.value)?e.target.value:'normal';o.state().opts.mixerWidth=next;if(o.save()===false){o.state().opts.mixerWidth=previous;message('Mixer width could not be saved.',true)}drawAppearance()};
   $('mixerTracks').addEventListener('click',e=>{const button=e.target.closest('[data-edit-track]');if(button&&!button.disabled)openSettings(button.dataset.editTrack)});
   $('mixerBuses').addEventListener('click',e=>{const button=e.target.closest('[data-edit-bus]');if(button&&!button.disabled)openSettings({busId:Number(button.dataset.editBus)})});
-  $('projectDemo').onclick=async()=>{if(loading||importing||player.playing||click.running)return;$('projectDemo').disabled=true;message('Loading demo song…');try{const response=await root.fetch('./demo/BenKen_Ui24R_Busstest.benken');if(!response.ok)throw Error('The demo song is missing. Upload the demo folder from V26.170 to GitHub.');await importProject(await response.blob())}catch(error){message(error.message,true)}finally{updateTransport()}};
+  $('projectDemo').onclick=async()=>{if(loading||importing||player.playing||click.running)return;$('projectDemo').disabled=true;message('Loading demo song…');try{const response=await root.fetch('./demo/BenKen_Ui24R_Busstest.benken');if(!response.ok)throw Error('The demo song is missing. Upload the demo folder from V26.171 to GitHub.');await importProject(await response.blob())}catch(error){message(error.message,true)}finally{updateTransport()}};
   function meter(bar,out,peak,nativeSignal=player.native&&root.BenKenMainAudio?.trackMeters===true){if(player.native&&!nativeSignal){bar.style.height='0%';out.textContent='—';return}const info=root.StageAudio.level(peak||0);bar.style.height=info.percent+'%';bar.parentNode.setAttribute('aria-valuenow',String(Number.isFinite(info.db)?Math.max(-60,Math.min(0,info.db)):-60));bar.parentNode.dataset.zone=info.clip?'clip':info.db>=-6?'high':'normal';out.textContent=info.label+' dBFS'+(info.clip?' · CLIP':'')}
   setInterval(()=>{
    root.StageLive.drafts?.tick();player.tick();click.tick();clickFrame();o.time?.(player.currentTime,player.duration);
@@ -2614,7 +2633,7 @@
   },100);
   return {player,repo,click,practiceView:()=>selectView('tempo'),regionLoopState,setRegionLoopEnabled,playRegion,setTrackEQ,setMasterCompressor,openTrackEQ:id=>fxPanel.openTrack(id),openMasterCompressor:()=>fxPanel.openMaster(),applyTranspose,openTempo:()=>{if(!$('mixerDialog').hasAttribute('open'))$('mixerBtn').click();selectView('tempo')},toggleMetronome,cycleCountIn,clickFrame,saveClick,load,prepare,cancel,suspend:()=>{o.manualTransport?.();cancel()},draw,openSettings,addFiles,removeFile,removeAllFiles,replaceFile,exportProject,importProject,playPause,start,applyTempo,changeSongLevel:changeMaster,changeGlobalMaster,seek,startAt,toggleGroup,toggleMasterMute,groupState,readiness,cancelPreparation,whenReady:()=>pendingLoad,setOutputMode,stop,pause,clearTransportProtection:()=>gate.clear(),restoreLibrary:(state,options)=>{const result=o.importState(state,options);player.mode=o.state().opts.audioOutputMode==='stereo'?'stereo':'usb';return result},tracks:getTracks,busy:({ignoreLoudness=false}={})=>loading||importing||root.StageConcertCache?.busy()||(!ignoreLoudness&&root.BenKenLoudness?.busy()),flushSettings:()=>setup?.flush()!==false,subscribe:fn=>{listeners.add(fn);return()=>listeners.delete(fn)}}
  }
- root.StageMixer={VERSION:'26.170',mount,gainToFader,faderToGain,faderMarkup};
+ root.StageMixer={VERSION:'26.171',mount,gainToFader,faderToGain,faderMarkup};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -2623,8 +2642,8 @@
  'use strict';
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const MAX_CONTROLS=40;
- const defaults=['prev','play','stop','next','mute','back','forward','mixer','notes'];
- const actions={lyricsOnly:'Lyrics only',lyricsChords:'Lyrics and chords',chordsOnly:'Chords only',readingMode:'Lyrics / Chords / Both',songLoudness:'Song Loudness · LUFS',metroFlash:'Metronome flash on / off',sectionBar:'Sections · show / hide top bar',tuner:'Tuner',capoKey:'Capo & Key · song key, my capo and bandmate capo',loop:'Region loop / queue next section',notes:'Song notes',metronome:'Metronome start / stop',countIn:'Count-in off / 2 / 4 bars',practiceMode:'Practice mode on / off (region playback)',practice:'Output mode: Stereo / USB',autoplay:'Default autoplay for setlist entries',backup:'Full backup and restore',midi:'MIDI settings',fontDown:'Text size − (A−)',fontUp:'Text size + (A+)',sections:'Sync lyric sections',none:'Hide',prev:'Previous song',play:'Play / pause',stop:'Stop',next:'Next song',mute:'Mute all app tracks',back:'Back in song',forward:'Forward in song',begin:'Go to beginning',mixer:'Mixer',files:'Song audio files',scroll:'Autoscroll',fullscreen:'Fullscreen',group1:'Mute group 1',group2:'Mute group 2',group3:'Mute group 3',group4:'Mute group 4',group5:'Mute group 5',group6:'Mute group 6',setlist:'Show / hide setlist',library:'Library',settings:'Settings',page:'Two lyric columns',resetScroll:'Lyrics to top',controls:'Customize controls',mixerSetup:'Mixer Settings',waveform:'Show / hide waveform',prepare:'Prepare audio',controlsToggle:'Show / hide control bar'};
+ const defaults=['prev','play','stop','next','mute','back','forward','mixer','notes','editLyrics'];
+ const actions={editLyrics:'Edit lyrics',addNote:'Add note in lyrics',lyricsOnlySong:'Lyrics only song (no audio)',lyricsOnly:'Lyrics only',lyricsChords:'Lyrics and chords',chordsOnly:'Chords only',readingMode:'Lyrics / Chords / Both',songLoudness:'Song Loudness · LUFS',metroFlash:'Metronome flash on / off',sectionBar:'Sections · show / hide top bar',tuner:'Tuner',capoKey:'Capo & Key · song key, my capo and bandmate capo',loop:'Region loop / queue next section',notes:'Song notes',metronome:'Metronome start / stop',countIn:'Count-in off / 2 / 4 bars',practiceMode:'Practice mode on / off (region playback)',practice:'Output mode: Stereo / USB',autoplay:'Default autoplay for setlist entries',backup:'Full backup and restore',midi:'MIDI settings',fontDown:'Text size − (A−)',fontUp:'Text size + (A+)',sections:'Sync lyric sections',none:'Hide',prev:'Previous song',play:'Play / pause',stop:'Stop',next:'Next song',mute:'Mute all app tracks',back:'Back in song',forward:'Forward in song',begin:'Go to beginning',mixer:'Mixer',files:'Song audio files',scroll:'Autoscroll',fullscreen:'Fullscreen',group1:'Mute group 1',group2:'Mute group 2',group3:'Mute group 3',group4:'Mute group 4',group5:'Mute group 5',group6:'Mute group 6',setlist:'Show / hide setlist',library:'Library',settings:'Settings',page:'Two lyric columns',resetScroll:'Lyrics to top',controls:'Customize controls',mixerSetup:'Mixer Settings',waveform:'Show / hide waveform',prepare:'Prepare audio',controlsToggle:'Show / hide control bar'};
  function controls(value){const list=Array.isArray(value)?value:defaults.map(action=>({action}));return list.slice(0,MAX_CONTROLS).map(v=>({action:Object.hasOwn(actions,v?.action)?v.action:'none',label:String(v?.label||'').slice(0,18)}))}
  async function peaks(buffer,bins=600,cancelled=()=>false){
   if(!buffer?.getChannelData||!buffer.length)return null;bins=Math.max(2,Math.min(2000,Math.floor(Number(bins)||600)));const channels=Array.from({length:buffer.numberOfChannels},(_,c)=>buffer.getChannelData(c)),out=new Float32Array(bins);let work=0;
@@ -2632,10 +2651,10 @@
   return out
  }
  function wavePath(values){let max=0;for(const v of values)max=Math.max(max,v);const n=values.length,scale=max?44/max:0;return 'M '+Array.from(values,(v,i)=>(i/(n-1)*1000).toFixed(2)+','+(50-v*scale).toFixed(2)).join(' L ')+' L '+Array.from(values,(v,i)=>((n-1-i)/(n-1)*1000).toFixed(2)+','+(50+values[n-1-i]*scale).toFixed(2)).join(' L ')+' Z'}
- function icon(action){const menuName={lyricsOnly:'lyrics',lyricsChords:'lyrics',chordsOnly:'lyrics',readingMode:'lyrics',notes:'lyrics',mixer:'mixer',mixerSetup:'mixer',setlist:'setlist',settings:'settings',controls:'controls',backup:'backup',midi:'midi',tuner:'tuner',metronome:'tempo',practiceMode:'practice'}[action];if(menuName&&root.BenKenMenuIcon)return root.BenKenMenuIcon(menuName);if(action==='practiceMode')action='practice';if(action==='fontDown'||action==='fontUp')return '<span class="action-font-symbol" aria-hidden="true">A'+(action==='fontDown'?'−':'+')+'</span>';const path={readingMode:'M5 4H21L27 10V26H5ZM21 4V11H27M9 15H23M9 20H18',songLoudness:'M4 20V10M10 24V6M16 27V3M22 23V7M28 19V11',capoKey:'M11 3 8 27M23 3 20 27M4 11H28M3 20H27',metroFlash:'M16 3V7M16 23V27M4 15H8M24 15H28M7 6 10 9M22 21 25 24M7 24 10 21M22 9 25 6M16 10A5 5 0 1 0 16 20A5 5 0 1 0 16 10',sectionBar:'M3 9H29V21H3ZM12 9V21M22 9V21',tuner:'M10 3V12A6 6 0 0 0 22 12V3M16 18V27M12 27H20',loop:'M6 10V5H22L27 10M26 20V25H10L5 20M5 5V14M27 25V16',notes:'M7 3H21L27 9V27H7ZM21 3V10H27M11 15H23M11 20H23',metronome:'M8 26 12 4H21L25 26ZM16 20 26 7M12 20H21',countIn:'M7 9V23M15 5V23M23 9V23M3 26H28',practice:'M4 16V12A12 12 0 0 1 28 12V16M4 14H9V25H4ZM23 14H28V25H23Z',autoplay:'M3 7H20M16 3 21 7 16 11M29 23H12M16 19 11 23 16 27M9 12 21 17 9 22Z',backup:'M4 5H28V25H4ZM9 5V12H23V5M10 25V17H22V25',sections:'M3 6H29M3 15H29M3 24H29M10 4V26M21 4V26',play:'M8 4 23 14 8 24Z',pause:'M8 5H12V23H8ZM18 5H22V23H18Z',stop:'M7 6H24V23H7Z',prev:'M6 5V24M24 5 10 14 24 24Z',next:'M24 5V24M6 5 20 14 6 24Z',mute:'M5 11H11L18 5V24L11 18H5ZM22 10 28 19M28 10 22 19',unmute:'M5 11H11L18 5V24L11 18H5ZM22 9Q29 14 22 20',back:'M14 6 4 14 14 22ZM26 6 16 14 26 22Z',forward:'M4 6 14 14 4 22ZM16 6 26 14 16 22Z',begin:'M6 5V24M25 6 10 14 25 23Z',mixer:'M6 4V25M15 4V25M24 4V25M3 10H9M12 20H18M21 13H27',files:'M3 7H13L16 10H28V24H3Z',scroll:'M7 5H23M7 11H23M7 17H18M21 16V26M17 22 21 26 25 22',fullscreen:'M4 11V5H11M19 5H26V11M26 19V25H19M11 25H4V19',setlist:'M8 7H27M8 14H27M8 21H27M3 7H4M3 14H4M3 21H4',library:'M4 5H13V25H4ZM17 5H26V25H17Z',settings:'M16 4V9M16 21V26M5 15H10M22 15H27M8 7 12 11M20 19 24 23M8 23 12 19M20 11 24 7M16 9A6 6 0 1 0 16 21A6 6 0 1 0 16 9',page:'M3 5H14V25H3ZM18 5H29V25H18Z',resetScroll:'M5 7H27M16 25V12M10 18 16 12 22 18',controls:'M3 3H13V12H3ZM19 3H29V12H19ZM3 18H13V27H3ZM19 18H29V27H19Z',mixerSetup:'M6 4V25M15 4V25M24 4V25M3 10H9M12 20H18M21 13H27',waveform:'M2 15H5L8 5 11 25 15 8 18 22 21 11 24 19 27 15H30',prepare:'M16 4V19M10 13 16 19 22 13M5 21V26H27V21',controlsToggle:'M3 6H29V25H3ZM3 17H29M11 6V17M21 6V17'}[action];return path?'<svg viewBox="0 0 32 30" aria-hidden="true"><path d="'+path+'"/></svg>':'<span class="action-group-number">'+action.replace('group','')+'</span>'}
+ function icon(action){const menuName={editLyrics:'lyrics',addNote:'lyrics',lyricsOnlySong:'lyrics',lyricsOnly:'lyrics',lyricsChords:'lyrics',chordsOnly:'lyrics',readingMode:'lyrics',notes:'lyrics',mixer:'mixer',mixerSetup:'mixer',setlist:'setlist',settings:'settings',controls:'controls',backup:'backup',midi:'midi',tuner:'tuner',metronome:'tempo',practiceMode:'practice'}[action];if(menuName&&root.BenKenMenuIcon)return root.BenKenMenuIcon(menuName);if(action==='practiceMode')action='practice';if(action==='fontDown'||action==='fontUp')return '<span class="action-font-symbol" aria-hidden="true">A'+(action==='fontDown'?'−':'+')+'</span>';const path={readingMode:'M5 4H21L27 10V26H5ZM21 4V11H27M9 15H23M9 20H18',songLoudness:'M4 20V10M10 24V6M16 27V3M22 23V7M28 19V11',capoKey:'M11 3 8 27M23 3 20 27M4 11H28M3 20H27',metroFlash:'M16 3V7M16 23V27M4 15H8M24 15H28M7 6 10 9M22 21 25 24M7 24 10 21M22 9 25 6M16 10A5 5 0 1 0 16 20A5 5 0 1 0 16 10',sectionBar:'M3 9H29V21H3ZM12 9V21M22 9V21',tuner:'M10 3V12A6 6 0 0 0 22 12V3M16 18V27M12 27H20',loop:'M6 10V5H22L27 10M26 20V25H10L5 20M5 5V14M27 25V16',notes:'M7 3H21L27 9V27H7ZM21 3V10H27M11 15H23M11 20H23',metronome:'M8 26 12 4H21L25 26ZM16 20 26 7M12 20H21',countIn:'M7 9V23M15 5V23M23 9V23M3 26H28',practice:'M4 16V12A12 12 0 0 1 28 12V16M4 14H9V25H4ZM23 14H28V25H23Z',autoplay:'M3 7H20M16 3 21 7 16 11M29 23H12M16 19 11 23 16 27M9 12 21 17 9 22Z',backup:'M4 5H28V25H4ZM9 5V12H23V5M10 25V17H22V25',sections:'M3 6H29M3 15H29M3 24H29M10 4V26M21 4V26',play:'M8 4 23 14 8 24Z',pause:'M8 5H12V23H8ZM18 5H22V23H18Z',stop:'M7 6H24V23H7Z',prev:'M6 5V24M24 5 10 14 24 24Z',next:'M24 5V24M6 5 20 14 6 24Z',mute:'M5 11H11L18 5V24L11 18H5ZM22 10 28 19M28 10 22 19',unmute:'M5 11H11L18 5V24L11 18H5ZM22 9Q29 14 22 20',back:'M14 6 4 14 14 22ZM26 6 16 14 26 22Z',forward:'M4 6 14 14 4 22ZM16 6 26 14 16 22Z',begin:'M6 5V24M25 6 10 14 25 23Z',mixer:'M6 4V25M15 4V25M24 4V25M3 10H9M12 20H18M21 13H27',files:'M3 7H13L16 10H28V24H3Z',scroll:'M7 5H23M7 11H23M7 17H18M21 16V26M17 22 21 26 25 22',fullscreen:'M4 11V5H11M19 5H26V11M26 19V25H19M11 25H4V19',setlist:'M8 7H27M8 14H27M8 21H27M3 7H4M3 14H4M3 21H4',library:'M4 5H13V25H4ZM17 5H26V25H17Z',settings:'M16 4V9M16 21V26M5 15H10M22 15H27M8 7 12 11M20 19 24 23M8 23 12 19M20 11 24 7M16 9A6 6 0 1 0 16 21A6 6 0 1 0 16 9',page:'M3 5H14V25H3ZM18 5H29V25H18Z',resetScroll:'M5 7H27M16 25V12M10 18 16 12 22 18',controls:'M3 3H13V12H3ZM19 3H29V12H19ZM3 18H13V27H3ZM19 18H29V27H19Z',mixerSetup:'M6 4V25M15 4V25M24 4V25M3 10H9M12 20H18M21 13H27',waveform:'M2 15H5L8 5 11 25 15 8 18 22 21 11 24 19 27 15H30',prepare:'M16 4V19M10 13 16 19 22 13M5 21V26H27V21',controlsToggle:'M3 6H29V25H3ZM3 17H29M11 6V17M21 6V17'}[action];return path?'<svg viewBox="0 0 32 30" aria-hidden="true"><path d="'+path+'"/></svg>':'<span class="action-group-number">'+action.replace('group','')+'</span>'}
   const buttonCategories=[
    ['playback','Playback',['prev','play','stop','next','back','forward','begin','prepare','autoplay','controlsToggle']],
-   ['lyrics','Lyrics & display',['readingMode','lyricsOnly','lyricsChords','chordsOnly','capoKey','sectionBar','waveform','scroll','resetScroll','fontDown','fontUp','page','sections','fullscreen']],
+   ['lyrics','Lyrics & display',['editLyrics','addNote','lyricsOnlySong','readingMode','lyricsOnly','lyricsChords','chordsOnly','capoKey','sectionBar','waveform','scroll','resetScroll','fontDown','fontUp','page','sections','fullscreen']],
    ['sound','Sound & practice',['mixer','mixerSetup','mute','songLoudness','metronome','countIn','metroFlash','tuner','practice','practiceMode','loop']],
    ['library','Library & tools',['setlist','library','files','notes','backup','midi','settings','controls']],
    ['groups','Mute groups',['group1','group2','group3','group4','group5','group6']]
@@ -2675,6 +2694,7 @@
   async function act(action){
    if(o.blocked?.()&&action!=='stop')return;const wasSeeking=scrub;clearScrub();
    if(['midi','setlist','library','settings','fullscreen','page'].includes(action)&&$('mixerDialog').hasAttribute('open'))$('closeMixer').click();
+   if(action==='editLyrics'){o.editLyrics?.();return}if(action==='addNote'){o.addNote?.();return}if(action==='lyricsOnlySong'){o.toggleLyricsOnly?.();return}if(action==='play'&&o.song()?.lyricsOnly===true){$('autoBtn')?.click();return}
    if(action==='songLoudness')root.BenKenLoudness?.open();else if(action==='capoKey')root.BenKenTools?.openKey();else if(action==='tuner')o.openTuner?.();else if(action==='midi')o.openMIDI?.();else if(action==='play'){if($('audioPlay').disabled){root.BenKenRouteHeal?.(0);root.BenKenPlayNotice?.(mixer.readiness());return}if(wasSeeking){await mixer.seek(wasSeeking.preview,false)}await mixer.playPause()}
    else if(action==='stop'){mixer.stop();report('')}
    else if(action==='prev'||action==='next')$(action).click();
@@ -2704,8 +2724,8 @@
   function renderControls(){
    const groups=mixer.groupState(),layout=opts().controlsLargeButtons===true&&!$('performanceBar').closest('#mixerDialog')?[{action:'play'},{action:'next'}]:controls(opts().stageControls),running=player.playing||!!player.seekResume||!!scrub?.resume;
    const key=JSON.stringify([layout,groups,root.StageConcert.locked(),!!player.masterMuted,running,player.transportState,ready(),$('audioPlay').disabled,$('prev').disabled,$('next').disabled,step(),opts().allowSeekDuringPlayback,$('autoBtn').getAttribute('aria-pressed'),$('stageToggle').getAttribute('aria-pressed'),$('view').getAttribute('aria-pressed'),$('settingsBtn').getAttribute('aria-pressed'),$('pageBtn').classList.contains('active'),opts().waveformVisible,opts().metronomeFrameBlink,opts().showSectionBar,opts().font,opts().readingMode,opts().hideChords,player.mode,opts().autoPlayNext,opts().autoplayEnabled,opts().regionLoopEnabled,opts().practiceEnabled,mixer.busy(),player.playing,!!player.click?.running,player.countingIn,root.StageClick.config(o.song()).countInBars,o.song()?.key,o.song()?.playback?.transpose,o.song()?.kenneth,o.song()?.bente]);if(key===controlsKey)return;controlsKey=key;
-   $('performanceControls').innerHTML=layout.filter(c=>c.action!=='none'&&(opts().waveformVisible===true||!['waveform','sections'].includes(c.action))).map(c=>{const group=/^group[1-6]$/.test(c.action)?Number(c.action.slice(-1)):0,active=['lyricsOnly','lyricsChords','chordsOnly'].includes(c.action)?({lyricsOnly:'lyrics',lyricsChords:'both',chordsOnly:'chords'}[c.action]===(opts().readingMode||(opts().hideChords?'lyrics':'both'))):c.action==='metroFlash'?opts().metronomeFrameBlink===true:c.action==='sectionBar'?opts().showSectionBar===true:c.action==='loop'?opts().regionLoopEnabled===true:c.action==='metronome'?!!player.click?.running:c.action==='countIn'?root.StageClick.config(o.song()).countInBars>0:c.action==='practiceMode'?opts().practiceEnabled===true:c.action==='practice'?player.mode==='stereo':c.action==='autoplay'?opts().autoplayEnabled!==false&&opts().autoPlayNext===true:group?groups.active[group-1]:c.action==='mute'?!!player.masterMuted:c.action==='play'?running:c.action==='stop'?!running&&!player.click?.running&&player.transportState==='stopped':c.action==='scroll'?$('autoBtn').getAttribute('aria-pressed')==='true':c.action==='fullscreen'?$('stageToggle').getAttribute('aria-pressed')==='true':c.action==='setlist'?$('view').getAttribute('aria-pressed')==='true':c.action==='settings'?$('settingsBtn').getAttribute('aria-pressed')==='true':c.action==='page'?$('pageBtn').classList.contains('active'):c.action==='waveform'?opts().waveformVisible===true:false;
-    const label=c.label||(group?groups.names[group-1]:c.action==='play'?(running?'PAUSE':'PLAY'):c.action==='mute'?(active?'UNMUTE':'MUTE'):c.action==='back'?'−'+step()+' s':c.action==='forward'?'+'+step()+' s':{lyricsOnly:'LYRICS',lyricsChords:'BOTH',chordsOnly:'CHORDS',readingMode:({lyrics:'LYRICS',chords:'CHORDS',both:'BOTH'})[opts().readingMode||(opts().hideChords?'lyrics':'both')]||'BOTH',songLoudness:'SONG LOUDNESS',capoKey:(o.song()?(root.StageKey.songKey(o.song())||'KEY')+' · K'+Number(o.song().kenneth||0)+' B'+Number(o.song().bente||0):'CAPO & KEY'),metroFlash:'METRO FLASH',sectionBar:'SECTIONS',tuner:'TUNER',loop:'LOOP REGION',notes:'NOTES',metronome:'METRONOME',countIn:'COUNT-IN '+(root.StageClick.config(o.song()).countInBars?root.StageClick.config(o.song()).countInBars+' BARS':'OFF'),practiceMode:'PRACTICE',practice:player.mode==='stereo'?'STEREO':'LIVE · USB',autoplay:'AUTO DEFAULT',backup:'BACKUP',midi:'MIDI',fontDown:'SMALLER TEXT',fontUp:'LARGER TEXT',prev:'PREVIOUS',next:'NEXT',stop:'STOP',begin:'START',mixer:'MIXER',files:'AUDIO FILES',scroll:'SCROLL',fullscreen:'FULLSCREEN',setlist:'SETLIST',library:'LIBRARY',settings:'SETTINGS',page:'COLUMNS',resetScroll:'LYRICS TO TOP',controls:'CONTROLS',sections:'SYNC LYRICS',mixerSetup:'MIXER SETTINGS',waveform:'WAVEFORM',prepare:'PREPARE AUDIO',controlsToggle:'HIDE CONTROLS'}[c.action]);
+   $('performanceControls').innerHTML=layout.filter(c=>c.action!=='none'&&(opts().waveformVisible===true||!['waveform','sections'].includes(c.action))).map(c=>{const group=/^group[1-6]$/.test(c.action)?Number(c.action.slice(-1)):0,active=['lyricsOnly','lyricsChords','chordsOnly'].includes(c.action)?({lyricsOnly:'lyrics',lyricsChords:'both',chordsOnly:'chords'}[c.action]===(opts().readingMode||(opts().hideChords?'lyrics':'both'))):c.action==='metroFlash'?opts().metronomeFrameBlink===true:c.action==='sectionBar'?opts().showSectionBar===true:c.action==='loop'?opts().regionLoopEnabled===true:c.action==='metronome'?!!player.click?.running:c.action==='countIn'?root.StageClick.config(o.song()).countInBars>0:c.action==='practiceMode'?opts().practiceEnabled===true:c.action==='practice'?player.mode==='stereo':c.action==='autoplay'?opts().autoplayEnabled!==false&&opts().autoPlayNext===true:group?groups.active[group-1]:c.action==='mute'?!!player.masterMuted:c.action==='play'?running:c.action==='stop'?!running&&!player.click?.running&&player.transportState==='stopped':c.action==='scroll'?$('autoBtn').getAttribute('aria-pressed')==='true':c.action==='fullscreen'?$('stageToggle').getAttribute('aria-pressed')==='true':c.action==='setlist'?$('view').getAttribute('aria-pressed')==='true':c.action==='settings'?$('settingsBtn').getAttribute('aria-pressed')==='true':c.action==='page'?$('pageBtn').classList.contains('active'):c.action==='waveform'?opts().waveformVisible===true:c.action==='lyricsOnlySong'?o.song()?.lyricsOnly===true:false;
+    const label=c.label||(group?groups.names[group-1]:c.action==='play'?(running?'PAUSE':'PLAY'):c.action==='mute'?(active?'UNMUTE':'MUTE'):c.action==='back'?'−'+step()+' s':c.action==='forward'?'+'+step()+' s':{editLyrics:'EDIT LYRICS',addNote:'+ NOTE',lyricsOnlySong:o.song()?.lyricsOnly===true?'AUDIO OFF':'LYRICS ONLY',lyricsOnly:'LYRICS',lyricsChords:'BOTH',chordsOnly:'CHORDS',readingMode:({lyrics:'LYRICS',chords:'CHORDS',both:'BOTH'})[opts().readingMode||(opts().hideChords?'lyrics':'both')]||'BOTH',songLoudness:'SONG LOUDNESS',capoKey:(o.song()?(root.StageKey.songKey(o.song())||'KEY')+' · K'+Number(o.song().kenneth||0)+' B'+Number(o.song().bente||0):'CAPO & KEY'),metroFlash:'METRO FLASH',sectionBar:'SECTIONS',tuner:'TUNER',loop:'LOOP REGION',notes:'NOTES',metronome:'METRONOME',countIn:'COUNT-IN '+(root.StageClick.config(o.song()).countInBars?root.StageClick.config(o.song()).countInBars+' BARS':'OFF'),practiceMode:'PRACTICE',practice:player.mode==='stereo'?'STEREO':'LIVE · USB',autoplay:'AUTO DEFAULT',backup:'BACKUP',midi:'MIDI',fontDown:'SMALLER TEXT',fontUp:'LARGER TEXT',prev:'PREVIOUS',next:'NEXT',stop:'STOP',begin:'START',mixer:'MIXER',files:'AUDIO FILES',scroll:'SCROLL',fullscreen:'FULLSCREEN',setlist:'SETLIST',library:'LIBRARY',settings:'SETTINGS',page:'COLUMNS',resetScroll:'LYRICS TO TOP',controls:'CONTROLS',sections:'SYNC LYRICS',mixerSetup:'MIXER SETTINGS',waveform:'WAVEFORM',prepare:'PREPARE AUDIO',controlsToggle:'HIDE CONTROLS'}[c.action]);
     const disabled=c.action==='loop'?root.StageAudio.STABILITY_MODE||mixer.busy()||!o.song():c.action==='autoplay'?opts().autoplayEnabled===false:c.action==='metronome'?mixer.busy()||!o.song()||player.countingIn:c.action==='practiceMode'?mixer.busy()||root.StageConcert.locked():c.action==='countIn'?!o.song()||root.StageConcert.locked()||mixer.busy()||running||!!player.click?.running:c.action==='practice'?mixer.busy()||running||!!player.click?.running:c.action==='backup'?mixer.busy()||running||!!player.click?.running:c.action==='fontDown'?Number(opts().font)<=14:c.action==='fontUp'?Number(opts().font)>=52:c.action==='play'?$('audioPlay').disabled:c.action==='prev'?$('prev').disabled:c.action==='next'?$('next').disabled:['back','forward','begin'].includes(c.action)?!canSeek():c.action==='prepare'?mixer.busy()||player.playing||!!player.seekResume:false;
     return '<button type="button" class="performance-action action-'+c.action+(active?' action-active':'')+'" data-action="'+c.action+'" title="'+esc(c.action==='readingMode'?'Reading view: '+(opts().readingMode||(opts().hideChords?'lyrics':'both'))+' · switch Lyrics / Chords / Both':c.action==='capoKey'?'Capo & Key · '+label:label)+'" aria-label="'+esc(c.action==='readingMode'?'Reading view: '+(opts().readingMode||(opts().hideChords?'lyrics':'both'))+' · switch Lyrics / Chords / Both':c.action==='capoKey'?'Capo & Key · '+label:label)+'"'+(['lyricsOnly','lyricsChords','chordsOnly','metroFlash','sectionBar','loop','metronome','countIn','practiceMode','practice','autoplay','play','stop','mute','scroll','fullscreen','setlist','settings','page','waveform'].includes(c.action)||group?' aria-pressed="'+active+'"':'')+(disabled?(c.action==='play'?' aria-disabled="true"':' disabled'):'')+'>'+icon(c.action==='play'&&running?'pause':c.action==='mute'&&active?'unmute':c.action)+'<span>'+esc(label)+'</span></button>'
    }).join('')
@@ -2894,7 +2914,7 @@
   root.visualViewport?.addEventListener('resize',measure,{passive:true});root.visualViewport?.addEventListener('scroll',pinToViewport,{passive:true});refresh();
   return {refresh,report,playSegment,openSettings,toggleVisible,suspend:reason=>{suspended.add(reason);refresh()},resume:reason=>{suspended.delete(reason);refresh()},act,isScrubbing:()=>!!scrub,height,cancelScrub,unsubscribe}
  }
- root.StagePerformance={VERSION:'26.170',MAX_CONTROLS,mount,peaks,wavePath,controls,actions,buttonCategories,icon};
+ root.StagePerformance={VERSION:'26.171',MAX_CONTROLS,mount,peaks,wavePath,controls,actions,buttonCategories,icon};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -2952,7 +2972,7 @@
   function restoreAnchor(anchor){if(!anchor)return;const row=$('song').querySelectorAll('.lyric-line')[anchor.index];if(row)(o.scrollTo||((y)=>root.scrollTo(0,y)))(Math.max(0,row.getBoundingClientRect().top+root.scrollY-(o.readingOffset?.()||0)-o.viewport().top-anchor.offset))}
   return {open,refresh,scrollPosition,followPosition,resetFollow,followSettled:follower.settled,scrollTime,captureAnchor,restoreAnchor}
  }
- root.StageSongTools={VERSION:'26.170',mount};
+ root.StageSongTools={VERSION:'26.171',mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -3005,7 +3025,7 @@
   root.addEventListener('benken-native-midi-sources',e=>nativeSources(e.detail));root.addEventListener('benken-native-midi-error',e=>message(String(e.detail)));$('midiBluetooth').classList.toggle('hidden',!root.BenKenNativeMIDI?.bluetooth);$('midiBluetooth').onclick=()=>root.BenKenNativeMIDI?.bluetooth?.();
   return {open,connect,receive,controller,status:()=>({connected:native()?nativePorts.filter(p=>!o.state().opts.midiInputId||String(p.id)===o.state().opts.midiInputId).length:activePorts.length,bindings:bindings(o.state().opts).length}),refresh:()=>{controller.cancel();if(access)attach();else if(native())nativeSources(nativePorts);drawAssignments()}}
  }
- root.StageMIDI={VERSION:'26.170',actions,parse,bindings,create,mount};
+ root.StageMIDI={VERSION:'26.171',actions,parse,bindings,create,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -3086,7 +3106,7 @@
   let wasBusy=busy();o.mixer.subscribe(()=>{const value=busy();if(value!==wasBusy){wasBusy=value;void refresh()}});
   return {refresh,controller}
  }
- root.StageAutoBackup={VERSION:'26.170',DAY,KEEP,Store,Controller,days,due,mount,protects:id=>active?active.protects(id):new Store().all().then(records=>records.some(r=>r.assets.includes(id)))};
+ root.StageAutoBackup={VERSION:'26.171',DAY,KEEP,Store,Controller,days,due,mount,protects:id=>active?active.protects(id):new Store().all().then(records=>records.some(r=>r.assets.includes(id)))};
 })(typeof window!=='undefined'?window:globalThis);
 
 // stage-concert.js
@@ -3159,7 +3179,7 @@
   }
   async function runCheck(){
    const token=++checkSerial;$('concertCheckSummary').textContent='Checking local files and equipment…';$('concertRunCheck').disabled=true;
-   try{if(!o.mixer.player.playing&&!o.mixer.busy())o.mixer.player.configure();let backups=[],offline=false;try{backups=await o.backups()}catch{}try{const names=await root.caches.keys();const name=names.find(n=>n.includes('benken-v26-170'));if(name){const cache=await root.caches.open(name);offline=!!(await cache.match('./index.html'))&&!!(await cache.match('./benken-runtime-v26-170.js'))}}catch{}
+   try{if(!o.mixer.player.playing&&!o.mixer.busy())o.mixer.player.configure();let backups=[],offline=false;try{backups=await o.backups()}catch{}try{const names=await root.caches.keys();const name=names.find(n=>n.includes('benken-v26-171'));if(name){const cache=await root.caches.open(name);offline=!!(await cache.match('./index.html'))&&!!(await cache.match('./benken-runtime-v26-171.js'))}}catch{}
     const state=structuredClone(o.state()),signature=JSON.stringify(state),result=await check(state,o.mixer.repo,{mode:o.mixer.player.mode,channels:o.mixer.player.channels,midi:o.midi()||{connected:0,bindings:0},backups,offline});if(token!==checkSerial)return;
     if(signature!==JSON.stringify(o.state()))throw Error('The library changed during the check. Run it again.');
     $('concertCheckSummary').textContent=result.name+': '+(result.errors?result.errors+' item(s) need fixing':result.warnings?'Files checked · '+result.warnings+' item(s) to review':'App checks passed')+' · '+songCount(result.songs)+'.';
@@ -3210,7 +3230,7 @@
   let previousBusy=o.mixer.busy();o.mixer.subscribe(()=>{if(dialog.open&&previousBusy!==o.mixer.busy()){previousBusy=o.mixer.busy();refresh()}});
   root.setInterval(frame,200);applyLock();frame();return {open,onTransport,manual,practicing:()=>!!practice,check:runCheck,stopPractice,setLock,setPracticeEnabled,refresh}
  }
- root.StageConcert={VERSION:'26.170',practiceEnabled,setPracticeEnabled:value=>modeSetter?.(value),togglePractice:()=>modeSetter?.(!modeReader()),concertState,check,transportStatus,readyNotice,mount,locked:()=>liveLocked};
+ root.StageConcert={VERSION:'26.171',practiceEnabled,setPracticeEnabled:value=>modeSetter?.(value),togglePractice:()=>modeSetter?.(!modeReader()),concertState,check,transportStatus,readyNotice,mount,locked:()=>liveLocked};
 })(typeof window!=='undefined'?window:globalThis);
 
 // stage-file-tools.js
@@ -3226,7 +3246,8 @@
   const referenced=new Set(root.StageProject.assets(state));return {count:tracks.length,unused:[...new Set(tracks.map(t=>t.assetId))].filter(id=>!referenced.has(id))}
  }
  async function scan(state,repo){
-  const ids=root.StageProject.assets(state),missing=[];
+  // V26.170: songs marked LYRICS ONLY never report missing audio.
+  const ids=root.StageProject.assets({...state,songs:(state.songs||[]).filter(song=>song?.lyricsOnly!==true)}),missing=[];
   for(let i=0;i<ids.length;i+=8){const values=await Promise.all(ids.slice(i,i+8).map(async id=>({id,found:repo.has?await repo.has(id):!!(await repo.get(id))?.data})));for(const value of values)if(!value.found)missing.push(value.id)}
   return {missing,report:missing.length?root.StageProject.missingAudioMessage(state,missing):''}
  }
@@ -3242,7 +3263,7 @@
   }
   root.setTimeout(check,2500);return {check}
  }
- root.StageFileTools={VERSION:'26.170',hidden,isMissing,detachSongAudio,scan,mount};
+ root.StageFileTools={VERSION:'26.171',hidden,isMissing,detachSongAudio,scan,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 // Read-only section display. Reuses the mixer UI tick; never schedules audio.
@@ -3310,7 +3331,7 @@
   if(root.ResizeObserver)new root.ResizeObserver(measure).observe(header);else root.addEventListener('resize',measure,{passive:true});
   measure();const unsubscribe=o.mixer.subscribe(refresh);refresh();return {refresh,unsubscribe};
  }
- root.StageSectionBar={VERSION:'26.170',locate,mount};
+ root.StageSectionBar={VERSION:'26.171',locate,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 // Native MIDI Clock configuration. Timing and persistence live outside the web process.
@@ -3338,5 +3359,5 @@
   const unsubscribe=o.mixer.subscribe(()=>{if(dialog.open)locks()});
   return {open,refresh,unsubscribe};
  }
- root.StageMIDIClock={mount,VERSION:'26.170'};
+ root.StageMIDIClock={mount,VERSION:'26.171'};
 })(typeof window!=='undefined'?window:globalThis);
