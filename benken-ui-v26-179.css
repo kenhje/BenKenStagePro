@@ -2423,3 +2423,16 @@ body.hide-extra-info [data-extra-info].import-guide{display:none!important}
 #noteEditor .note-colors button.note-yellow{--note:#f5c518}#noteEditor .note-colors button.note-red{--note:#ff4d4d}#noteEditor .note-colors button.note-blue{--note:#3d9bff}#noteEditor .note-colors button.note-green{--note:#2ecc71}#noteEditor .note-colors button.note-purple{--note:#b06cff}
 #song .lyric-note.note-yellow{--note:#f5c518}#song .lyric-note.note-red{--note:#ff4d4d}#song .lyric-note.note-blue{--note:#3d9bff}#song .lyric-note.note-green{--note:#2ecc71}#song .lyric-note.note-purple{--note:#b06cff}
 #song .lyric-note{background:color-mix(in srgb,var(--note) 22%,transparent)!important;border-left-color:var(--note)!important}
+
+/* V26.179: Song tempo and Metronome side by side, count-in on its own row below; transpose lives in Capo & Key. */
+#tempoPanel:not(.hidden){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:stretch}
+#tempoPanel>*{grid-column:1/-1;margin:0!important}
+#tempoPanel>.tempo-simple{grid-column:1}
+#tempoPanel>#clickSettings{display:contents}
+#tempoPanel>#clickSettings>.click-metronome{grid-column:2}
+#tempoPanel>#clickSettings>.click-countin{grid-column:1/-1}
+#tempoPanel .click-card{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 16px}
+#tempoPanel .click-countin .click-simple{grid-template-columns:repeat(2,minmax(0,1fr))}
+#tempoPanel .click-metronome .click-simple{grid-template-columns:1fr}
+#tempoPanel>.transpose-panel{display:none!important}
+@media (max-width:700px){#tempoPanel>.tempo-simple,#tempoPanel>#clickSettings>.click-metronome{grid-column:1/-1}#tempoPanel .click-countin .click-simple{grid-template-columns:1fr}}

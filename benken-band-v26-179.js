@@ -1,5 +1,5 @@
 (function(global){'use strict';
-const VERSION='26.178',URL_ROOT='https://ifwqblhjzfjgauaivkdm.supabase.co',KEY='sb_publishable_7vSifQ68_y740EsyQpyWuQ_DvwJv-4k';
+const VERSION='26.179',URL_ROOT='https://ifwqblhjzfjgauaivkdm.supabase.co',KEY='sb_publishable_7vSifQ68_y740EsyQpyWuQ_DvwJv-4k';
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clone=x=>JSON.parse(JSON.stringify(x));
 function invitation(value){const s=String(value||'').trim();if(/^[a-f0-9]{64}$/.test(s))return s;try{return /^[a-f0-9]{64}$/.test(new URL(s).hash.slice(13))&&new URL(s).hash.startsWith('#band-invite=')?new URL(s).hash.slice(13):''}catch{return ''}}
