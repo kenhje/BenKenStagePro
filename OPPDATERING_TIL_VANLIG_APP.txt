@@ -1,4 +1,0 @@
-BenKen Stage Pro V26.175
-17. november 2026
-
-Krever Native V27.34 (bygg BenKen_Stage_Pro_V27_34_Eight_Transpose i Xcode) for å transponere mer enn tre spor.
