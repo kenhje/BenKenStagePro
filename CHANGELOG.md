@@ -3,6 +3,12 @@
 Collected from the per-version READ_ME and LES_MEG files (newest first). The app shows the same history under Help & Info → What’s new.
 
 
+## BenKen Stage Pro V26.277
+
+- Ask BenKen: the search field was squeezed to a few pixels between 601 and about 900 px wide, because the general form-button rule (width:100% !important) also hit the SEARCH button. A stronger rule keeps the field and button on one row (stacked under 600 px).
+- Section bar (all song sections): always one row. When the cells do not fit (iPhone portrait), the row scrolls sideways without a scrollbar and slides to the current section, with a little of the previous one visible, each time the section changes (followCurrent in benken-runtime). On iPad the row fits and does not move.
+- Manual: new Privacy chapter (Help & Info → Privacy, privacy policy, support address, delete account), so Ask BenKen finds it. Manual intro now refers to native V27.63.
+
 ## BenKen Stage Pro V26.276
 
 - Help & Info → Privacy: short summary of what is stored on the device and in the cloud, with links to https://benkenstagepro.com/privacy.html and support@benkenstagepro.com. Search for "privacy" or "personvern" in Ask BenKen.

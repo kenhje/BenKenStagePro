@@ -266,5 +266,5 @@ function mount(o){
  const resizeCharts=()=>fit(doc);new ResizeObserver(resizeCharts).observe($('song'));new MutationObserver(resizeCharts).observe($('song'),{childList:true});new MutationObserver(resizeCharts).observe($('chartEditorPreview'),{childList:true});root.addEventListener('resize',resizeCharts,{passive:true});resizeCharts();
  for(const event of ['resize','scroll'])root.visualViewport?.addEventListener(event,viewport,{passive:true});root.addEventListener('resize',viewport,{passive:true});refreshControls();controller={open,close,refreshControls,isOpen:()=>!!session};return controller;
 }
-root.StageChordChart={VERSION:'26.276',parse,fromLyrics,generate,source,settingsMarkup,chords,rewrite,render,plan,active,barTime,barRanges,follow,fit,mount,isOpen:()=>controller?.isOpen()||false,refreshControls:()=>controller?.refreshControls()};
+root.StageChordChart={VERSION:'26.277',parse,fromLyrics,generate,source,settingsMarkup,chords,rewrite,render,plan,active,barTime,barRanges,follow,fit,mount,isOpen:()=>controller?.isOpen()||false,refreshControls:()=>controller?.refreshControls()};
 })(typeof window!=='undefined'?window:globalThis);

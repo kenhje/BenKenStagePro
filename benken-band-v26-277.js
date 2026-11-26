@@ -1,14 +1,14 @@
 (function(global){'use strict';
-const VERSION='26.276',URL_ROOT='https://ifwqblhjzfjgauaivkdm.supabase.co',KEY='sb_publishable_7vSifQ68_y740EsyQpyWuQ_DvwJv-4k';
+const VERSION='26.277',URL_ROOT='https://ifwqblhjzfjgauaivkdm.supabase.co',KEY='sb_publishable_7vSifQ68_y740EsyQpyWuQ_DvwJv-4k';
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clone=x=>JSON.parse(JSON.stringify(x));
-// V26.276: one login per Supabase project, kept on this device and shared by Band, Web song editor and Sharing.
+// V26.277: one login per Supabase project, kept on this device and shared by Band, Web song editor and Sharing.
 const AUTH_KEY='benken-auth-v1:'+URL_ROOT,readAuth=()=>{try{const s=JSON.parse(localStorage.getItem(AUTH_KEY)||'null');return s&&s.access_token?s:null}catch{return null}},writeAuth=s=>{try{if(s)localStorage.setItem(AUTH_KEY,JSON.stringify(s));else localStorage.removeItem(AUTH_KEY)}catch{}};
 
 const MIX_BUCKET='benken-band-mixes',MIX_MAX=26214400,EXTRAS_SETUP='Comments and rehearsal mixes are not active yet. Run SUPABASE_BAND_COMMENTS_MIXES_V26_208.sql in Supabase first.';
 const mixType=file=>{const ext=String(file?.name||'').toLowerCase().match(/\.(mp3|m4a)$/)?.[1];return ext?{ext,type:ext==='mp3'?'audio/mpeg':'audio/mp4'}:null};
 const megabytes=n=>(Math.max(0,Number(n)||0)/1048576).toFixed(1)+' MB';
-// V26.276: link shared songs to the local library. Same title, and the same artist when both have one.
+// V26.277: link shared songs to the local library. Same title, and the same artist when both have one.
 const norm=v=>String(v||'').trim().toLowerCase().replace(/\s+/g,' ');
 function localMatch(db,song){const t=norm(song?.title);if(!t)return -1;const a=norm(song.artist);let hits=(db?.songs||[]).map((x,i)=>[x,i]).filter(([x])=>norm(x.title)===t);if(a)hits=hits.filter(([x])=>!norm(x.artist)||norm(x.artist)===a).sort(([x],[y])=>Number(norm(y.artist)===a)-Number(norm(x.artist)===a));return hits.length?hits[0][1]:-1}
 const songTitles=d=>[...new Set((d?.setlists||[]).flatMap(s=>(s.songs||[]).map(x=>x.title).filter(Boolean)))];
@@ -33,7 +33,7 @@ class Client{
   try{const r=await fetch(URL_ROOT+path,{method:method||(body===undefined?'GET':'POST'),headers:{apikey:KEY,...(auth?{Authorization:'Bearer '+this.session.access_token}:{}),'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body),signal:controller.signal,credentials:'omit',redirect:'error',referrerPolicy:'no-referrer'});const text=await r.text();let value;try{value=text?JSON.parse(text):null}catch{throw Error('Unexpected server response. Try again.')}if(!r.ok){if(value?.code==='42P01'||value?.code==='PGRST202'||value?.code==='PGRST205')throw Error('Band setup is not active yet. Activate SUPABASE_BAND_SETUP.sql in Supabase first.');throw Error(value?.msg||value?.message||value?.error_description||'Could not connect. Please retry.')}return value}finally{clearTimeout(timer)}
  }
  rpc(name,body){return this.request('/rest/v1/rpc/benken_band_'+name,{body})}
- // V26.276: rehearsal mixes in the private 'benken-band-mixes' bucket.
+ // V26.277: rehearsal mixes in the private 'benken-band-mixes' bucket.
  async upload(path,file,type){await this.ready();const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),300000);
   try{const r=await fetch(URL_ROOT+'/storage/v1/object/'+MIX_BUCKET+'/'+path,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+this.session.access_token,'Content-Type':type,'x-upsert':'false'},body:file,signal:controller.signal,credentials:'omit',redirect:'error',referrerPolicy:'no-referrer'});if(!r.ok){let v=null;try{v=await r.json()}catch{}if(/bucket not found/i.test(v?.message||v?.error||''))throw Error(EXTRAS_SETUP);throw Error(r.status===413||/size/i.test(v?.message||'')?'The file is larger than 25 MB.':(v?.message||v?.error||'Upload failed. Please retry.'))}}finally{clearTimeout(timer)}}
  async sign(path,download=''){const v=await this.request('/storage/v1/object/sign/'+MIX_BUCKET+'/'+path,{body:{expiresIn:3600}});const url=v?.signedURL||v?.signedUrl;if(!url)throw Error('Could not open the mix.');return URL_ROOT+'/storage/v1'+url+(download?'&download='+encodeURIComponent(download):'')}
