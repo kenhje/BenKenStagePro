@@ -3,6 +3,11 @@
 Collected from the per-version READ_ME and LES_MEG files (newest first). The app shows the same history under Help & Info → What’s new.
 
 
+## BenKen Stage Pro V26.278
+
+- NEXT when scrolling (Show next song when scrolling): on iPhone the top bar scrolls away while the section bar stays at the top, and the framed NEXT was placed under the (hidden) top bar, on top of the section bar. It is now placed under the section bar whenever the section bar is at the top (benken-controls-mixer preview()).
+- Native V27.64 fixes web auto-update (off since V27.61 because Debug builds did not define DEBUG).
+
 ## BenKen Stage Pro V26.277
 
 - Ask BenKen: the search field was squeezed to a few pixels between 601 and about 900 px wide, because the general form-button rule (width:100% !important) also hit the SEARCH button. A stronger rule keeps the field and button on one row (stacked under 600 px).
