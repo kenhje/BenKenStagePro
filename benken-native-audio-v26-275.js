@@ -4,9 +4,9 @@
  const post=payload=>root.webkit.messageHandlers.benkenNativePlayer.postMessage(payload);
  const now=()=>Date.now()/1000;
  const clamp=(v,a,b)=>Math.min(b,Math.max(a,Number(v)||0));
- // V26.274 Stereo split for 2-output interfaces (e.g. Scarlett 2i2): the click and the tracks ticked for output 1 go
+ // V26.275 Stereo split for 2-output interfaces (e.g. Scarlett 2i2): the click and the tracks ticked for output 1 go
  // to output 1, every other track to output 2, both mono. Sent to native as discrete outputs 1–2 (no native change).
- // V26.274: retired — outputs are routed in the mixer (Buses & outputs), so the old setting no longer overrides it.
+ // V26.275: retired — outputs are routed in the mixer (Buses & outputs), so the old setting no longer overrides it.
  const splitOn=()=>false;
  function splitRoute(tracks,buses,song){
   const one=new Set(Array.isArray(song?.playback?.splitOne)?song.playback.splitOne:[]),extra=new Map();
@@ -85,7 +85,7 @@
     if(!tracks.length){this.preparing=false;return true}
     const song=structuredClone(this.host.song()||{title:'Audio test'}),opts=structuredClone(this.host.state().opts),original=song.playback?.tempo?.originalBpm||root.StageTempo.metadata(song)||120;
     song.playback={...song.playback,tracks:structuredClone(tracks),tempo:{originalBpm:original,targetBpm:original*ratio},transpose};
-    if(this.buses.length)opts.audioBuses=structuredClone(this.buses);// V26.274: the outputs of the connected audio device
+    if(this.buses.length)opts.audioBuses=structuredClone(this.buses);// V26.275: the outputs of the connected audio device
     if(this.split()){const routed=splitRoute(song.playback.tracks,opts.audioBuses,this.host.song());song.playback.tracks=routed.tracks;opts.audioBuses=routed.buses}
     const state={songs:[song],sets:{},set:'',idx:0,opts};const assets=[];let copied=0;
     for(const id of new Set(tracks.map(t=>t.assetId))){const file=await repo.get(id);if(!current())return false;const size=file?.data?.byteLength??file?.data?.size;if(!size){const track=tracks.find(t=>t.assetId===id);throw Object.assign(Error('Audio file «'+track.name+'» is missing locally.'),{code:'MISSING_AUDIO_FILE',assetId:id,trackId:track.id})}assets.push({id,name:file.name||'audio.mp3',size,...(root.BenKenMainAudio?.concertCache?{digest:await fingerprint(file)}:{})});if(!current())return false;this.info.set(id,{name:file.name,bytes:size})}
@@ -106,7 +106,7 @@
   // V26.170: channels the interface offers right now (Native V27.33). null when unknown.
   async hardwareChannels(){try{const state=await post({command:'audioState',meters:false});return Number.isFinite(state.hardwareChannels)&&state.hardwareChannels>0?state.hardwareChannels:null}catch{return null}}
    // V26.187: name of the audio device the iPad is sending to (for example BOSS RC-600). null when unknown.
-   // V26.274: name of the current output and whether it is a USB audio device (mixer or audio interface).
+   // V26.275: name of the current output and whether it is a USB audio device (mixer or audio interface).
    async outputRoute(){try{const report=await post({command:'audioDiagnostics'});const routes=Array.isArray(report?.route)?report.route:[];const names=routes.map(r=>String(r?.name||'').trim()).filter(Boolean);return {name:names.join(', '),usb:routes.some(r=>/^AppleUSBAudioEngine/i.test(String(r?.uid||'')))}}catch{return null}}
    async outputDeviceName(){try{const report=await post({command:'audioDiagnostics'});const names=(Array.isArray(report?.route)?report.route:[]).map(r=>String(r?.name||'').trim()).filter(Boolean);return names.length?names.join(', '):null}catch{return null}}
   async refreshOutputs(){
@@ -118,7 +118,7 @@
    finally{this.preparing=false;this.preparationProgress=null;this.preparationMessage='';this.notify({updated:true})}
    await this.flushMix();
   }
-  // V26.274: Stereo split is active (Practice / Stereo + STEREO SPLIT on).
+  // V26.275: Stereo split is active (Practice / Stereo + STEREO SPLIT on).
   split(){return splitOn(this.mode,this.host.state?.().opts)}
   clickOutput(bus,fallback){return this.split()?1:bus?.output||fallback}
   _mix(){const routed=this.split()?splitRoute(this.tracks,this.buses,this.host.song()):{tracks:this.tracks,buses:this.buses};return {tracks:routed.tracks,master:this.master,opts:{audioBuses:routed.buses,masterGain:this.globalMaster,masterMuted:this.masterMuted,mutedGroups:[...this.muteGroups],...(this.supportsMasterFX?{masterCompressor:this.masterFX}:{})}}}
@@ -151,7 +151,7 @@
   setMasterMuted(value){this.masterMuted=!!value;this._queueMix()}
   setMuteGroups(value){this.muteGroups=new Set(value);this._queueMix()}
   groupMuted(track){return (track.muteGroups||[]).some(g=>this.muteGroups.has(g))}
-  setMasterFX(value){// V26.274: Native V27.41 runs the master compressor; older native apps keep it off.
+  setMasterFX(value){// V26.275: Native V27.41 runs the master compressor; older native apps keep it off.
     if(!this.supportsMasterFX){this.masterFX={...value,enabled:false};return this.masterFX}this.masterFX=root.StageFX.compressor(value);this._queueMix();return this.masterFX}
    async ensureMasterFX(){if(this.supportsMasterFX)this._queueMix();return this.supportsMasterFX}
    bypassMasterFX(){if(this.supportsMasterFX&&this.masterFX?.enabled){this.masterFX={...this.masterFX,enabled:false};this._queueMix()}}
@@ -181,7 +181,7 @@
   tick(){if(!root.BenKenMainAudio?.metronomeToggle&&(!this.player.playing||this.clock&&!this.clock.config.continuous&&!this.player.countingIn))this.clock=null}
   frame(){if(!this.active||!this.clock)return null;const {config,start,count}=this.clock,t=Math.max(0,now()-start),beats=Math.floor(t*config.bpm/60);return {beats:config.beatsPerBar,beat:beats%config.beatsPerBar,bar:Math.floor(beats/config.beatsPerBar)+1,bars:count/config.beatsPerBar,counting:this.player.countingIn,waiting:now()<start,flash:(t*config.bpm/60)%1<.25}}
  }
- // V26.274: song tempo and metronome settings in Audio Status, to compare the click with the song's beat.
+ // V26.275: song tempo and metronome settings in Audio Status, to compare the click with the song's beat.
  function syncInfo(db){
   const song=db?.songs?.[db.idx],cfg=root.StageClick?.config(song)||{},map=Array.isArray(song?.reaperSource?.tempoMap)?song.reaperSource.tempoMap:[];
   const changes=map.slice(1).filter((p,i)=>Math.abs(p.bpm-map[i].bpm)>.001||p.linear||p.numerator!==map[i].numerator||p.denominator!==map[i].denominator);
@@ -201,5 +201,5 @@
   };
   new MutationObserver(install).observe(document.documentElement,{childList:true,subtree:true});install();
  }
- root.StageNativeAudio={VERSION:'26.274',available,warm:transferWarm,Player:NativePlayer,Click:NativeClick,mountAudioStatus};
+ root.StageNativeAudio={VERSION:'26.275',available,warm:transferWarm,Player:NativePlayer,Click:NativeClick,mountAudioStatus};
 })(typeof window!=='undefined'?window:globalThis);

@@ -2,6 +2,13 @@
 
 Collected from the per-version READ_ME and LES_MEG files (newest first). The app shows the same history under Help & Info → What’s new.
 
+
+## BenKen Stage Pro V26.275
+
+- Help & Info → Report a problem: area, summary, what happened, steps, song and optional email, plus diagnostics (versions, engine, screen, current song, recent errors, Audio Status from the app). SHOW WHAT IS SENT previews the exact report.
+- Sent to Supabase table benken_problem_reports via benken_report_problem() (anon or signed in; 10/hour per account, 120/hour unsigned). The app cannot read reports; read them in the Supabase dashboard. Reports are queued offline and sent later.
+- Database: supabase/sql/SUPABASE_PROBLEM_REPORTS_V26_275.sql (already run).
+
 ## BenKen Stage Pro V26.274
 
 - licenses.html: third-party code and full license texts (QR Code Generator MIT; soundcraft-ui-connection 7.0.3 MIT with bundled RxJS 7 Apache-2.0 and tslib 0BSD), plus trademark notes. Shown in Help & Info → Open-source licenses.
