@@ -12,7 +12,7 @@ from its own address `benken://app/` and downloads verified updates from here.
 | `benken-*-v26-NNN.js`, `benken-ui-v26-NNN.css` | App modules for the current version only. |
 | `sw.js` | Offline cache for browsers. Its `ASSETS` list is also the list of files the native app needs. |
 | `app-files.json` | Version, size and SHA-256 of every app file. The native app downloads a new version only when all files match. Made by `make_app_files.py`. |
-| `manual.html` | User manual (generated from `manualSections` in `index.html`). |
+| `manual.html` | User manual, made by `make_manual.py` from `manualGroups` and `manualSections` in `index.html`. |
 | `licenses.html` | Third-party code and licenses (also in Help & Info). |
 | `qrcode.js`, `QRCode_License.txt` | QR Code Generator (MIT). |
 | `soundcraft-ui-connection-7.0.3.mjs` | Ui24R connection library (MIT, includes RxJS and tslib), bundled unmodified. |
@@ -27,7 +27,7 @@ from its own address `benken://app/` and downloads verified updates from here.
 
 1. Copy the current `*-v26-NNN.*` files to the next number and update the references in `index.html`, `sw.js` and `manual.html`.
 2. Add the release to `aboutUpdates` in `index.html` and a section to `CHANGELOG.md`.
-3. Run `python3 make_app_files.py` to refresh `app-files.json`.
+3. If the manual changed, run `python3 make_manual.py` (builds `manual.html` from `manualGroups` and `manualSections` in `index.html`). Then run `python3 make_app_files.py` to refresh `app-files.json`.
 4. Publish `index.html`, `manual.html`, `sw.js`, `app-files.json`, `CHANGELOG.md` and the new version files together.
 5. Remove the previous version's `benken-*-v26-NNN.*` files once the new version is live.
 

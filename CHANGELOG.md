@@ -3,6 +3,13 @@
 Collected from the per-version READ_ME and LES_MEG files (newest first). The app shows the same history under Help & Info → What’s new.
 
 
+## BenKen Stage Pro V26.279
+
+- User manual grouped like Settings: manualGroups in index.html (9 groups, all 60 chapters); manualSections is in the same order. Help & Info → User manual shows group headings and hides empty groups while searching; "No matches." replaces "Ingen treff."
+- manual.html: grouped table of contents, chapters under group headings, a sticky ← Back to BenKen button (the page replaced the app with no way back) and Back to contents links. Built by the new make_manual.py.
+- Diagnostics: REFRESH CHECK / REFRESHED ✓ (were Norwegian).
+- Help & Info → Diagnostics (swipe check) in English: heading, intro, REFRESH CHECK, the status lines and swipe results (benken-runtime stage-swipe). The native swipe messages, still Norwegian in the app, are translated on the web side; native V27.65 sends them in English.
+
 ## BenKen Stage Pro V26.278
 
 - NEXT when scrolling (Show next song when scrolling): on iPhone the top bar scrolls away while the section bar stays at the top, and the framed NEXT was placed under the (hidden) top bar, on top of the section bar. It is now placed under the section bar whenever the section bar is at the top (benken-controls-mixer preview()).
