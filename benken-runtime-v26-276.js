@@ -1,4 +1,4 @@
-// V26.275: USB output choices for a bus or direct track, limited to the outputs of the connected audio device.
+// V26.276: USB output choices for a bus or direct track, limited to the outputs of the connected audio device.
 (function(root){'use strict';root.StageOutputOptions=function(route,count){const max=Math.max(1,Math.min(64,Math.floor(Number(count)||32))),stereo=route.stereo===true,list=[];for(let n=1;n+(stereo?1:0)<=max;n+=stereo?2:1)list.push(n);const current=Math.floor(Number(route.output)||1);if(current+(stereo?1:0)<=max&&!list.includes(current)){list.push(current);list.sort((a,b)=>a-b)}const names=root.StageOutputNames?.()||null,label=n=>n+(stereo?'–'+(n+1):'')+(names&&(stereo?names.pair[n]:names.mono[n-1])?' · '+(stereo?names.pair[n]:names.mono[n-1]):'');return list.map(n=>'<option value="'+n+'"'+(current===n?' selected':'')+'>'+label(n)+'</option>').join('')+(current+(stereo?1:0)>max?'<option value="'+current+'" selected>'+label(current)+' · not on this device</option>':'')}})(typeof window!=='undefined'?window:globalThis);
 // BenKen V26.169: one versioned runtime prevents mixed helper versions.
 
@@ -155,7 +155,7 @@
  };
  presets.studioBlack={name:'Studio Black',colors:{...defaults,bg:'#080808',text:'#e4e4e4',title:'#eeeeee',chord:'#cccccc',section:'#bdbdbd',verse:'#b7c0c5',chorus:'#d2c6aa',bridge:'#bfb3ca',intro:'#b4c3b5',solo:'#cbb8a9',outro:'#c6b3bd',melody:'#b0c1cf'},appearance:{panel:'#0e0e0e',raised:'#181818',border:'#303030',accent:'#aaaaaa'}};
  const visible=['classic','dark','studioBlack','light','blueWhite','warmPaper','midnight','forest','violet'];
- // V26.275: Blue & White — white reading page, blue chords, grey section labels and a blue Library menu.
+ // V26.276: Blue & White — white reading page, blue chords, grey section labels and a blue Library menu.
  presets.blueWhite={name:'Blue & White',colors:{bg:'#ffffff',text:'#1c1c1e',title:'#111111',chord:'#0077b6',section:'#6d6d72',verse:'#6d6d72',chorus:'#6d6d72',bridge:'#6d6d72',intro:'#6d6d72',solo:'#6d6d72',melody:'#6d6d72',outro:'#6d6d72'},appearance:{panel:'#ffffff',raised:'#eef4f8',border:'#c3d1dc',accent:'#0a7fc0'}};
  // Retain the saved Graphite/Sunset IDs and palettes for existing devices.
  presets.dark={name:'Dark',colors:{...defaults,bg:'#121518',text:'#eef1f4',title:'#eef1f4',chord:'#e8b48a',intro:'#7fd1a0',verse:'#8fc1ff',chorus:'#e8b48a'},appearance:{panel:'#191d22',raised:'#22282e',border:'#5b6672',accent:'#e8b48a'}};
@@ -171,7 +171,7 @@
  paletteIds.splice(0,paletteIds.length,"reaperClassic","sunsetCoast","lavenderSea","fjord");
  function swatches(p){return p.swatches||[p.colors.intro,p.colors.verse,p.colors.chorus,p.colors.bridge,p.colors.solo,p.colors.melody,p.colors.outro,p.colors.chord,p.colors.title,p.colors.text]}
 
- // V26.275: each skin remembers its own colour edits in opts.skinColors[skin]. Choosing a skin gives its own
+ // V26.276: each skin remembers its own colour edits in opts.skinColors[skin]. Choosing a skin gives its own
  // colours plus the edits made on that skin, so colours from one skin no longer leak into another.
  function ownColors(opts,key){const own=opts?.skinColors?.[key];return own&&typeof own==='object'?Object.fromEntries(Object.entries(own).filter(([,v])=>typeof v==='string'&&/^#[0-9a-f]{6}$/i.test(v))):{}}
  function choosePalette(opts,key){
@@ -203,7 +203,7 @@
   if(shape)next.skinShape=value;else if(surface){if(!Object.hasOwn(current.appearance,key))throw Error('Unknown appearance color.');next.skinAppearance[key]=value.toLowerCase()}else {next.colors[key]=value.toLowerCase();next.personalizationColors={...opts.personalizationColors,[key]:value.toLowerCase()};const base=next.skinBase;next.skinColors={...(opts.skinColors||{}),[base]:{...ownColors(opts,base),[key]:value.toLowerCase()}};}
   next.customSkin=snapshot(next);return next;
  }
- // One-time clean-up: before V26.275 personal colours were shared by every skin (and Blue & White or a palette
+ // One-time clean-up: before V26.276 personal colours were shared by every skin (and Blue & White or a palette
  // could leave its colours behind). Preset skins go back to their own colours; a Custom skin keeps its colours.
  function migrate(opts){
   if(!opts||opts.skinColors&&typeof opts.skinColors==='object')return opts;
@@ -232,14 +232,14 @@
   return '<section class="skin-settings"><details id="appearanceSkins" class="appearance-section"><summary>App skin<span class="appearance-current">'+(presets[id(opts)]?.name||'Custom / My skin')+'</span></summary><div class="appearance-body"><select id="skinSelect" aria-label="App skin">'+skinOptions+'<option value="custom"'+(id(opts)==='custom'?' selected':'')+'>Custom / My skin</option></select><p class="foot">Skins set the reading background, menus and controls. Your lyric, chord, section and track colors are kept.</p><div class="skin-previews">'+skinPreviews+'</div><label class="skin-shape">Button style<select id="skinShape"><option value="soft">Soft corners</option><option value="square">Square corners</option><option value="outline">Outline</option></select></label><details class="skin-custom"><summary>Customize app colors</summary>'+Object.entries({panel:'Panels',raised:'Buttons & fields',border:'Borders',accent:'All active buttons'}).map(([key,label])=>'<div class="color-setting-row"><label for="skinColor-'+key+'">'+label+'</label><input id="skinColor-'+key+'" data-skin-color="'+key+'" type="color" value="'+colors[key]+'"></div>').join('')+'</details></div></details></section>';
  }
 
- root.StageTheme={VERSION:'26.275',presets,visible,paletteIds,choosePalette,migrate,readingColor,ink,id,appearance,choose,customize,snapshot,apply,markup};
+ root.StageTheme={VERSION:'26.276',presets,visible,paletteIds,choosePalette,migrate,readingColor,ink,id,appearance,choose,customize,snapshot,apply,markup};
 })(typeof window!=='undefined'?window:globalThis);
 
 
 // stage-ui24r.js
 (function(root){
  'use strict';
- // V26.275: bundled with BenKen (licenses.html) instead of downloaded from a CDN, so it works offline and inside the app.
+ // V26.276: bundled with BenKen (licenses.html) instead of downloaded from a CDN, so it works offline and inside the app.
  const LIBRARY_URL=new root.URL('soundcraft-ui-connection-7.0.3.mjs',root.document?.baseURI||root.location?.href).href,LIBRARY_CACHE='ui24r-library-v2';
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const name=v=>typeof v==='string'&&v.length>0&&v.length<=256&&!/[\x00-\x1f\x7f^]/.test(v);
@@ -360,7 +360,7 @@
   $('ui24rSave').onclick=()=>run(()=>controller.link(o.song(),{show:$('ui24rShow').value,cue:$('ui24rCue').value}));$('ui24rRemove').onclick=()=>run(()=>controller.link(o.song(),null));$('ui24rAuto').onchange=e=>run(()=>controller.setAuto(e.target.checked));$('ui24rLoad').onclick=()=>run(()=>controller.recall(o.song(),{manual:true}));
   root.addEventListener('pagehide',()=>controller.disconnect());draw();return {refresh:draw,selected:song=>{const token=++selection;return controller.selected(song).then(ok=>{if(!ok&&token===selection)o.report?.('Ui24R: '+controller.snapshot().message);return ok})},controller}
  }
- root.StageUi24R={VERSION:'26.275',LIBRARY_URL,LIBRARY_CACHE,address,validLink,create,nativeWebSocket,mount};
+ root.StageUi24R={VERSION:'26.276',LIBRARY_URL,LIBRARY_CACHE,address,validLink,create,nativeWebSocket,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -392,7 +392,7 @@
   if(root.ResizeObserver){const observer=new root.ResizeObserver(pin);observer.observe(doc.querySelector('header'));const bar=doc.getElementById('performanceBar');if(bar)observer.observe(bar)}
   return {isOpen,setOpen,pin,content,resetScroll:()=>{content.scrollTop=0}};
  }
- root.StageSettings={VERSION:'26.275',geometry,mount};
+ root.StageSettings={VERSION:'26.276',geometry,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -482,7 +482,7 @@
    }catch(error){if(!committed)for(const part of created)await this.store.remove(part).catch(()=>{});if(error.name==='AbortError')throw error;this.disabled=true;return false}
   }
  }
- root.StagePrepared={VERSION:'26.275',Cache,IndexedStore,timed,CHUNK,MAX_BYTES};
+ root.StagePrepared={VERSION:'26.276',Cache,IndexedStore,timed,CHUNK,MAX_BYTES};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -539,7 +539,7 @@
   $('setlistAddResults').addEventListener('change',e=>{const el=e.target.closest('[data-setlist-pick]');if(!el)return;const i=Number(el.dataset.setlistPick);if(!snapshot[i])return;el.checked?selected.add(i):selected.delete(i);$('setlistAddCount').textContent=selected.size+' selected';$('setlistAddSave').disabled=!selected.size||!target()});
   return {open,close};
  }
- root.StageSetlist={VERSION:'26.275',mount,sidebarGeometry,mountSidebar};
+ root.StageSetlist={VERSION:'26.276',mount,sidebarGeometry,mountSidebar};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -569,7 +569,7 @@
   const signature=()=>JSON.stringify([state().set,state().sets[state().set],state().setAutoplay?.[state().set]]);
   function cancel(){serial++;busy=false;report('')}
   async function ended(){
-   // V26.275: without autoplay, "go to next song" selects and prepares the next setlist song but waits for PLAY.
+   // V26.276: without autoplay, "go to next song" selects and prepares the next setlist song but waits for PLAY.
    const source=entry(),play=enabled(source),only=!play&&cue(source);if(busy||(!play&&!only)||!state().set)return false;
    const target=next();if(!target){report('End of setlist.');return false}
    const mine=++serial,sequence=signature();busy=true;
@@ -606,7 +606,7 @@
  let drafts=null;
  try{if(root.localStorage)drafts=new DraftStore(root.localStorage,undefined,text=>{const node=root.document?.getElementById('status');if(node)node.textContent=text})}catch{}
  if(drafts&&root.addEventListener){root.addEventListener('pagehide',()=>drafts.captureAll());root.document?.addEventListener('visibilitychange',()=>drafts.captureAll())}
- root.StageLive={VERSION:'26.275',validSetAutoplay,setFlags,setEnabled,writeFlag,dropSet,doubleTap,autoplay,DraftStore,drafts};
+ root.StageLive={VERSION:'26.276',validSetAutoplay,setFlags,setEnabled,writeFlag,dropSet,doubleTap,autoplay,DraftStore,drafts};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -630,7 +630,7 @@
  async function part(plan,index,repo){
   const entries=plan.groups[index];if(!entries)throw Error('Unknown backup part.');const parts=[];
   for(const a of entries){const file=await repo.get(a.id);if(!file||bytes(file)!==a.size)throw Error('Audio changed during backup. Create a new backup.');parts.push(file.data instanceof Blob?file.data:new Blob([file.data]))}
-  const manifest={format:'BenKen Full Backup',version:plan.version,appVersion:'26.275',id:plan.id,index,count:plan.partCount,assets:entries};if(index===0){manifest.state=plan.state;manifest.catalog=plan.assets;if(plan.version===4)manifest.missing=plan.missing}
+  const manifest={format:'BenKen Full Backup',version:plan.version,appVersion:'26.276',id:plan.id,index,count:plan.partCount,assets:entries};if(index===0){manifest.state=plan.state;manifest.catalog=plan.assets;if(plan.version===4)manifest.missing=plan.missing}
   const metadata=new TextEncoder().encode(JSON.stringify(manifest));if(metadata.length>MAX_HEADER)throw Error('The backup metadata is too large.');const header=new Uint8Array(12);header.set(new TextEncoder().encode(MAGIC));new DataView(header.buffer).setUint32(8,metadata.length,true);return new Blob([header,metadata,...parts],{type:'application/x-benken-backup'})
  }
  async function header(file){
@@ -653,7 +653,7 @@
    const state=structuredClone(backup.state);for(const song of state.songs){if(song.audioId)song.audioId=mapping.get(song.audioId)||song.audioId;for(const t of song.playback?.tracks||[])t.assetId=mapping.get(t.assetId)}return {state:root.StageCore.normalize(state),created,missing:backup.missing}
   }catch(error){for(const id of created)await repo.remove(id).catch(()=>{});throw error}
  }
- // V26.275: the whole backup as one uncompressed zip file (audio does not shrink when compressed). Parts are
+ // V26.276: the whole backup as one uncompressed zip file (audio does not shrink when compressed). Parts are
  // streamed for the checksum, so the backup is never held in memory at once. Restore accepts the zip directly.
  const CRC_T=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
  async function crc32(blob,progress){let c=0xFFFFFFFF;const reader=blob.stream().getReader();for(;;){const {done,value}=await reader.read();if(done)break;for(let i=0;i<value.length;i++)c=CRC_T[(c^value[i])&255]^(c>>>8);progress?.(value.length)}return (c^0xFFFFFFFF)>>>0}
@@ -697,7 +697,7 @@
    try{restored=await unpack(files,o.mixer.repo);o.apply(restored.state,{restoreDevice});committed=true;root.StageLive.drafts?.reset();o.changed();await o.mixer.load();status(restored.missing.length?'Backup restored with '+restored.missing.length+' missing audio file(s). Reconnect them in Audio & Files → REPLACE FILE. Your previous local audio copies are kept.':'Full backup restored. Your previous local audio copies are kept.');return true}catch(error){if(restored&&!committed)for(const id of restored.created)await o.mixer.repo.remove(id).catch(()=>{});status(error.message);return false}finally{busy=false;buttons()}}
   return {open,restore,busy:()=>busy,isOpen:()=>$('fullBackupDialog').hasAttribute('open')}
  }
- root.StageBackup={VERSION:'26.275',PART_BYTES,plan,part,inspect,unpack,mount,zipBlob,unzip,expand,crc32};
+ root.StageBackup={VERSION:'26.276',PART_BYTES,plan,part,inspect,unpack,mount,zipBlob,unzip,expand,crc32};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -732,7 +732,7 @@
 
  // Keep chord anchors in the same unbreakable word as their lyric character.
  // Each browser-created continuation line can then centre independently.
- // V26.275: chords over proportional text (System font). The line is split where chords start; each part keeps
+ // V26.276: chords over proportional text (System font). The line is split where chords start; each part keeps
  // its chord on top, so chords stay over the right syllable whatever the letter widths are.
  function chordSegments(line){
   const chars=[];for(const run of line.runs)for(const text of run.text)chars.push({text,color:run.color});
@@ -766,7 +766,7 @@
  function parseNote(raw){const m=String(raw||'').match(NOTE_RX);return m?{color:(m[1]||'yellow').toLowerCase(),text:m[2]}:null}
  function noteLine(color,text){const c=NOTE_COLORS.includes(color)?color:'yellow',t=String(text||'').replace(/[{}]/g,'').replace(/\s*\r?\n\s*/g,' / ').trim();return '{note '+c+': '+t+'}'}
 
- // V26.275 MIDI commands in lyrics: one line {midi [@mm:ss] TYPE values [ch N][: label]}.
+ // V26.276 MIDI commands in lyrics: one line {midi [@mm:ss] TYPE values [ch N][: label]}.
  // TYPE: CC number value · PC number · NOTE number [velocity] · START · STOP · CONTINUE. Values are 0–127, channel 1–16.
  // Without @time the command is sent when playback reaches the start of the section it is placed in
  // (above the first heading = when the song starts). Sent to the MIDI Clock output by Native V27.39+.
@@ -877,7 +877,7 @@
  function parseTime(value){const v=String(value).trim().replace(',','.');if(!v)return null;const m=v.match(/^(\d{1,4}):([0-5]\d(?:\.\d{1,3})?)$/);if(m)return Number(m[1])*60+Number(m[2]);if(/^\d+(?:\.\d{1,3})?$/.test(v))return Number(v);throw Error('Use mm:ss, for example 01:24, or seconds.')}
  function time(value){if(value===null||!Number.isFinite(value))return '';const n=Math.round(value*100)/100,whole=Math.floor(n);return String(Math.floor(whole/60)).padStart(2,'0')+':'+String(whole%60).padStart(2,'0')+(n%1?'.'+String(Math.round((n%1)*100)).padStart(2,'0'):'')}
  function interpolate(time,anchors){if(!anchors.length)return 0;if(time<=anchors[0].time)return anchors[0].y;for(let i=1;i<anchors.length;i++)if(time<=anchors[i].time){const a=anchors[i-1],b=anchors[i];return b.time===a.time?b.y:a.y+(b.y-a.y)*Math.max(0,Math.min(1,(time-a.time)/(b.time-a.time)))}return anchors[anchors.length-1].y}
- root.StageLyrics={VERSION:'26.275',esc,hex,colorRange,header,sections,signature,inline,render,NOTE_COLORS,parseNote,noteLine,editNote,parseMidi,midiLine,midiSummary,midiTime,validateSaved,saved,validateStarts,segments,sectionColor,segmentColor,headingColors,parseTime,time,interpolate};
+ root.StageLyrics={VERSION:'26.276',esc,hex,colorRange,header,sections,signature,inline,render,NOTE_COLORS,parseNote,noteLine,editNote,parseMidi,midiLine,midiSummary,midiTime,validateSaved,saved,validateStarts,segments,sectionColor,segmentColor,headingColors,parseTime,time,interpolate};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -922,7 +922,7 @@
   root.addEventListener('pagehide',close);
   return {open,close,refresh,frame,isOpen};
  }
- root.StageDisplay={VERSION:'26.275',mount};
+ root.StageDisplay={VERSION:'26.276',mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -951,7 +951,7 @@
   root.addEventListener('pagehide',stop);root.document.addEventListener('visibilitychange',()=>{if(!root.document.hidden)tick()});refresh();
   return {start,stop,tick,refresh,state:()=>state,urls:()=>[...urls]};
  }
- root.StageLAN={VERSION:'26.275',transport,validLink,mount};
+ root.StageLAN={VERSION:'26.276',transport,validLink,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1014,14 +1014,14 @@
   }
   return {advance,reset,settled:()=>value===null||(Math.abs(value-target)<.15&&Math.abs(velocity)<.5)}
  }
- root.StageReading={VERSION:'26.275',frame,position,timeAt,anchors,continuousPosition,continuousTime,createScroller,createFollower};
+ root.StageReading={VERSION:'26.276',frame,position,timeAt,anchors,continuousPosition,continuousTime,createScroller,createFollower};
 })(typeof window!=='undefined'?window:globalThis);
 
 
 // stage-fx.js
 (function(root){
  'use strict';
- const WORKLET_URL='benken-master-fx-v26-275.js',loaded=new WeakMap(),bands=['low','mid','mid2','high'],defaultWidth=2*Math.asinh(.5)/Math.LN2*Math.sin(2*Math.PI*1000/48000)/(2*Math.PI*1000/48000);
+ const WORKLET_URL='benken-master-fx-v26-276.js',loaded=new WeakMap(),bands=['low','mid','mid2','high'],defaultWidth=2*Math.asinh(.5)/Math.LN2*Math.sin(2*Math.PI*1000/48000)/(2*Math.PI*1000/48000);
  const eqDefaults={enabled:false,low:0,mid:0,mid2:0,high:0,lowHz:120,midHz:1000,mid2Hz:3000,highHz:8000,midWidth:defaultWidth,mid2Width:defaultWidth};
  const compDefaults={enabled:false,threshold:-18,ratio:2,makeup:0,attack:10,release:150,knee:6};
  function object(value,message){if(value!=null&&(typeof value!=='object'||Array.isArray(value)))throw Error(message);return value||{}}
@@ -1049,7 +1049,7 @@
   await moduleFor(context);const node=new root.AudioWorkletNode(context,'benken-linked-compressor',{numberOfInputs:1,numberOfOutputs:1,outputChannelCount:[channels],channelCount:channels,channelCountMode:'explicit',channelInterpretation:'discrete'});
   node.port.onmessage=e=>{if(Number.isFinite(e.data?.reduction))onReduction(e.data.reduction)};applyCompressor(node,value,context);return node;
  }
- root.StageFX={VERSION:'26.275',WORKLET_URL,bands,eqDefaults,compDefaults,eq,compressor,q,filters,applyEQ,response,compressDb,applyCompressor,masterNode};
+ root.StageFX={VERSION:'26.276',WORKLET_URL,bands,eqDefaults,compDefaults,eq,compressor,q,filters,applyEQ,response,compressDb,applyCompressor,masterNode};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1113,7 +1113,7 @@
    }return out;
   }
  }
- root.StageRegionLoop={VERSION:'26.275',region,Controller};
+ root.StageRegionLoop={VERSION:'26.276',region,Controller};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1183,7 +1183,7 @@
   try{for(const a of manifest.assets){if(needed&&!needed.has(a.id))continue;const key=id();mapping.set(a.id,key);await repo.put(key,{name:a.name,type:a.type,data:await blob.slice(a.start,a.start+a.size).arrayBuffer()});created.push(key)}}catch(e){for(const key of created)await repo.remove(key).catch(()=>{});throw e}
   for(const song of state.songs){if(song.audioId){if(mapping.has(song.audioId))song.audioId=mapping.get(song.audioId);else delete song.audioId;}if(song.playback?.tracks)for(const t of song.playback.tracks){const original=t.assetId,entry=manifest.assets.find(a=>a.id===original);if(entry){t.fileBytes=entry.size;if(!t.fileName)t.fileName=entry.name}t.assetId=mapping.get(original)}}return root.StageCore.normalize(state);
  }
- root.StageProject={VERSION:'26.275',MAGIC,MAX_TRACKS,MAX_BUSES,clickBus,usedBuses,color,track,bus,buses,muteGroups,groupNames,mergeSong,routeDirect,tracks,masterGain,assets,audioReferences,missingAudioMessage,validateState,pack,inspect,unpack,id};
+ root.StageProject={VERSION:'26.276',MAGIC,MAX_TRACKS,MAX_BUSES,clickBus,usedBuses,color,track,bus,buses,muteGroups,groupNames,mergeSong,routeDirect,tracks,masterGain,assets,audioReferences,missingAudioMessage,validateState,pack,inspect,unpack,id};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1263,7 +1263,7 @@
   add.onclick=()=>{if(blocked()||!flush())return;try{const values=rules(o.state());values.push({id:root.StageProject.id(),name:'New rule',keywords:[],bus:null});store(values);draw()}catch(error){status.textContent=error.message}};
   draw();return {draw,refresh,flush};
  }
- root.StageImportRules={VERSION:'26.275',normalize,validate,defaults,rules,match,mount};
+ root.StageImportRules={VERSION:'26.276',normalize,validate,defaults,rules,match,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1313,7 +1313,7 @@
   // V26.35 stored matching section times but no explicit region/section links.
   const timing=song?.sectionTiming;
   if(timing?.signature===signature&&timing.starts?.length===sections.length)regions.forEach(region=>{if(result.has(region.id))return;const candidates=sections.filter(section=>!used.has(section.index)&&Number.isFinite(timing.starts[section.index])&&Math.abs(timing.starts[section.index]-region.start)<.001);if(candidates.length===1){result.set(region.id,candidates[0].index);used.add(candidates[0].index)}});
-  // V26.275: lyrics edited after the import (own headings such as Vers 1 / Refreng) keep following the regions:
+  // V26.276: lyrics edited after the import (own headings such as Vers 1 / Refreng) keep following the regions:
   // link the rest by section type in song order, fill the gaps, and drop any link that runs backwards through the lyrics.
   linkInOrder(regions,sections,result,used);
   {let previous=-1;for(const region of [...regions].sort((a,b)=>a.start-b.start)){const index=result.get(region.id);if(index==null)continue;if(index<=previous){result.delete(region.id);used.delete(index)}else previous=index}}
@@ -1364,7 +1364,7 @@
   const s=result.stats,parts=[s.created+' new',s.renamed+' renamed',s.moved+' moved'];if(s.kept)parts.push(s.kept+' unmatched section'+(s.kept===1?'':'s')+' kept at the end');
   return 'Lyric sections: '+parts.join(' · ')+'. Existing words, chords and text-color tags are kept.'+(result.unsectioned?' Text without section headings stays before the imported sections.':'');
  }
- root.StageReaperLyrics={VERSION:'26.275',label,blocks,validate,associate,sync,summary};
+ root.StageReaperLyrics={VERSION:'26.276',label,blocks,validate,associate,sync,summary};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1419,7 +1419,7 @@
   // V26.172: REAPER Export V6 is the source of truth for BPM and time signature on every update.
   const v6=Number(source.exporterVersion)>=6,first=source.tempoMap[0];
   if(!old||v6)song.originalBpm=first?.bpm||incoming.originalBpm||song.originalBpm||undefined;
-  // V26.275: new stems from REAPER are measured again for beat alignment, unless you set it yourself.
+  // V26.276: new stems from REAPER are measured again for beat alignment, unless you set it yourself.
   if(old&&song.playback&&song.playback.alignManual!==true){const p={...song.playback};delete p.alignMs;delete p.alignAuto;song.playback=p}
   // V26.228: a saved playback speed follows REAPER's tempo (same speed ratio). Before, an older playback tempo (for example
   // a detected 65.5) kept overriding the REAPER BPM for the click, MIDI Clock and the Tempo field.
@@ -1451,11 +1451,11 @@
    $('reaperImportNew').onclick=()=>finish({target:-1,mappings:[],...options()});$('reaperImportCancel').onclick=()=>finish(null);dialog.oncancel=event=>{event.preventDefault();finish(null)};dialog.showModal();
   });
  }
- root.StageReaper={VERSION:'26.275',validate,isExport,mapping,timedRegions,selection,plan,choose};
+ root.StageReaper={VERSION:'26.276',validate,isExport,mapping,timedRegions,selection,plan,choose};
 })(typeof window!=='undefined'?window:globalThis);
 
 
-// stage-beat-phase.js — V26.275: where the beats of a stem sit inside the song's beat period.
+// stage-beat-phase.js — V26.276: where the beats of a stem sit inside the song's beat period.
 (function(root){
  'use strict';
  // Strong onsets (rise of a 0.5 ms peak envelope over 5 ms) folded on the exact beat period; circular mean.
@@ -1472,7 +1472,7 @@
  }
  // Audio shift that puts those beats on the click: −phase (the export is late), or +(period−phase) if just early.
  function alignment(r){if(!r)return null;const p=r.phaseMs,t=r.periodMs;if(p<12||t-p<12)return 0;return p<=500?-Math.round(p):Math.min(500,Math.round(t-p))}
- root.StageBeatPhase={VERSION:'26.275',measure,alignment};
+ root.StageBeatPhase={VERSION:'26.276',measure,alignment};
 })(typeof window!=='undefined'?window:globalThis);
 
 // stage-tempo.js
@@ -1560,7 +1560,7 @@
   }
   return best.raw>=.16?{bpm:Math.round(best.bpm*10)/10,confidence:Math.min(.85,best.raw),method:'music'}:null
  }
- root.StageTempo={VERSION:'26.275',config,ratio,metadata,bpmLimits,stepBpm,detect,plan,render,prepare};
+ root.StageTempo={VERSION:'26.276',config,ratio,metadata,bpmLimits,stepBpm,detect,plan,render,prepare};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1625,7 +1625,7 @@
   }
   if(cancelled())throw abort();return items.map(x=>x.output)
  }
- root.StageTranspose={VERSION:'26.275',config,follows,factor,prepare};
+ root.StageTranspose={VERSION:'26.276',config,follows,factor,prepare};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1696,7 +1696,7 @@
    const v=await this.getLocal(key);
    if(v?.data){NativeVault.mirror(key,v,this);return v}
    // V26.170: the web copy is gone, so bring it back from the permanent native library.
-   try{const restored=await NativeVault.restore(key);if(restored){/* V26.275: inside the app (benken://) the permanent copy is the store; do not fill the web storage with a second copy. */if(root.location?.protocol!=='benken:'){try{await this.transaction('readwrite',key,restored)}catch{}}return restored}}catch(error){NativeVault.lastError=error.message}
+   try{const restored=await NativeVault.restore(key);if(restored){/* V26.276: inside the app (benken://) the permanent copy is the store; do not fill the web storage with a second copy. */if(root.location?.protocol!=='benken:'){try{await this.transaction('readwrite',key,restored)}catch{}}return restored}}catch(error){NativeVault.lastError=error.message}
    return v
   }
   async inspectLocal(key){const value=await this.transaction('readonly',key);const data=value?.data??value?.blob;const size=data?.byteLength??data?.size??0;if(!(data instanceof Blob||data instanceof ArrayBuffer||ArrayBuffer.isView(data))||!(size>0)){const saved=(await NativeVault.list()).get(key);return saved?.size>0?{available:true,size:saved.size,permanent:true}:{available:false,size:0}}if(data instanceof Blob)await data.slice(0,16).arrayBuffer();return {available:true,size}}
@@ -1889,7 +1889,7 @@
   meterMaster(){if(!this.playing&&!this.click?.active)return 0;this.syncMeters();return this.peak(this.masterAnalysers)}
   tick(){if(!this.playing)return;this.regions.tick();if(this.context.state!=='running'){this.pause();return}const max=Number(this.context.destination.maxChannelCount);if(max>0&&max!==this.reportedChannels){this.pause();this.notify({error:'The audio device changed. Check the outputs and prepare the audio again.'});return}const end=this.stopAt??this.duration;if(this.currentTime>=end){const practiceEnd=this.stopAt!=null;this.pause();this.position=end;this.transportState='stopped';this.stopAt=null;this.notify({ended:true,practiceEnd})}}
  }
- root.StageAudio={VERSION:'26.275',STABILITY_MODE:true,level,waveInfo,MAX_DECODED,MediaRepository,BrowserPlayer};
+ root.StageAudio={VERSION:'26.276',STABILITY_MODE:true,level,waveInfo,MAX_DECODED,MediaRepository,BrowserPlayer};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1957,7 +1957,7 @@
    return {counting,beat:n%c.config.beatsPerBar,beats:c.config.beatsPerBar,bar:Math.floor(n/c.config.beatsPerBar)+1,bars:c.config.countInBars,bpm:c.config.bpm,flash:elapsed-n*c.period<Math.min(.16,c.period*.65)}
   }
  }
- root.StageClick={headerFlash,songCountBeats,VERSION:'26.275',settings,config,Engine};
+ root.StageClick={headerFlash,songCountBeats,VERSION:'26.276',settings,config,Engine};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1969,7 +1969,7 @@
  function mount(o){
   const $=id=>document.getElementById(id),expandedTracks=new Set(),expandedBuses=new Set();let draft=null,tab='tracks',dirty=false;
   function routeLabel(b){return b.id+' · '+b.name+' → USB '+b.output+(b.stereo?'–'+(b.output+1):'')}
-  // V26.275: only the outputs of the connected audio device (SSL 12: 1–8); stereo buses use pairs 1–2, 3–4 …
+  // V26.276: only the outputs of the connected audio device (SSL 12: 1–8); stereo buses use pairs 1–2, 3–4 …
   function outputs(route){return root.StageOutputOptions(route,o.outputCount?.()||32)}
   function format(route,field){return '<select '+field+' aria-label="Mono or stereo"><option value="true"'+(route.stereo?' selected':'')+'>Stereo</option><option value="false"'+(!route.stereo?' selected':'')+'>Mono</option></select>'}
   function groupChecks(track){return draft.names.map((name,i)=>'<label class="setup-group-check"><input type="checkbox" data-setup-track-group="'+(i+1)+'"'+(track.muteGroups.includes(i+1)?' checked':'')+'><span>'+esc(name)+'</span></label>').join('')}
@@ -2079,7 +2079,7 @@
   $('mixerSetupClose').onclick=$('mixerSetupCancel').onclick=close;
   return {open,close,refresh,flush,fileTracks:()=>draft?.tracks,isOpen:()=>!!draft}
  }
- root.StageMixerSettings={VERSION:'26.275',mount,signature};
+ root.StageMixerSettings={VERSION:'26.276',mount,signature};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -2114,7 +2114,7 @@
   o.element.addEventListener('dblclick',e=>{const input=e.target.closest('.mixer-fader');if(input)reset(input,clock(e),o.song())},{capture:true});
   return {clear}
  }
- root.StageFaderGestures={VERSION:'26.275',mount};
+ root.StageFaderGestures={VERSION:'26.276',mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -2182,7 +2182,7 @@
   }
   bindGraph('fxEqGraph','eq');bindGraph('fxCompGraph','compressor');return {openTrack:id=>open('eq',id),openMaster:()=>open('compressor'),refresh,busy:()=>pending};
  }
- root.StageFXPanel={VERSION:'26.275',mount};
+ root.StageFXPanel={VERSION:'26.276',mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -2212,11 +2212,11 @@
   const click=new (player.native?root.StageNativeAudio.Click:root.StageClick.Engine)(player,{notify:text=>{clickError=text;message(text,true)}});player.click=click;let clickSong=null,clickKey='',clickError='',clickBusesKey='',lightBeats=0;
   function message(text,error=false){if(error&&root.StageFileTools.hidden(o.state().opts)&&root.StageFileTools.isMissing(text))text='';$('mixerStatus').textContent=text;$('mixerStatus').dataset.error=String(error);for(const id of ['projectStatus','outputStatus'])$(id).textContent=text;$('mixerQuickStatus').textContent=error?text:'';$('mixerQuickStatus').classList.toggle('hidden',!error||!text)}
   function getTracks(){const song=o.song();return song&&!song.playback?.tracks&&absentLegacy.has(song)?[]:root.StageProject.tracks(song)}
-  // V26.275: outputs per audio device. Each USB audio device (Ui24R, Scarlett 2i2, SSL 12 …) keeps its own bus outputs
+  // V26.276: outputs per audio device. Each USB audio device (Ui24R, Scarlett 2i2, SSL 12 …) keeps its own bus outputs
   // (output number and mono/stereo); bus names, levels, mutes and the track → bus routing are shared by every device.
   // A device seen for the first time with enough outputs for the saved routing (the Ui24R) takes that routing over.
   let audioDevice='',deviceChannels=0,deviceSync=null,audioUsb=false,audioBuiltIn=false;
-  // V26.275: output names for devices whose USB playback channels are known (standard routing in the maker's software).
+  // V26.276: output names for devices whose USB playback channels are known (standard routing in the maker's software).
   const knownOutputs=[{match:/^SSL 12\b/i,mono:['Monitor L','Monitor R','Line 3','Line 4','Headphones A L','Headphones A R','Headphones B L','Headphones B R'],pair:{1:'Monitor',3:'Line 3–4',5:'Headphones A',7:'Headphones B'}}];
   root.StageOutputNames=()=>deviceActive()?knownOutputs.find(d=>d.match.test(audioDevice))||null:null;
   function deviceProfile(name=audioDevice){const all=o.state().opts.deviceRouting;return name&&all&&typeof all==='object'&&all[name]&&Array.isArray(all[name].buses)?all[name]:null}
@@ -2235,9 +2235,9 @@
     // Not a USB mixer or audio interface: iPad speaker, headphones, Bluetooth or AirPlay.
     const builtIn=route?.usb===false||(route?.usb==null&&/^(speaker|receiver|headphones|system default output)$/i.test(name));audioBuiltIn=builtIn;
     if(name&&!builtIn&&!deviceProfile(name)&&hardware){const global=root.StageProject.buses(o.state()),previous=o.state().opts.deviceRouting;
-     // V26.275: enough outputs for the saved routing (the Ui24R) → take it over. A 2-output interface starts with the click
+     // V26.276: enough outputs for the saved routing (the Ui24R) → take it over. A 2-output interface starts with the click
      // bus on output 1 and every other bus on output 2 (mono); change any bus in the mixer. Others: choose in the play notice.
-     // V26.275: a device with too few outputs gets a starting routing at once, so it plays: 2 outputs = click bus on 1 and
+     // V26.276: a device with too few outputs gets a starting routing at once, so it plays: 2 outputs = click bus on 1 and
      // every other bus on 2 (mono); more outputs = every other bus on 1–2 (stereo) and the click bus on 3. Change any bus in the mixer.
      const clickId=Number(root.StageClick.config(o.song())?.bus)||2;
      if(hardware>=neededOutputs(global))writeProfile(name,global.map(b=>b.output+(b.stereo?1:0)>hardware?{...b,output:1,stereo:hardware>1}:b));
@@ -2245,9 +2245,9 @@
      else writeProfile(name,global.map(b=>b.id===clickId?{...b,output:3,stereo:false}:{...b,output:1,stereo:true}));
      if(o.state().opts.deviceRouting!==previous&&o.save()===false)o.state().opts.deviceRouting=previous}
     if(changed){player.setBuses(getBuses());if($('mixerDialog')?.open)draw()}
-    // V26.275: every USB mixer or audio interface plays in Live / USB (buses → its outputs, chosen in the mixer, as on the
+    // V26.276: every USB mixer or audio interface plays in Live / USB (buses → its outputs, chosen in the mixer, as on the
     // Ui24R). Practice / Stereo is used only without a USB audio device: iPad speaker, headphones, Bluetooth or AirPlay.
-    // V26.275: checked on every sync, not only when the device changes: a USB device always plays Live / USB.
+    // V26.276: checked on every sync, not only when the device changes: a USB device always plays Live / USB.
     if(name){const want=builtIn?'stereo':'usb';if(want!==player.mode)applyDeviceMode(want)}
     return changed}catch{return false}finally{deviceSync=null}})();
    return deviceSync;
@@ -2447,7 +2447,7 @@
    const globalMaster=Math.max(0,Math.min(2,Number(o.state().opts.masterGain??1)));$('globalMasterGain').value=gainToFader(globalMaster);$('globalMasterGain').setAttribute('aria-valuetext',gainText(globalMaster));$('globalMasterGainText').textContent=gainText(globalMaster);$('globalMasterGain').disabled=$('globalMasterReset').disabled=busy;player.setGlobalMaster(globalMaster);
    drawTempo();
    $('masterGain').value=gainToFader(master);$('masterGain').setAttribute('aria-valuetext',gainText(master));$('masterGainText').textContent=gainText(master);$('masterGain').disabled=$('masterReset').disabled=!song||busy;
-   // V26.275: the BenKen metronome as its own CLICK channel. Its level is part of the song's click settings and
+   // V26.276: the BenKen metronome as its own CLICK channel. Its level is part of the song's click settings and
    // reaches the audio engine when the click starts, so it changes while playback and the metronome are stopped.
    const clickSong=o.song(),clickCfg=clickSong&&clickSong.lyricsOnly!==true?root.StageClick.config(clickSong):null,clickBusInfo=clickCfg?buses[clickCfg.bus-1]:null,clickLocked=!!(busy||player.playing||click.running||locked);
    const clickStrip=clickCfg?'<section class="stem-strip click-strip" data-click-strip style="--channel-color:var(--app-accent);--channel-ink:var(--app-ink,#111)"><div class="strip-header"><div class="track-heading"><small>BK</small><strong class="track-display-name" title="BenKen metronome">CLICK</strong></div></div><select class="route-badge click-route track-bus-select" data-click-bus aria-label="Output bus for the BenKen click"'+(clickLocked?' disabled':'')+'>'+(clickBusInfo?'':'<option value="'+clickCfg.bus+'" selected>B'+String(clickCfg.bus).padStart(2,'0')+' Bus '+clickCfg.bus+'</option>')+buses.map(b=>'<option value="'+b.id+'"'+(clickCfg.bus===b.id?' selected':'')+'>B'+String(b.id).padStart(2,'0')+' '+esc(b.name)+' · USB '+b.output+(b.stereo?'–'+(b.output+1):'')+'</option>').join('')+'</select><small class="stem-file">BenKen metronome'+(clickLocked?' · stop to change':'')+'</small><div class="stem-switches"><button type="button" data-click-open>TEMPO</button></div><div class="fader-value"><output data-click-gain>'+gainText(clickCfg.volume)+'</output></div>'+faderMarkup({gain:clickCfg.volume,field:'data-click-fader',meter:'data-click-meter',label:'Click volume',disabled:clickLocked})+'</section>':'';
@@ -2772,7 +2772,7 @@
    draw();
   }
   function routeWarning(device,hardware,needed){
-   // V26.275: neutral wording. The iPad uses one USB audio device at a time; a looper or effects unit with
+   // V26.276: neutral wording. The iPad uses one USB audio device at a time; a looper or effects unit with
    // USB audio on the same hub can take the audio from the mixer or audio interface.
    const name=device&&!/^(speaker|receiver|headphones|system default output)$/i.test(device)?device:null;
    if(name)return name+' has '+hardware+' outputs, but the bus routing for this song needs '+needed+'. If '+name+' is your mixer or audio interface, set up its outputs below (saved for this device only). If it is a looper or effects unit, connect it with MIDI instead of USB, or plug the mixer or audio interface in last: the iPad uses one USB audio device at a time.';
@@ -2793,7 +2793,7 @@
    drawAudioDevices(locked);
    $('mixerModeBadge').textContent=(player.native?'NATIVE · ':'')+(stereo?'PRACTICE · STEREO':'LIVE · USB');$('mixerModeBadge').dataset.mode=player.mode;
   }
-  // V26.275: one AUDIO DEVICE list instead of the Practice / Live buttons. It shows the device iOS plays through now:
+  // V26.276: one AUDIO DEVICE list instead of the Practice / Live buttons. It shows the device iOS plays through now:
   // a USB mixer or audio interface plays Live / USB on its own outputs, the iPad speaker / headphones play Stereo.
   let deviceListKey='';
   function deviceChoices(){
@@ -2803,7 +2803,7 @@
   }
   function drawAudioDevices(locked){
    const list=deviceChoices(),key=JSON.stringify(list)+'|'+player.mode;
-   // V26.275: the same list in Mixer Settings (audioDeviceSelect) and Settings → Audio (outputMode).
+   // V26.276: the same list in Mixer Settings (audioDeviceSelect) and Settings → Audio (outputMode).
    if(key!==deviceListKey){deviceListKey=key;const pick=list.some(x=>x.value===player.mode)?player.mode:list[0].value,html=list.map(x=>'<option value="'+x.value+'"'+(x.value===pick?' selected':'')+'>'+esc(x.label)+'</option>').join('');for(const id of ['audioDeviceSelect','outputMode']){const el=$(id);if(el){el.innerHTML=html;el.value=pick}}}
    const select=$('audioDeviceSelect');if(!select)return;if($('outputModeApply'))$('outputModeApply').disabled=locked;
    select.disabled=locked;$('audioDeviceApply').disabled=locked;$('audioDeviceRefresh').disabled=locked;
@@ -2855,10 +2855,10 @@
   {const all=$('tempoDetectAll');if(all)all.onclick=detectAllTempos}
   const autoTempoTried=new WeakSet();root.BenKenAutoTempo=()=>{const song=o.song();if(!song||o.state().opts.autoUseDetectedTempo===false||song.lyricsOnly===true||autoTempoTried.has(song)||root.StageTempo.metadata(song)||root.StageTempo.config(song)||!getTracks().length)return;autoTempoTried.add(song);root.setTimeout(()=>{if(song===o.song()&&!player.playing)detectTempo()},1200)};
   // Manual BPM: committing the Original BPM field saves it as the song tempo straight away.
-  // V26.275 beat alignment per song (−500…500 ms): the music plays this much after the click, MIDI Clock and START.
+  // V26.276 beat alignment per song (−500…500 ms): the music plays this much after the click, MIDI Clock and START.
   function drawAlign(){const song=o.song(),f=$('tempoAlign');if(!f)return;const v=Number(song?.playback?.alignMs)||0;if(document.activeElement!==f)f.value=String(v);const supported=root.BenKenMainAudio?.beatAlignment===true;for(const id of ['tempoAlign','tempoAlignMinus','tempoAlignPlus','tempoAlignAuto'])if($(id))$(id).disabled=!song||!supported;const auto=song?.playback?.alignAuto;if($('tempoAlignSource'))$('tempoAlignSource').textContent=song?.playback?.alignManual?'Set by you':auto?'Auto from '+auto.from:'';$('tempoAlignHelp').textContent=supported?'Click and looper behind the music? Raise it. Ahead? Lower it. Saved for this song; used from the next PLAY.':'Beat alignment needs BenKen Native V27.44 or newer.'}
   function setAlign(value){const song=o.song();if(!song)return;const v=Math.max(-500,Math.min(500,Math.round(Number(value)||0))),previous=song.playback;song.playback={...previous,alignMs:v,alignManual:true};if(o.save()===false){song.playback=previous;drawAlign();return}drawAlign();$('tempoStatus').textContent='Beat alignment '+(v>0?'+':'')+v+' ms saved for this song.'+(player.playing?' Press STOP and PLAY to hear it.':'')}
-  // V26.275 automatic beat alignment: listen to the click stem (if it has sound) or the drums, measure where the beats sit
+  // V26.276 automatic beat alignment: listen to the click stem (if it has sound) or the drums, measure where the beats sit
   // against the song tempo, and store the shift. Runs once per song, again after a REAPER update, and with AUTO. A value
   // you set yourself is kept until you press AUTO.
   let aligning=false;const alignTried=new WeakSet();
@@ -2915,7 +2915,7 @@
     else return;draw()
    }catch(error){message(error.message,true);draw()}
   }});
-  // V26.275: the BenKen click chooses its output bus in the mixer, like the tracks.
+  // V26.276: the BenKen click chooses its output bus in the mixer, like the tracks.
   $('mixerTracks').addEventListener('change',e=>{
    const select=e.target.closest('select[data-click-bus]');if(!select)return;
    const song=o.song(),id=Number(select.value);
@@ -2967,7 +2967,7 @@
   $('mixerWidth').onchange=e=>{const previous=o.state().opts.mixerWidth,next=['narrow','extra-narrow'].includes(e.target.value)?e.target.value:'normal';o.state().opts.mixerWidth=next;if(o.save()===false){o.state().opts.mixerWidth=previous;message('Mixer width could not be saved.',true)}drawAppearance()};
   $('mixerTracks').addEventListener('click',e=>{const button=e.target.closest('[data-edit-track]');if(button&&!button.disabled)openSettings(button.dataset.editTrack)});
   $('mixerBuses').addEventListener('click',e=>{const button=e.target.closest('[data-edit-bus]');if(button&&!button.disabled)openSettings({busId:Number(button.dataset.editBus)})});
-  $('projectDemo').onclick=async()=>{if(loading||importing||player.playing||click.running)return;$('projectDemo').disabled=true;message('Loading demo song…');try{const response=await root.fetch('./demo/BenKen_Ui24R_Busstest.benken');if(!response.ok)throw Error('The demo song is missing. Upload the demo folder from V26.275 to GitHub.');await importProject(await response.blob())}catch(error){message(error.message,true)}finally{updateTransport()}};
+  $('projectDemo').onclick=async()=>{if(loading||importing||player.playing||click.running)return;$('projectDemo').disabled=true;message('Loading demo song…');try{const response=await root.fetch('./demo/BenKen_Ui24R_Busstest.benken');if(!response.ok)throw Error('The demo song is missing. Upload the demo folder from V26.276 to GitHub.');await importProject(await response.blob())}catch(error){message(error.message,true)}finally{updateTransport()}};
   function meter(bar,out,peak,nativeSignal=player.native&&root.BenKenMainAudio?.trackMeters===true){if(player.native&&!nativeSignal){bar.style.height='0%';out.textContent='—';return}const info=root.StageAudio.level(peak||0);bar.style.height=info.percent+'%';bar.parentNode.setAttribute('aria-valuenow',String(Number.isFinite(info.db)?Math.max(-60,Math.min(0,info.db)):-60));bar.parentNode.dataset.zone=info.clip?'clip':info.db>=-6?'high':'normal';out.textContent=info.label+' dBFS'+(info.clip?' · CLIP':'')}
   setInterval(()=>{
    root.StageLive.drafts?.tick();player.tick();click.tick();clickFrame();o.time?.(player.currentTime,player.duration);
@@ -2978,7 +2978,7 @@
    }else if(player.masterSplitter||player.songSplitter)player.releaseMeters();
    setup?.refresh();importDefaults?.refresh();fxPanel?.refresh();for(const listener of listeners)listener();
   },100);
-  // V26.275: one answer to "why does PLAY not start?" for the play notice. Never changes routing or starts audio.
+  // V26.276: one answer to "why does PLAY not start?" for the play notice. Never changes routing or starts audio.
   async function playCheck(){
    await syncDevice();
    const song=o.song(),tracks=song?.lyricsOnly===true?[]:getTracks(),stereo=player.mode==='stereo';
@@ -2991,7 +2991,7 @@
   }
   return {player,repo,click,devicePreset,deviceChoices,applyAudioDevice:value=>applyAudioDevice(null,value),audioDevice:()=>({name:audioDevice,channels:deviceChannels,profile:!!deviceProfile(),usb:audioUsb}),syncDevice,practiceView:()=>selectView('tempo'),regionLoopState,setRegionLoopEnabled,playRegion,setTrackEQ,setMasterCompressor,openTrackEQ:id=>fxPanel.openTrack(id),openMasterCompressor:()=>fxPanel.openMaster(),applyTranspose,openTempo:()=>{if(!$('mixerDialog').hasAttribute('open'))$('mixerBtn').click();selectView('tempo')},toggleMetronome,cycleCountIn,clickFrame,saveClick,load,prepare,cancel,suspend:()=>{o.manualTransport?.();cancel()},draw,openSettings,addFiles,removeFile,removeAllFiles,replaceFile,exportProject,importProject,playPause,start,applyTempo,changeSongLevel:changeMaster,changeGlobalMaster,seek,startAt,toggleGroup,toggleMasterMute,groupState,readiness,playCheck,cancelPreparation,whenReady:()=>pendingLoad,setOutputMode,stop,pause,clearTransportProtection:()=>gate.clear(),restoreLibrary:(state,options)=>{const result=o.importState(state,options);player.mode=o.state().opts.audioOutputMode==='stereo'?'stereo':'usb';return result},tracks:getTracks,busy:({ignoreLoudness=false}={})=>loading||importing||root.StageConcertCache?.busy()||(!ignoreLoudness&&root.BenKenLoudness?.busy()),flushSettings:()=>setup?.flush()!==false,subscribe:fn=>{listeners.add(fn);return()=>listeners.delete(fn)}}
  }
- root.StageMixer={VERSION:'26.275',mount,gainToFader,faderToGain,faderMarkup};
+ root.StageMixer={VERSION:'26.276',mount,gainToFader,faderToGain,faderMarkup};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -3273,7 +3273,7 @@
   root.visualViewport?.addEventListener('resize',measure,{passive:true});root.visualViewport?.addEventListener('scroll',pinToViewport,{passive:true});refresh();
   return {refresh,report,playSegment,openSettings,toggleVisible,suspend:reason=>{suspended.add(reason);refresh()},resume:reason=>{suspended.delete(reason);refresh()},act,isScrubbing:()=>!!scrub,height,cancelScrub,unsubscribe}
  }
- root.StagePerformance={VERSION:'26.275',MAX_CONTROLS,mount,peaks,wavePath,controls,actions,buttonCategories,icon};
+ root.StagePerformance={VERSION:'26.276',MAX_CONTROLS,mount,peaks,wavePath,controls,actions,buttonCategories,icon};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -3331,7 +3331,7 @@
   function restoreAnchor(anchor){if(!anchor)return;const row=$('song').querySelectorAll('.lyric-line')[anchor.index];if(row)(o.scrollTo||((y)=>root.scrollTo(0,y)))(Math.max(0,row.getBoundingClientRect().top+root.scrollY-(o.readingOffset?.()||0)-o.viewport().top-anchor.offset))}
   return {open,refresh,scrollPosition,followPosition,resetFollow,followSettled:follower.settled,scrollTime,captureAnchor,restoreAnchor}
  }
- root.StageSongTools={VERSION:'26.275',mount};
+ root.StageSongTools={VERSION:'26.276',mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -3384,7 +3384,7 @@
   root.addEventListener('benken-native-midi-sources',e=>nativeSources(e.detail));root.addEventListener('benken-native-midi-error',e=>message(String(e.detail)));$('midiBluetooth').classList.toggle('hidden',!root.BenKenNativeMIDI?.bluetooth);$('midiBluetooth').onclick=()=>root.BenKenNativeMIDI?.bluetooth?.();
   return {open,connect,receive,controller,status:()=>({connected:native()?nativePorts.filter(p=>!o.state().opts.midiInputId||String(p.id)===o.state().opts.midiInputId).length:activePorts.length,bindings:bindings(o.state().opts).length}),refresh:()=>{controller.cancel();if(access)attach();else if(native())nativeSources(nativePorts);drawAssignments()}}
  }
- root.StageMIDI={VERSION:'26.275',actions,parse,bindings,create,mount};
+ root.StageMIDI={VERSION:'26.276',actions,parse,bindings,create,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -3409,7 +3409,7 @@
    if(this.busy())throw Error('Stop playback and finish importing before backing up.');
    const previous=await this.store.all();if(!force&&!due(previous,this.now(),days(this.o.state())))return null;
    const state=root.StageCore.normalize(this.o.state());root.StageProject.validateState(state);if(!state.songs.length)throw Error('Add songs before creating a local backup.');
-   // V26.275: back up what is on this device. Missing audio is listed in the record instead of blocking the backup.
+   // V26.276: back up what is on this device. Missing audio is listed in the record instead of blocking the backup.
    // Songs marked LYRICS ONLY never block it; other missing audio asks first (FIND FILES / BACK UP ANYWAY).
    const needed=assets(state),available=[],missing=[];
    for(const id of needed){if(this.busy())throw Error('Local backup postponed until the app is idle.');(await this.o.repo.has(id)?available:missing).push(id)}
@@ -3484,7 +3484,7 @@
   let wasBusy=busy();o.mixer.subscribe(()=>{const value=busy();if(value!==wasBusy){wasBusy=value;void refresh()}});
   return {refresh,controller}
  }
- root.StageAutoBackup={VERSION:'26.275',DAY,KEEP,Store,Controller,days,due,mount,protects:id=>active?active.protects(id):new Store().all().then(records=>records.some(r=>r.assets.includes(id)))};
+ root.StageAutoBackup={VERSION:'26.276',DAY,KEEP,Store,Controller,days,due,mount,protects:id=>active?active.protects(id):new Store().all().then(records=>records.some(r=>r.assets.includes(id)))};
 })(typeof window!=='undefined'?window:globalThis);
 
 // stage-concert.js
@@ -3557,7 +3557,7 @@
   }
   async function runCheck(){
    const token=++checkSerial;$('concertCheckSummary').textContent='Checking local files and equipment…';$('concertRunCheck').disabled=true;
-   try{if(!o.mixer.player.playing&&!o.mixer.busy())o.mixer.player.configure();let backups=[],offline=false;try{backups=await o.backups()}catch{}try{const names=await root.caches.keys();const name=names.find(n=>n.includes('benken-v26-275'));if(name){const cache=await root.caches.open(name);offline=!!(await cache.match('./index.html'))&&!!(await cache.match('./benken-runtime-v26-275.js'))}}catch{}
+   try{if(!o.mixer.player.playing&&!o.mixer.busy())o.mixer.player.configure();let backups=[],offline=false;try{backups=await o.backups()}catch{}try{const names=await root.caches.keys();const name=names.find(n=>n.includes('benken-v26-276'));if(name){const cache=await root.caches.open(name);offline=!!(await cache.match('./index.html'))&&!!(await cache.match('./benken-runtime-v26-276.js'))}}catch{}
     const state=structuredClone(o.state()),signature=JSON.stringify(state),result=await check(state,o.mixer.repo,{mode:o.mixer.player.mode,channels:o.mixer.player.channels,midi:o.midi()||{connected:0,bindings:0},backups,offline});if(token!==checkSerial)return;
     if(signature!==JSON.stringify(o.state()))throw Error('The library changed during the check. Run it again.');
     $('concertCheckSummary').textContent=result.name+': '+(result.errors?result.errors+' item(s) need fixing':result.warnings?'Files checked · '+result.warnings+' item(s) to review':'App checks passed')+' · '+songCount(result.songs)+'.';
@@ -3608,7 +3608,7 @@
   let previousBusy=o.mixer.busy();o.mixer.subscribe(()=>{if(dialog.open&&previousBusy!==o.mixer.busy()){previousBusy=o.mixer.busy();refresh()}});
   root.setInterval(frame,200);applyLock();frame();return {open,onTransport,manual,practicing:()=>!!practice,check:runCheck,stopPractice,setLock,setPracticeEnabled,refresh}
  }
- root.StageConcert={VERSION:'26.275',practiceEnabled,setPracticeEnabled:value=>modeSetter?.(value),togglePractice:()=>modeSetter?.(!modeReader()),concertState,check,transportStatus,readyNotice,mount,locked:()=>liveLocked};
+ root.StageConcert={VERSION:'26.276',practiceEnabled,setPracticeEnabled:value=>modeSetter?.(value),togglePractice:()=>modeSetter?.(!modeReader()),concertState,check,transportStatus,readyNotice,mount,locked:()=>liveLocked};
 })(typeof window!=='undefined'?window:globalThis);
 
 // stage-file-tools.js
@@ -3641,7 +3641,7 @@
   }
   root.setTimeout(check,2500);return {check}
  }
- root.StageFileTools={VERSION:'26.275',hidden,isMissing,detachSongAudio,scan,mount};
+ root.StageFileTools={VERSION:'26.276',hidden,isMissing,detachSongAudio,scan,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 // Read-only section display. Reuses the mixer UI tick; never schedules audio.
@@ -3719,7 +3719,7 @@
   if(root.ResizeObserver)new root.ResizeObserver(measure).observe(header);else root.addEventListener('resize',measure,{passive:true});
   measure();const unsubscribe=o.mixer.subscribe(refresh);refresh();return {refresh,unsubscribe};
  }
- root.StageSectionBar={VERSION:'26.275',locate,mount};
+ root.StageSectionBar={VERSION:'26.276',locate,mount};
 })(typeof window!=='undefined'?window:globalThis);
 
 // Native MIDI Clock configuration. Timing and persistence live outside the web process.
@@ -3739,7 +3739,7 @@
    const bpm=root.StageTempo.config(o.song())?.targetBpm||root.StageTempo.metadata(o.song());$('midiClockTempo').textContent=bpm?bpm.toFixed(1).replace(/\.0$/,'')+' BPM · song playback tempo':'Set the song BPM before using MIDI Clock.';
    $('midiClockStatus').textContent=value.error||(!o.state().opts.nativeAudioEnabled?'Select the Native engine under Audio & playback first.':o.mixer.player.playing?'Stop playback before changing MIDI Clock.':value.enabled?'Clock enabled. Starts with native song playback.':'Clock is off. Audio playback is unchanged.');locks();
   }
-  // V26.275 (Native V27.48): MIDI commands from the lyrics can go to several outputs; MIDI Clock stays on its own output.
+  // V26.276 (Native V27.48): MIDI commands from the lyrics can go to several outputs; MIDI Clock stays on its own output.
   function drawCommandOutputs(value,ports){
    const box=$('midiCommandOutputsBox'),list=$('midiCommandOutputs'),saved=Array.isArray(value.commandOutputs)?value.commandOutputs:null;box.hidden=!saved;if(!saved)return;
    const isSaved=p=>saved.some(s=>(s.id&&s.id===p.id)||(s.name&&s.name===p.name));
@@ -3757,5 +3757,5 @@
   const unsubscribe=o.mixer.subscribe(()=>{if(dialog.open)locks()});
   return {open,refresh,unsubscribe};
  }
- root.StageMIDIClock={mount,VERSION:'26.275'};
+ root.StageMIDIClock={mount,VERSION:'26.276'};
 })(typeof window!=='undefined'?window:globalThis);

@@ -1,7 +1,7 @@
 (function(root){
 'use strict';
 let majAs7=true;
-const VERSION='26.275',mod=n=>(n%12+12)%12,tuning=[4,9,2,7,11,4],notes={C:0,'C#':1,Db:1,D:2,'D#':3,Eb:3,E:4,Fb:4,'E#':5,F:5,'F#':6,Gb:6,G:7,'G#':8,Ab:8,A:9,'A#':10,Bb:10,B:11,Cb:11,'B#':0};
+const VERSION='26.276',mod=n=>(n%12+12)%12,tuning=[4,9,2,7,11,4],notes={C:0,'C#':1,Db:1,D:2,'D#':3,Eb:3,E:4,Fb:4,'E#':5,F:5,'F#':6,Gb:6,G:7,'G#':8,Ab:8,A:9,'A#':10,Bb:10,B:11,Cb:11,'B#':0};
 const patterns={
  '':[0,4,7],m:[0,3,7],'5':[0,7],dim:[0,3,6],aug:[0,4,8],sus2:[0,2,7],sus4:[0,5,7],
  '6':[0,4,7,9],m6:[0,3,7,9],'6/9':[0,4,7,9,14],'m6/9':[0,3,7,9,14],
@@ -15,16 +15,16 @@ const patterns={
  '7#11':[0,4,7,10,18],maj7sharp11:[0,4,7,11,18],'9#11':[0,4,7,10,14,18],'7b13':[0,4,7,10,20]
 };
 const aliases={maj:'',Maj:'',MAJ:'',major:'',Major:'',M:'',major7:'maj7',major9:'maj9',major11:'maj11',major13:'maj13',MAJ7:'maj7',MAJ9:'maj9',MAJ11:'maj11',MAJ13:'maj13',min:'m',minor:'m','-':'m',dom:'7',dom7:'7',dom9:'9',dom11:'11',dom13:'13',M7:'maj7',M9:'maj9',M11:'maj11',M13:'maj13',Maj7:'maj7',Maj9:'maj9',Maj11:'maj11',Maj13:'maj13','Δ':'maj7','Δ7':'maj7','Δ9':'maj9','ø':'m7b5','ø7':'m7b5','°':'dim','°7':'dim7','+':'aug','+7':'7#5',sus:'sus4',min7:'m7',min9:'m9',min11:'m11',min13:'m13','m(maj7)':'mMaj7','maj7#11':'maj7sharp11','69':'6/9','m69':'m6/9','△':'maj7','△7':'maj7','△9':'maj9',ma7:'maj7',Ma7:'maj7',ma9:'maj9',ma:'',ma6:'6',mi:'m',mi7:'m7',maj6:'6','2':'add9',add2:'add9',madd2:'madd9','7M':'maj7'};
-function spec(label){const text=String(label||'').trim().replace(/♭/g,'b').replace(/♯/g,'#'),m=text.match(/^([A-G](?:#|b)?)(.*)$/);if(!m)return null;let quality=m[2],bass=null;const slash=quality.match(/\/([A-G](?:#|b)?)$/);if(slash){bass=notes[slash[1]];quality=quality.slice(0,-slash[0].length)}// V26.275: many chord sheets write Dmaj for Dmaj7. With majAsMaj7 on (default), maj without a number reads as maj7.
+function spec(label){const text=String(label||'').trim().replace(/♭/g,'b').replace(/♯/g,'#'),m=text.match(/^([A-G](?:#|b)?)(.*)$/);if(!m)return null;let quality=m[2],bass=null;const slash=quality.match(/\/([A-G](?:#|b)?)$/);if(slash){bass=notes[slash[1]];quality=quality.slice(0,-slash[0].length)}// V26.276: many chord sheets write Dmaj for Dmaj7. With majAsMaj7 on (default), maj without a number reads as maj7.
  if(majAs7&&/^\s*(maj|Maj|MAJ|major|Major)\s*$/.test(quality))quality='maj7';
  quality=aliases[quality]??quality.replace(/[()]/g,'');quality=aliases[quality]??quality;const intervals=patterns[quality];if(!intervals||notes[m[1]]==null)return null;const r=notes[m[1]],tones=[...new Set(intervals.map(i=>mod(r+i)))];
  // Six strings cannot contain seven distinct pitches. For 13ths omit the fifth and eleventh.
  let required=tones.length>6?intervals.filter(i=>i!==7&&i!==17).map(i=>mod(r+i)):tones;
- // V26.275: the fifth may be left out of chords with four or more notes (C7 x32310, C6 x32210, Cmaj9 x3243x).
+ // V26.276: the fifth may be left out of chords with four or more notes (C7 x32310, C6 x32210, Cmaj9 x3243x).
  if(intervals.length>=4&&intervals.includes(7))required=required.filter(p=>p!==mod(r+7));
  return {root:r,rootName:m[1],bass,quality,intervals:[...intervals],tones,required:[...new Set([...required,...(bass==null?[]:[bass])])],allowed:[...new Set([...tones,...(bass==null?[]:[bass])])]};}
 function valid(f,s){if(!s||f.length!==6||f.some(n=>!Number.isInteger(n)||n< -1||n>18))return false;const played=f.flatMap((v,i)=>v<0?[]:[mod(tuning[i]+v)]);return played.length>0&&played[0]===(s.bass??s.root)&&played.every(p=>s.allowed.includes(p))&&s.required.every(p=>played.includes(p));}
-// V26.275: standard guitar voicings come first: common open shapes, then barre shapes with the root on the
+// V26.276: standard guitar voicings come first: common open shapes, then barre shapes with the root on the
 // low E string (E shape) or the A string (A shape). The search below is only a fallback for rarer chords.
 const OPEN={
  '0|':['x32010'],'2|':['xx0232'],'4|':['022100'],'7|':['320003'],'9|':['x02220'],

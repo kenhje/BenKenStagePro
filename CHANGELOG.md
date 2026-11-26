@@ -3,6 +3,13 @@
 Collected from the per-version READ_ME and LES_MEG files (newest first). The app shows the same history under Help & Info → What’s new.
 
 
+## BenKen Stage Pro V26.276
+
+- Help & Info → Privacy: short summary of what is stored on the device and in the cloud, with links to https://benkenstagepro.com/privacy.html and support@benkenstagepro.com. Search for "privacy" or "personvern" in Ask BenKen.
+- About BenKen and Report a problem show support@benkenstagepro.com.
+- Native V27.63 opens links to other sites (https and mailto) in Safari and Mail; earlier versions ignore them.
+- Problem reports now send an email to support@benkenstagepro.com through Resend: supabase/sql/SUPABASE_PROBLEM_REPORT_ALERTS.sql (already run; the Resend key is in Supabase Vault as benken_resend_key).
+
 ## BenKen Stage Pro V26.275
 
 - Help & Info → Report a problem: area, summary, what happened, steps, song and optional email, plus diagnostics (versions, engine, screen, current song, recent errors, Audio Status from the app). SHOW WHAT IS SENT previews the exact report.

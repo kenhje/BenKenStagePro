@@ -1,6 +1,6 @@
 (function(root){
 'use strict';
-const VERSION='26.275';
+const VERSION='26.276';
 const normalize=v=>String(v||'').normalize('NFKC').trim().replace(/\s+/g,' ').toLocaleLowerCase();
 const artist=s=>s.artist||String(s.text||'').match(/^\s*\{\s*artist\s*:\s*([^}]+)\}/im)?.[1]?.trim()||'';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

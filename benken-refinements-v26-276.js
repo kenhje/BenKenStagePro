@@ -7,7 +7,7 @@
  clock.querySelector('.progress').setAttribute('role','progressbar');clock.querySelector('.progress').setAttribute('aria-label','Setlist progress');
  const progress=()=>{const node=clock.querySelector('.progress');node.setAttribute('aria-valuemin','0');node.setAttribute('aria-valuemax','100');node.setAttribute('aria-valuenow',String(Math.round(parseFloat($('progressFill').style.width)||0)))};
  new MutationObserver(progress).observe($('progressFill'),{attributes:true,attributeFilter:['style']});progress();
- // V26.275: the band / artist logo and name take the place of the BenKen name in the top bar when chosen.
+ // V26.276: the band / artist logo and name take the place of the BenKen name in the top bar when chosen.
  const profile=document.createElement('div'),brand=document.querySelector('header .brand');profile.id='homeBandProfile';profile.hidden=true;const appName=brand.querySelector(':scope>strong');if(appName)appName.before(profile);else brand.prepend(profile);
  function updateProfile(){const db=app.state(),p=db.opts.bandProfile||{},name=String(p.name||p.displayName||'').trim(),logo=typeof p.logo==='string'&&/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(p.logo)&&p.logo.length<3000000?p.logo:'';profile.replaceChildren();clock.hidden=!db.songs.length;profile.hidden=db.opts.showBandOnHome!==true||(!name&&!logo);brand.classList.toggle('band-brand',!profile.hidden);if(profile.hidden)return;if(logo){const img=document.createElement('img');img.src=logo;img.alt='Band / artist logo';profile.append(img)}if(name){const strong=document.createElement('strong');strong.textContent=name;profile.append(strong)}}
  root.BenKenRefinements={profile:updateProfile};updateProfile();
@@ -36,7 +36,7 @@
  const overview=$('songSectionBar');if(overview)new ResizeObserver(()=>document.documentElement.style.setProperty('--arrangement-height',Math.ceil(overview.getBoundingClientRect().height)+6+'px')).observe(overview);
 })(window);
 
-/* V26.275: rows, buttons and list choices in the menus use normal sentence case ("Save click settings") like the
+/* V26.276: rows, buttons and list choices in the menus use normal sentence case ("Save click settings") like the
    Settings menu. Only text written in capitals is changed; short names (USB, MIDI, BPM, PDF …) stay in capitals.
    Section headings stay in small capitals. The page code never reads these labels back, so behaviour is unchanged. */
 (function(root){
@@ -55,7 +55,7 @@
  const cards='.settings-section,.settings-tool-section,.doc-card,.band-card,.plan-card,.tool-card,.loudness-card,.controls-card,.backup-card,.click-card,.tempo-simple,.tempo-speed,.transpose-panel,.original-tempo-key,.web-sync,#settingsContent section,#audioDeviceBox,#mixerSetupDialog section,#mixerSetupDialog .setup-footer';
  const skip='.controls-advanced,#midiDialog,#midiClockDialog,h1,h2,h3,h4,h5,.setting-title,.click-countin-heading,#mixerConsole,#performanceBar,.stem-strip,.chord-chart,textarea,input,code,pre,.dock-tools,[role=tablist],.mixer-tabs,#mixerTabs,.mixer-heading,.lyrics-preview,.song-list,#libraryResults,#setlistAddResults,.setlist-entries,.about-app,.backup-report';
  const holders='button,label,summary,option,span,small';
- // V26.275: never change a song, setlist or artist name the user wrote in capitals.
+ // V26.276: never change a song, setlist or artist name the user wrote in capitals.
  let names=null,namesAt=0;
  function userText(text){
   if(!names||Date.now()-namesAt>5000){namesAt=Date.now();names=new Set();try{const db=root.BenKenApp?.state?.();for(const s of db?.songs||[])for(const v of [s.title,s.artist,s.name])if(v)names.add(String(v).trim().toUpperCase());for(const v of Object.keys(db?.setlists||{}))names.add(String(v).trim().toUpperCase());const p=db?.opts?.bandProfile||{};for(const v of [p.name,p.displayName])if(v)names.add(String(v).trim().toUpperCase())}catch(e){}}
@@ -72,7 +72,7 @@
    }
   }
  }
- // V26.275: a row of choice buttons (one is pressed) becomes one dropdown list, like iOS Settings. Choosing an item
+ // V26.276: a row of choice buttons (one is pressed) becomes one dropdown list, like iOS Settings. Choosing an item
  // presses the matching button, so every existing handler keeps working; the list follows the buttons.
  function segments(){
   const parents=new Set([...doc.querySelectorAll(':is(dialog,.benken-menu-surface) button[aria-pressed]')].map(b=>b.parentElement));
@@ -97,7 +97,7 @@
  root.BenKenSentenceCase=sentence;
 })(window);
 
-/* V26.275: rows you can press look pressable, like iPad and iPhone Settings — a small icon in the skin's accent colour
+/* V26.276: rows you can press look pressable, like iPad and iPhone Settings — a small icon in the skin's accent colour
    on the left, an arrow on the right for actions, red for delete / remove / reset. Lists without a name get one.
    Only adds a decorative icon and classes; every button keeps its own handler. */
 (function(root){
@@ -183,8 +183,8 @@
  function pick(text,fallback){const t=text.toLowerCase();for(const [re,name,danger] of rules)if(re.test(t))return [name,!!danger];return [fallback,false]}
  function decorate(row,fallback,action){
   if(row.dataset.bkIcon)return;const text=textOf(row)||row.textContent.replace(/\s+/g,' ').trim();if(!text||!/[a-z]{2}/i.test(text))return;
-  // V26.275: buttons that do something right away (Apply, Save …, Sign in, Send …, Refresh) are buttons, not rows with an arrow.
-  // V26.275: Song color: No song color and Reset to classic are buttons on the same line as the colour.
+  // V26.276: buttons that do something right away (Apply, Save …, Sign in, Send …, Refresh) are buttons, not rows with an arrow.
+  // V26.276: Song color: No song color and Reset to classic are buttons on the same line as the colour.
   if(/^(clearSongColor|resetColors)$/.test(row.id)){row.dataset.bkIcon='button';row.classList.add('bk-button');return}
   if(action&&/^(apply|save\b.*|sign in|send sign-in email|refresh|use transpose)$/i.test(text)){row.dataset.bkIcon='button';row.classList.add('bk-button');if(/^(apply|sign in|use transpose)$/i.test(text))row.classList.add('bk-button-primary');return}
   // Rows that bring their own icon and arrow (Import, Sync & sharing): use them, add nothing twice.
