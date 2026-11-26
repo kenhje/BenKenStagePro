@@ -3,6 +3,12 @@
 Collected from the per-version READ_ME and LES_MEG files (newest first). The app shows the same history under Help & Info → What’s new.
 
 
+## BenKen Stage Pro V26.280
+
+- Share lyrics → Follow (room code through Supabase) follows the host's position, not only the song title. The host writes position, song_length, playing, following (autoscroll), progress (scroll position 0–1) and sent_at to benken_rooms about once a second while it plays or scrolls, otherwise every 15 s or on change. Followers poll every second; while the host plays they follow its playback time (estimated forward from sent_at) through their own sections with the same follow engine as local playback; otherwise they mirror the host's scroll position while it autoscrolls or has moved in the last 5 s.
+- Database: supabase/sql/SUPABASE_FOLLOW_POSITION_V26_280.sql (already run). Older versions keep working (they only use song_title).
+- The frame loop reaches the follow code through window.BenKenLiveFollow (the room code lives in another part of index.html).
+
 ## BenKen Stage Pro V26.279
 
 - User manual grouped like Settings: manualGroups in index.html (9 groups, all 60 chapters); manualSections is in the same order. Help & Info → User manual shows group headings and hides empty groups while searching; "No matches." replaces "Ingen treff."

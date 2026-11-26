@@ -1,14 +1,14 @@
 (function(root){'use strict';
 const URL='https://ifwqblhjzfjgauaivkdm.supabase.co',KEY='sb_publishable_7vSifQ68_y740EsyQpyWuQ_DvwJv-4k',SESSION='benken-web-library-session-v1';
-// V26.279: shared login, kept on this device.
+// V26.280: shared login, kept on this device.
 const AUTH_KEY='benken-auth-v1:'+URL,readAuth=()=>{try{const s=JSON.parse(localStorage.getItem(AUTH_KEY)||'null');return s&&s.access_token?s:null}catch{return null}},writeAuth=s=>{try{if(s)localStorage.setItem(AUTH_KEY,JSON.stringify(s));else localStorage.removeItem(AUTH_KEY)}catch{}};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fields=['title','artist','key','text'];
-// V26.279: song details that follow the song between devices. Playback, mixer, audio and section timing stay on each device.
+// V26.280: song details that follow the song between devices. Playback, mixer, audio and section timing stay on each device.
 const EXTRA=['notes','chordChart','originalBpm','timeSignature','tags','refBente','songColor','chordVoicings'];
 const stable=v=>JSON.stringify(v,(k,x)=>x&&typeof x==='object'&&!Array.isArray(x)?Object.keys(x).sort().reduce((o,n)=>(o[n]=x[n],o),{}):x);
 function extraOf(song){const x={};for(const k of EXTRA){const v=song?.[k];if(v!==undefined&&v!==null&&v!=='')x[k]=v}return x}
-// A web record or a saved base carries "extra"; a record from before the V26.279 setup has none; an app song has its details as its own fields.
+// A web record or a saved base carries "extra"; a record from before the V26.280 setup has none; an app song has its details as its own fields.
 function payload(song){const p=Object.fromEntries(fields.map(k=>[k,String(song?.[k]||'')]));if(!p.title.trim())throw Error('Enter a song title.');if(p.title.length>250||p.artist.length>250||p.key.length>40||p.text.length>200000)throw Error('Song is too large. Maximum lyrics length is 200,000 characters.');
  if(song&&Object.hasOwn(song,'extra')){if(song.extra&&typeof song.extra==='object'&&!Array.isArray(song.extra))p.extra=Object.fromEntries(Object.entries(song.extra).filter(([k])=>EXTRA.includes(k)))}else if(!song||!Object.hasOwn(song,'revision')){p.extra=extraOf(song);if(stable(p.extra).length>240000)throw Error('Song details are too large (chord chart or notes).')}return p}
 const equal=(a,b)=>!!a&&!!b&&fields.every(k=>String(a[k]||'')===String(b[k]||''))&&(a.extra===undefined||b.extra===undefined||stable(a.extra)===stable(b.extra));
@@ -24,7 +24,7 @@ class Client{
  async code(email){if(!email.trim())throw Error('Enter your email.');return this.request('/auth/v1/otp',{auth:false,body:{email:email.trim(),create_user:true}})}
  async verify(email,token){token=token.trim();let body={email:email.trim(),token,type:'email'};if(token.startsWith('https://')){const u=new root.URL(token);if(u.origin!==URL||u.pathname!=='/auth/v1/verify'||!['email','magiclink','signup'].includes(u.searchParams.get('type')))throw Error('Paste the original sign-in link from the email.');body={type:u.searchParams.get('type')};for(const k of ['token_hash','token'])if(u.searchParams.has(k))body[k]=u.searchParams.get(k);if(body.token)body.email=email.trim();if(!body.token_hash&&!body.token)throw Error('The sign-in link has no code.')}const s=await this.request('/auth/v1/verify',{auth:false,body});if(!s?.access_token||!s.user?.id)throw Error('Sign-in incomplete.');this.store(s)}
  async logout(){try{await this.request('/auth/v1/logout',{body:{}})}finally{this.store(null)}}
- // V26.279: delete my account. Audio files in Storage go first (they need the sign-in), then the database function
+ // V26.280: delete my account. Audio files in Storage go first (they need the sign-in), then the database function
  // removes the account and everything that belongs only to it. Songs on this device are not touched.
  async storage(method,path,body){const r=await fetch(URL+'/storage/v1'+path,{method,headers:{apikey:KEY,Authorization:'Bearer '+this.session.access_token,'Content-Type':'application/json'},body:JSON.stringify(body),credentials:'omit',redirect:'error',referrerPolicy:'no-referrer'});if(!r.ok&&r.status!==404)throw Error('Storage '+r.status);return r.status===404?null:r.json().catch(()=>null)}
  async deleteAccount(){
@@ -37,7 +37,7 @@ class Client{
   return {...(r||{}),files};
  }
  async list(){let all=[];for(let offset=0;;offset+=500){const batch=await this.request('/rest/v1/benken_web_songs?select=*&order=id&limit=500&offset='+offset);all.push(...batch);if(batch.length<500)return all}}
- // V26.279: sign in the web editor with a code approved in the app. The web page keeps a secret; the app approves the code; a Supabase Edge Function hands the web page its own sign-in.
+ // V26.280: sign in the web editor with a code approved in the app. The web page keeps a secret; the app approves the code; a Supabase Edge Function hands the web page its own sign-in.
  async pairStart(){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',hex=b=>[...b].map(x=>x.toString(16).padStart(2,'0')).join(''),code=[...crypto.getRandomValues(new Uint8Array(8))].map(x=>A[x&31]).join(''),secret=hex(crypto.getRandomValues(new Uint8Array(32))),hash=hex(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(secret)))),r=await this.pairRequest('/rest/v1/rpc/benken_pair_start',{auth:false,body:{p_code:code,p_secret_hash:hash}});return {code,secret,expires:Date.parse(r)||Date.now()+300000}}
  async pairPoll(p){const r=await this.pairRequest('/functions/v1/benken-pair-claim',{auth:false,body:{code:p.code,secret:p.secret}});if(r?.status==='approved'&&r.token_hash){const s=await this.request('/auth/v1/verify',{auth:false,body:{type:'magiclink',token_hash:r.token_hash}});if(!s?.access_token||!s.user?.id)throw Error('Sign-in incomplete. Show a new code and try again.');this.store(s);return 'signed-in'}return r?.status||'waiting'}
  async pairApprove(code){code=String(code||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length!==8)throw Error('Enter the 8-character code shown in the web editor.');await this.pairRequest('/rest/v1/rpc/benken_pair_approve',{body:{p_code:code}})}
@@ -48,7 +48,7 @@ class Client{
  async putSet(id,revision,set){return this.request('/rest/v1/rpc/benken_web_setlist_save',{body:{p_id:id,p_revision:revision,p_set:set}})}
  async delSet(id,revision){return this.request('/rest/v1/rpc/benken_web_setlist_delete',{body:{p_id:id,p_revision:revision}})}
 }
-// V26.279: autosync. Songs (text and details) and setlists follow the signed-in account between iPad, iPhone and Mac. Audio stays on each device.
+// V26.280: autosync. Songs (text and details) and setlists follow the signed-in account between iPad, iPhone and Mac. Audio stays on each device.
 const NOT_READY=['42P01','42703','PGRST202','PGRST204','PGRST205'];
 const AUTO_KEY='benken-autosync-v1',LAST_KEY='benken-autosync-last-v1',KNOWN_KEY='benken-autosync-known-v1:',RECOVERY_KEY='benken-autosync-recovery-v1';
 const autoOn=()=>{try{return localStorage.getItem(AUTO_KEY)!=='off'}catch{return true}};
@@ -117,7 +117,7 @@ async function runSync(ctx,client,{manual=false,allowDeletes=false}={}){
  for(const rec of adds){addSong(d,rec,owner);res.got++;changedHere=true}
  for(const s of dropLocal){if(s===current&&!manual){res.held++;continue}if(!keepCopy('song',payload(s)))continue;if(removeSong(d,s)){res.removed++;changedHere=true}}
  if((res.sent||changedHere)&&saveQuiet(ctx)===false)throw Error('Could not save locally. Your songs online are unchanged.');
- // 3. Setlists (after the V26.279 setup in Supabase).
+ // 3. Setlists (after the V26.280 setup in Supabase).
  if(remoteSets){const claimed=new Set(),setUps=[],applies=[],dropSets=[],dropSetsOnline=[],remoteById=new Map(remoteSets.map(r=>[r.id,r]));
   for(const name of Object.keys(d.sets)){const v=setValue(d,name,owner),w=d.setMeta?.[name]?.web,b=w&&w.owner===owner?w:null,r=b?remoteById.get(b.id):null;
    if(b&&r){claimed.add(r.id);if(setEq(v,r)){if(b.revision!==r.revision||!setEq(b.base,r))bindSet(d,name,r,owner);continue}if(v.unbound)continue;if(b.base&&setEq(v,b.base)){applies.push({name,r});continue}if(!(b.base&&setEq(setPayload(r),b.base)))keepCopy('setlist',setPayload(r));setUps.push({name,id:b.id,revision:r.revision});continue}
@@ -163,7 +163,7 @@ function mount(container,{state:db,save,changed,busy:blocked}){
  function autoStatus(){const el=q('[data-auto-status]');if(!el)return;if(!autoOn()){el.textContent='Autosync is off. Tap SYNC NOW to sync by hand.';return}const r=lastResult();el.textContent=r?'Last sync '+new Date(r.at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+': '+r.message:'Songs and setlists sync on their own when the app opens, after a change and every five minutes.'}
  const onAuto=()=>{if(disposed){root.removeEventListener('benken-autosync',onAuto);return}autoStatus();if(ready&&!working)client.list().then(r=>{if(disposed)return;remote=r;draw()}).catch(()=>{})};root.addEventListener('benken-autosync',onAuto);
  async function load(){remote=await client.list();if(disposed)return;ready=true;selected=null;q('[data-review]').innerHTML='';draw();return 'Select a song to compare. Nothing changes until you choose an action.'}
- // V26.279: SYNC NOW runs the same sync as autosync, and also confirms waiting deletions.
+ // V26.280: SYNC NOW runs the same sync as autosync, and also confirms waiting deletions.
  async function syncAll(){const r=await syncNow({state:db,save,changed,busy:blocked},client,{manual:true,allowDeletes:true});if(disposed)return;await load();return describe(r)}
  function rows(){return rowsFor(db(),remote,client.session.user.id)}
  const labels={upload:'App changes / not sent yet',download:'Web version available',conflict:'Different in the app and on the web — tap to compare',same:'Up to date',missing:'Not found online — check account'};
@@ -176,5 +176,5 @@ function mount(container,{state:db,save,changed,busy:blocked}){
  }
  account();if(client.session)run(load);return {dispose(){disposed=true}};
 }
-root.BenKenWebLibrary={VERSION:'26.279',Client,payload,equal,state,attach,apply,applyTo,merge,rowsFor,esc,loginMarkup,wireLogin,mount,startAuto,syncNow,autoOn,setAuto,lastResult,_test:{setValue,applySet,setEq,removeSong,readKnown}};
+root.BenKenWebLibrary={VERSION:'26.280',Client,payload,equal,state,attach,apply,applyTo,merge,rowsFor,esc,loginMarkup,wireLogin,mount,startAuto,syncNow,autoOn,setAuto,lastResult,_test:{setValue,applySet,setEq,removeSong,readKnown}};
 })(typeof window!=='undefined'?window:globalThis);
