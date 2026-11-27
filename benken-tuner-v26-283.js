@@ -1,6 +1,6 @@
 (function(root){
 'use strict';
-const VERSION='26.282',NOTES=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];
+const VERSION='26.283',NOTES=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];
 function pitch(samples,sampleRate){
  if(samples.length>4096){const recent=samples.subarray?samples.subarray(samples.length-4096):samples.slice(-4096),fast=pitchWindow(recent,sampleRate);if(fast>=65)return fast;}
  return pitchWindow(samples,sampleRate);

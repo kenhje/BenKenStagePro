@@ -1,11 +1,11 @@
-// BenKen Stage Pro V26.282 — MIDI commands in the lyrics ({midi …}).
+// BenKen Stage Pro V26.283 — MIDI commands in the lyrics ({midi …}).
 // Commands are lines in the song text, so they scroll with the lyrics and are saved with the song.
 // While a song plays, each command is sent when playback reaches it: the start of the section it sits in,
 // the song start (above the first heading), or an exact @mm:ss. Sending needs Native V27.39 (midiSend) and
 // goes to the MIDI command outputs chosen under MIDI & pedals → MIDI Clock (looper, guitar board or other MIDI device), or to the MIDI Clock output if none are ticked.
 (function(root){
  'use strict';
- const VERSION='26.282',LOOKAHEAD=0.5;
+ const VERSION='26.283',LOOKAHEAD=0.5;
  const L=()=>root.StageLyrics;
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
@@ -156,7 +156,7 @@
   };
   function currentAt(){return $('midiCueWhen').value==='time'?L().midiTime($('midiCueTime').value):null}
 
-  // ---------- MIDI Record (V26.282) ----------
+  // ---------- MIDI Record (V26.283) ----------
   // Arm, press PLAY and use the pedals: every CC, PC, Note or Start/Stop that arrives (and is not a BenKen pedal
   // action) is kept with its song time. When the song stops, choose quantize and SAVE TO LYRICS: each command is
   // written as {midi @mm:ss …} under the section heading it belongs to, so it is sent there next time.

@@ -3,6 +3,11 @@
 Collected from the per-version READ_ME and LES_MEG files (newest first). The app shows the same history under Help & Info → What’s new.
 
 
+## BenKen Stage Pro V26.283
+
+- Capo & key: My capo / Bandmate capo − and + are centred 56 px squares the height of the number (a general button rule put the sign at the bottom left of a tall box).
+- Chord diagrams → Size: the value field is 150 px so Extra small is not cut off.
+
 ## BenKen Stage Pro V26.282
 
 - Top bar: one choice, section bar or waveform with sections (sectionBarView; the Waveform control and the Controls setting switch the same choice, waveformVisible follows it). The waveform timeline now always sits at the top in place of the section cells and is never shown at the bottom; the top bar also shows when only the waveform is chosen.
