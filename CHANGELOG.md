@@ -3,6 +3,11 @@
 Collected from the per-version READ_ME and LES_MEG files (newest first). The app shows the same history under Help & Info → What’s new.
 
 
+## BenKen Stage Pro V26.282
+
+- Top bar: one choice, section bar or waveform with sections (sectionBarView; the Waveform control and the Controls setting switch the same choice, waveformVisible follows it). The waveform timeline now always sits at the top in place of the section cells and is never shown at the bottom; the top bar also shows when only the waveform is chosen.
+- The floating NEXT > next song (Show next song when scrolling) sits at the right edge instead of the left, so it no longer covers the start of lyric lines or section headings.
+
 ## BenKen Stage Pro V26.281
 
 - Section playlist (needs native V27.76; BenKenMainAudio.arrangement/arrangementPlan): the page sends the sections with their modes and any tapped section to the native engine (audioPlay plan/section, audioArrangement); the engine picks the next section itself about 1.5 s before each boundary and streams all tracks from memory in shared 1 s blocks (V27.72–V27.76), so loops, repeats, skips and tapped sections are gapless and stay in sync with the click, also with the screen locked. The page shows the engine's playlist (state.arrangement, arrangementPending, arrangementRelease).

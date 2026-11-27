@@ -28,7 +28,7 @@
  root.BenKenControlMenus={home:()=>{dialog.dataset.fromSettings=String(!back.hidden);page(null)}};
  nav.onclick=e=>{const row=e.target.closest('[data-controls-category]');if(row)page(Number(row.dataset.controlsCategory))};
  back.onclick=()=>category===null?originalBack?.():page(null);
- // V26.281: the play notice says what is wrong: Stereo / USB, no audio, or missing files.
+ // V26.282: the play notice says what is wrong: Stereo / USB, no audio, or missing files.
  // It never changes routing on its own and never starts audio; PLAY WITHOUT AUDIO only starts lyric scrolling.
  const notice=document.createElement('dialog');notice.id='playReadinessNotice';notice.setAttribute('aria-labelledby','playNoticeTitle');
  notice.innerHTML='<div class="performance-settings-heading"><h2 id="playNoticeTitle">Play cannot start</h2><button type="button" data-notice-close aria-label="Close playback notice">Done</button></div>'+
@@ -42,7 +42,7 @@
  q('[data-notice-close]').onclick=()=>notice.close();
  const openAudio=()=>{notice.close();if($('mixerDialog').open)$('closeMixer').click();$('settingsBtn').click();document.querySelector('[data-tab="PLAYBACK"]')?.click()};
  q('[data-open-audio]').onclick=openAudio;
- // V26.281: a new audio device gets its own bus outputs; the Ui24R routing is kept for the Ui24R.
+ // V26.282: a new audio device gets its own bus outputs; the Ui24R routing is kept for the Ui24R.
  for(const button of notice.querySelectorAll('[data-device-preset]'))button.onclick=()=>{try{app.mixer.devicePreset(button.dataset.devicePreset);notice.close();app.mixer.setOutputMode?.('usb');root.setTimeout(()=>{if($('audioPlay').disabled)root.BenKenPlayNotice(app.mixer.readiness())},600)}catch(error){q('[data-device-text]').textContent=error.message||String(error)}};
  q('[data-device-buses]').onclick=()=>{notice.close();app.mixer.openSettings?.({tab:'buses'})};
  q('[data-use-stereo]').onclick=()=>{if(app.mixer.setOutputMode?.('stereo')!==false){notice.close();root.setTimeout(()=>{if($('audioPlay').disabled)root.BenKenPlayNotice(app.mixer.readiness())},400)}};
@@ -56,7 +56,7 @@
   q('[data-output-text]').textContent=c.mode==='stereo'?(c.outputError||'Practice / Stereo: all tracks, including the click, go to outputs 1–2 (speakers or headphones).'):
    c.outputError||('Live / USB'+(c.device?' · '+c.device:'')+(c.channels?' · '+c.channels+' outputs':'')+(c.tracks?' · this song needs '+c.needed+'.':'.'));
   const device=app.mixer.audioDevice?.(),setupDevice=usbBad&&c.native&&!!device?.name&&!!app.mixer.devicePreset;q('[data-device-setup]').hidden=!setupDevice;
-  // V26.281: Practice / Stereo is for the iPad speaker, headphones and Bluetooth; a USB mixer or interface is set up per bus.
+  // V26.282: Practice / Stereo is for the iPad speaker, headphones and Bluetooth; a USB mixer or interface is set up per bus.
   q('[data-use-stereo]').hidden=!usbBad||device?.usb===true;
   if(setupDevice)q('[data-device-text]').textContent='Set up '+device.name+(device.channels?' ('+device.channels+' outputs)':'')+' for this device only. The routing of your other mixers and audio interfaces is kept. Tracks still go through their buses.';
   // Audio files
@@ -68,7 +68,7 @@
   q('[data-add-files]').textContent=c.missing.length?'FIND MISSING FILES':'ADD AUDIO FILE';
   // Anything else (preparing, transpose, click …)
   const other=!files&&!c.outputError&&c.status?.text?c.status.text:'';const reason=q('[data-other]');reason.hidden=!other;reason.textContent=other;
-  // V26.281: still preparing (decoding, transposing, native preparation): wait here and start PLAY by itself when ready.
+  // V26.282: still preparing (decoding, transposing, native preparation): wait here and start PLAY by itself when ready.
   if(!files&&!c.outputError&&!c.status?.error&&/prepar|loading|decod|waiting|opening/i.test(other)){q('#playNoticeTitle').textContent='Preparing audio…';reason.textContent=other+' · PLAY starts by itself when the audio is ready.';waitForReady(serial)}
  }
  function waitForReady(mine){
@@ -92,7 +92,7 @@
  const dock=document.createElement('div');dock.className='dock-left-tools';const compact=document.querySelector('.compact-navigation');compact.prepend(dock);
  for(const id of ['view'])dock.append($(id));
  // Next-song preview follows the lyric scroll, not a timer that moves the UI.
- // V26.281: Ready and NEXT live in the top bar (where STANDALONE · OFFLINE READY was) while the top bar is shown
+ // V26.282: Ready and NEXT live in the top bar (where STANDALONE · OFFLINE READY was) while the top bar is shown
  // and the screen is wide enough. When the top bar is hidden (fullscreen) or on a narrow phone they go back under it,
  // so NEXT still shows the way it did before. The status line now only shows real messages (for example Save failed).
  const stack=document.querySelector('#songOverview .song-next-stack'),overview=$('songOverview'),statusLine=$('status'),homeHelp=document.querySelector('header .home-help');
@@ -108,15 +108,15 @@
  if(statusLine)new MutationObserver(placeStatus).observe(statusLine,{childList:true,characterData:true,subtree:true});
  new MutationObserver(placeStatus).observe(document.body,{attributes:true,attributeFilter:['class']});
  wide?.addEventListener?.('change',placeStatus);root.addEventListener('resize',placeStatus,{passive:true});placeStatus();
- // V26.281: while the sticky section bar covers the top bar, hide the top bar so its lower edge does not show as a thin line.
+ // V26.282: while the sticky section bar covers the top bar, hide the top bar so its lower edge does not show as a thin line.
  function coverTopBar(){const bar=$('songSectionBar'),header=document.querySelector('body > header');if(!header)return;const box=bar&&!bar.hidden&&getComputedStyle(bar).display!=='none'?bar.getBoundingClientRect():null,hb=header.getBoundingClientRect();const covered=!!box&&box.height>0&&box.top<hb.bottom-4&&box.top<=hb.top+2;document.body.classList.toggle('section-bar-covers-top',covered)}
  function preview(){coverTopBar();const options=app.state().opts,node=$('scrollNextSong');
   if(!options.showNextWhenScrolling||document.hidden){if(!node.hidden)node.hidden=true;return}
   const next=$('nextName'),inHeader=document.body.classList.contains('song-status-in-header'),bar=$('songSectionBar'),barBox=bar&&!bar.hidden&&getComputedStyle(bar).display!=='none'?bar.getBoundingClientRect():null;
   let top=next.getBoundingClientRect().bottom,header=document.querySelector('header').getBoundingClientRect().bottom;
-  // V26.281: with NEXT in the top bar, show the framed NEXT when the section bar covers the top bar (it sticks to the top while scrolling).
+  // V26.282: with NEXT in the top bar, show the framed NEXT when the section bar covers the top bar (it sticks to the top while scrolling).
   if(inHeader){const covered=!!barBox&&barBox.height>0&&barBox.top<header-4;top=covered?-1:Infinity;header=covered?barBox.bottom:header}
-  // V26.281: on iPhone the top bar scrolls away while the section bar stays at the top; put NEXT under the section bar.
+  // V26.282: on iPhone the top bar scrolls away while the section bar stays at the top; put NEXT under the section bar.
   else if(barBox&&barBox.height>0&&barBox.bottom>Math.max(0,header)&&barBox.top<=Math.max(0,header)+4)header=barBox.bottom;
   const visible=top<Math.max(0,header)&&!$('settings').classList.contains('settings-open')&&!$('settings').classList.contains('open')&&$('settings').classList.contains('hidden')&&!document.querySelector('dialog[open]');
   if(node.hidden===visible)node.hidden=!visible;if(!visible)return;if(node.textContent!==next.textContent)node.textContent=next.textContent;const y=Math.max(8,header+8)+'px';if(node.style.top!==y)node.style.top=y;
