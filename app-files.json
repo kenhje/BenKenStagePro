@@ -1,5 +1,5 @@
 {
- "version": "26.280",
+ "version": "26.281",
  "files": [
   {
    "path": "BenKen_Chord_Chart_Demo.benken",
@@ -7,49 +7,49 @@
    "sha256": "959622f10057096cf25b541e83bf9980370d4ac16913627123a915d45548c9c1"
   },
   {
-   "path": "benken-web-library-v26-280.js",
+   "path": "benken-web-library-v26-281.js",
    "size": 37795,
-   "sha256": "9ed6261902ab5d95c1528964c7688b6a69f2b36c2f1af9ff6cdaee91cb4a9de1"
+   "sha256": "bd5cfaff9b1a3ea74624203119d92ccddb3f2c2921564d6555e5858e1c3b580e"
   },
   {
-   "path": "benken-lyrics-import-v26-280.js",
+   "path": "benken-lyrics-import-v26-281.js",
    "size": 15616,
    "sha256": "4059d5900d8d421eccab4267df973ce75de0cbc4b7bbf637df27655c9db716e9"
   },
   {
-   "path": "benken-chord-chart-v26-280.js",
+   "path": "benken-chord-chart-v26-281.js",
    "size": 37992,
-   "sha256": "47724c3aa154e6443cca2222bc2b7c42d53f7690495ee813cfb7feb17bb0c0c8"
+   "sha256": "dc73e6b430a9d4536dbdbf3f118ae7ecdcd665c051ce9ffb769d8ccaff2afdd4"
   },
   {
-   "path": "benken-concert-cache-v26-280.js",
+   "path": "benken-concert-cache-v26-281.js",
    "size": 3720,
-   "sha256": "f8e73cc380d00487b55614304d8ebc06559da8f212d6cbef481a487f92873f44"
+   "sha256": "d50a077f26a4a871bb27cbb70e5d9bc5d489afb9f70d85f813135dca5a63964b"
   },
   {
-   "path": "benken-phone-reading-v26-280.js",
+   "path": "benken-phone-reading-v26-281.js",
    "size": 2039,
    "sha256": "8bdc4a60e96f278b9821634426ac88321d999fad5998023eabe6c120812e0260"
   },
   {
-   "path": "benken-welcome-v26-280.js",
+   "path": "benken-welcome-v26-281.js",
    "size": 8537,
-   "sha256": "dfbddb3421f9324de61e01b120d63b95bd9c86e354aae54d9adb9f1c24aaeb50"
+   "sha256": "e978fe3468faad2c25d7a7693dab8d0f25216ac098fa5cb98c7080a0e9862978"
   },
   {
-   "path": "benken-chords-v26-280.js",
+   "path": "benken-chords-v26-281.js",
    "size": 9522,
-   "sha256": "d8868a4e2789bd0cb2ff020793953fa96abaf0ba4e930f67236a410964bb9dfc"
+   "sha256": "84cc329546a624a6ad3cac532133b00ac7cc3a52def32f770045cfd7f3174d14"
   },
   {
-   "path": "benken-refinements-v26-280.js",
+   "path": "benken-refinements-v26-281.js",
    "size": 22167,
-   "sha256": "b020c87601168090b36954eae8995ed5f34363644a064ee17de4ee5514964391"
+   "sha256": "97ae2f43dbc93bdd432b8e6ea33f22593e28117c6e34850d0051d2890aec3db3"
   },
   {
-   "path": "benken-controls-mixer-v26-280.js",
+   "path": "benken-controls-mixer-v26-281.js",
    "size": 15330,
-   "sha256": "6b3a642b5f528a5c6037795c4677605d34ab5fad3f79565892d9c3a6794cea4f"
+   "sha256": "3c640e72148207a6294bb9937292a3821d2a6589057cf4a09d55833f2806d145"
   },
   {
    "path": "benken-play-sound.svg",
@@ -57,59 +57,59 @@
    "sha256": "9612947674e6c430de6cf6ec59824c2148efd04892d509fc19127a4fdb472700"
   },
   {
-   "path": "benken-band-v26-280.js",
+   "path": "benken-band-v26-281.js",
    "size": 33141,
-   "sha256": "19bb29d483e704e69e1a8ee417d1eaa461bb67663abffa3c837a8b6493e87eea"
+   "sha256": "506dcb14f8e32b1771b599138903c5babbc11d898bb209a60c9f24fe46ec69d8"
   },
   {
-   "path": "benken-loudness-v26-280.js",
+   "path": "benken-loudness-v26-281.js",
    "size": 15898,
-   "sha256": "8bdf98bfb88a9ae3e5210c93d2e3548e6b2a93809b5a6ff06688aad4f8496c43"
+   "sha256": "c81cad90b07f6e65d6b42749761019c744a327baa71af1491a8468db0654f422"
   },
   {
-   "path": "benken-loudness-worker-v26-280.js",
+   "path": "benken-loudness-worker-v26-281.js",
    "size": 5863,
    "sha256": "1b17ac895461a138e993cf72562b067be07b984da74f7aae7385a95c97e2ff80"
   },
   {
-   "path": "benken-key-v26-280.js",
+   "path": "benken-key-v26-281.js",
    "size": 26820,
-   "sha256": "c5eeaa098bf08c767aa74a990cb9281cff8115a19618add4f4302766fe6e9b9b"
+   "sha256": "d864e138f742441458ab90b79dec98943cdab5176c8382f250ae99cbf7b58513"
   },
   {
-   "path": "benken-duplicates-v26-280.js",
+   "path": "benken-duplicates-v26-281.js",
    "size": 6458,
-   "sha256": "87d810fd56423f3f5f2a1fc2b677fa4304e87b1514d348f4276b5820cec3e3be"
+   "sha256": "a5049b31018e782713ab62c2a7f04eda17ec0f73e858656c8d8fb2f5fa18589d"
   },
   {
-   "path": "benken-tuner-v26-280.js",
+   "path": "benken-tuner-v26-281.js",
    "size": 14440,
-   "sha256": "74e72bdcdd181f2371399bd441c4e1c8b648976ddc947fbbdcf5171e225cdd53"
+   "sha256": "15e41e89dc98902727fe718e279e777b19e1be7d70c333bf5e875485820fc409"
   },
   {
    "path": "manual.html",
-   "size": 65486,
-   "sha256": "354c199dabfd07dc4997272dc9f3af5bd0f2236de54bad9dcc93525b7c38c458"
+   "size": 66831,
+   "sha256": "11ff0132d764f4eaa76f44a6e31e9ccf701416a7beb0a0e72dba72d88a2046c0"
   },
   {
-   "path": "benken-planning-v26-280.js",
+   "path": "benken-planning-v26-281.js",
    "size": 38395,
-   "sha256": "c04dc6e6262cab9cf6a57f625f027830f8de1627f921fc8e220f6380096391b2"
+   "sha256": "2cb6a8eab37a59797f6259ab9fb597b43d8c689a8368e7be232f532e2b876db2"
   },
   {
-   "path": "benken-tools-v26-280.js",
+   "path": "benken-tools-v26-281.js",
    "size": 24770,
-   "sha256": "a4585170c5d489b847932138ddaa395c4e15ecfc1ae593c20191e434c38ed980"
+   "sha256": "91573c51f93b0f49dbd38adfab4ee0434be0e822c7d64cbf93e27c78699958f2"
   },
   {
-   "path": "benken-documents-v26-280.js",
+   "path": "benken-documents-v26-281.js",
    "size": 20528,
-   "sha256": "fe58658956a6d7cb198ae6a2bf29ca34f881f5c6763fa525e406356e756f6776"
+   "sha256": "b8d30ac5ea276d75358e9d7a1ae97b571e8f79307fd6058f3bef50816906bcf7"
   },
   {
-   "path": "benken-help-v26-280.js",
-   "size": 12070,
-   "sha256": "49c32ad343c67270da5f423d6909ba332683a43ffe1338724c3154c15ef3e87c"
+   "path": "benken-help-v26-281.js",
+   "size": 12262,
+   "sha256": "18fdc7c5ace38c84898e100c2565749afac7aed035628903f14bfa833510ed43"
   },
   {
    "path": "qrcode.js",
@@ -128,8 +128,8 @@
   },
   {
    "path": "index.html",
-   "size": 530626,
-   "sha256": "b9582573351b15ebbe1be6ff14501c2e0b283396b548049bbae995777bc6b785"
+   "size": 533815,
+   "sha256": "0b5584c3b4cbaa3d9b0ebb9c9a02addbbf3ca0a52bcd8d4cc41a34a6467f838e"
   },
   {
    "path": "manifest.webmanifest",
@@ -147,32 +147,37 @@
    "sha256": "1bbe4fbdfbe6ad3265c7548e23c0fca29b7221c3735250571a3c36066e7c4b23"
   },
   {
-   "path": "benken-runtime-v26-280.js",
-   "size": 528075,
-   "sha256": "ec8fa9db558e66bf9838fc8471f363c708acc3b64a8919353ced9b7e45143bee"
+   "path": "benken-runtime-v26-281.js",
+   "size": 533542,
+   "sha256": "4d25a5079c67426a5a145471b41d79a69158ec6ba5ac5df780df4f1691faecf4"
   },
   {
-   "path": "benken-midi-cues-v26-280.js",
+   "path": "benken-midi-cues-v26-281.js",
    "size": 26497,
-   "sha256": "90726803f94558e0446d5e67231757a50466a516ede74cb3fba9ab8575db349f"
+   "sha256": "ad1a324a2485df349f8a527eb1de1a3e7e48c141c3420de419fa8cab80c7fde5"
   },
   {
-   "path": "benken-offline-v26-280.js",
+   "path": "benken-offline-v26-281.js",
    "size": 6796,
    "sha256": "eedafb76f581dcf948ec7d3c77dee79f5560acd167dcffb2109c7b71f2c26576"
   },
   {
-   "path": "benken-native-audio-v26-280.js",
-   "size": 30154,
-   "sha256": "0631c81088c2f0dddaa87447ed3f03737b4e66ba99994380d50cd45f8cc80e7f"
+   "path": "benken-native-audio-v26-281.js",
+   "size": 33643,
+   "sha256": "65ff538841d1ee9d35283c3bffffec90ad1f45891a1fae00ef947b84a3519d71"
   },
   {
-   "path": "benken-ui-v26-280.css",
-   "size": 633545,
-   "sha256": "14a44f2b4d942e7a3f9fd5d9aae9d04eedca6e85f2514bd9ef92afbf427ce675"
+   "path": "benken-arrangement-v26-281.js",
+   "size": 6876,
+   "sha256": "21a6c76defc7150f42841e91445c05b4d60c3cccc6c489646e0836c5d23117aa"
   },
   {
-   "path": "benken-master-fx-v26-280.js",
+   "path": "benken-ui-v26-281.css",
+   "size": 646441,
+   "sha256": "1bf5f7cd0aec612711161d716409353ac57edea3b87db4c754e6f6f9b6d01c32"
+  },
+  {
+   "path": "benken-master-fx-v26-281.js",
    "size": 2417,
    "sha256": "5f5eb5f412bbbb39000faf2da445f300810504d244014814f046f6ebd7f2745c"
   },

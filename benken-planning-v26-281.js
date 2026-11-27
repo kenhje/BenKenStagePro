@@ -1,5 +1,5 @@
 (function(root){
-'use strict';const VERSION='26.280',esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),uid=()=>root.crypto.randomUUID();
+'use strict';const VERSION='26.281',esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),uid=()=>root.crypto.randomUUID();
 const defaults=['Guitar','Capo','Microphone','Mixer / audio interface','iPad','Mac backup','Chargers','XLR cables','Instrument cables','Power cables','Stands','Foot controller'];
 function localDay(now=new Date()){return now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');}
 function monthGrid(month){const [y,m]=month.split('-').map(Number),first=new Date(Date.UTC(y,m-1,1)),offset=(first.getUTCDay()+6)%7;return Array.from({length:42},(_,i)=>new Date(Date.UTC(y,m-1,1-offset+i)).toISOString().slice(0,10));}

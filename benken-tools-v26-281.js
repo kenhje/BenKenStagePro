@@ -1,6 +1,6 @@
 (function(root){
 'use strict';
-const VERSION='26.280',BUCKET='benken-shares',DEFAULT_URL='https://ifwqblhjzfjgauaivkdm.supabase.co',DEFAULT_KEY='sb_publishable_7vSifQ68_y740EsyQpyWuQ_DvwJv-4k';
+const VERSION='26.281',BUCKET='benken-shares',DEFAULT_URL='https://ifwqblhjzfjgauaivkdm.supabase.co',DEFAULT_KEY='sb_publishable_7vSifQ68_y740EsyQpyWuQ_DvwJv-4k';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function selectedState(state,kind,setName){
  const order=kind==='song'?[state.idx]:state.sets[setName];if(!order?.length)throw Error('Choose a song or a non-empty setlist.');

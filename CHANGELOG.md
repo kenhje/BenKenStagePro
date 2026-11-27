@@ -3,6 +3,16 @@
 Collected from the per-version READ_ME and LES_MEG files (newest first). The app shows the same history under Help & Info → What’s new.
 
 
+## BenKen Stage Pro V26.281
+
+- Section playlist (needs native V27.76; BenKenMainAudio.arrangement/arrangementPlan): the page sends the sections with their modes and any tapped section to the native engine (audioPlay plan/section, audioArrangement); the engine picks the next section itself about 1.5 s before each boundary and streams all tracks from memory in shared 1 s blocks (V27.72–V27.76), so loops, repeats, skips and tapped sections are gapless and stay in sync with the click, also with the screen locked. The page shows the engine's playlist (state.arrangement, arrangementPending, arrangementRelease).
+- Section modes per song (song.sectionModes, key "index|label"): hold a section-bar cell (720 ms, or right-click) for Normal / Repeat once / Loop / Skip. Badges ×2, ∞ and dimmed/struck-through for Skip; dashed frame = queued, dotted = leaving the loop.
+- Tapping a section (section bar, waveform sections, lyric headings) works live, not only in Practice: Settings → Scrolling & sync → When you tap a section while a song plays: wait until the current section has finished (default), jump at once, or off. Tap a queued section again to cancel; tap a looping section to leave the loop after this pass.
+- Top bar shows: Waveform with sections moves the performance timeline into the section bar.
+- Native player JS: currentTime follows the playlist; append(); seek/play pass arranged/range. Mixer start/seek/startAt pass the plan through.
+- Manual: Section playlist chapter (Stage & controls); Ask BenKen finds repeat/loop/skip/gjenta/løkke.
+- Fixed before release: the player's playlist entries now keep the section number (without it nothing was queued after the first section, so a song started from a section ended there and BenKen moved to the next song). Audio Status → benkenWeb.arrangement shows the playlist, the queue and the last 40 decisions. Native V27.70 plays the rest of the song if the playlist ever runs out early; V27.72 streams all tracks from memory in shared 1 s blocks, so a slow disk (iPad 6) can no longer put single tracks late at Play or at jumps (V27.73 fixes gaps at block joins). The native player JS copies the playlist reported by native (state.arrangement, also in the audioAppend reply from V27.74) and never adds entries itself, so a looped section is never listed twice and the page follows the safety net.
+
 ## BenKen Stage Pro V26.280
 
 - Share lyrics → Follow (room code through Supabase) follows the host's position, not only the song title. The host writes position, song_length, playing, following (autoscroll), progress (scroll position 0–1) and sent_at to benken_rooms about once a second while it plays or scrolls, otherwise every 15 s or on change. Followers poll every second; while the host plays they follow its playback time (estimated forward from sent_at) through their own sections with the same follow engine as local playback; otherwise they mirror the host's scroll position while it autoscrolls or has moved in the last 5 s.
