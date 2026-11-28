@@ -3,6 +3,10 @@
 Collected from the per-version READ_ME and LES_MEG files (newest first). The app shows the same history under Help & Info → What’s new.
 
 
+## BenKen Stage Pro V26.284
+
+- New control action chordsToggle (Controls → Lyrics & display → Chords on/off): CHORDS OFF sets the reading view to lyrics only and remembers the chord view in opts.lastChordsMode; CHORDS ON restores it (both or chords only). The button is lit while chords are shown.
+
 ## BenKen Stage Pro V26.283
 
 - Capo & key: My capo / Bandmate capo − and + are centred 56 px squares the height of the number (a general button rule put the sign at the bottom left of a tall box).

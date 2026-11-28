@@ -1,4 +1,4 @@
-// benken-arrangement.js – section playlist (V26.283, needs Native V27.75 with BenKenMainAudio.arrangementPlan).
+// benken-arrangement.js – section playlist (V26.284, needs Native V27.75 with BenKenMainAudio.arrangementPlan).
 // Each section of a song can be Normal, Repeat once, Loop or Skip (saved with the song). The page sends the sections
 // with their modes to the native engine when playback starts; the engine itself picks the next section shortly before
 // each boundary (no page timing involved, also with the screen locked). Tapping a section either queues it for the
@@ -61,7 +61,7 @@
  }
  function queuedIndex(){const p=player();return arrangedNow()&&Number.isInteger(p.arrangementPending)&&p.arrangementPending>=0?p.arrangementPending:null}
  function playingIndex(){return current()?.index??null}
- root.StageArrangement={VERSION:'26.283',MODES,LABELS,supported,
+ root.StageArrangement={VERSION:'26.284',MODES,LABELS,supported,
   diagnostics:()=>{const p=player(),info=p?.arrangementInfo;return {supported:supported(),tapMode:tapMode(),playing:!!p?.playing,arranged:!!p?.arranged,current:info?.range?{index:info.range.index,label:info.range.label,remaining:+info.remaining.toFixed(2),queued:info.queued.map(r=>r.index)}:null,playlist:(p?._arrangement||[]).map(r=>(r.index??'?')+':'+(r.label||'')),pending:p?.arrangementPending??-1,release:!!p?.arrangementRelease,modes:song()?.sectionModes||null,events:[...events]}},
   modeOf:(i)=>{const s=song(),list=segments(s);return list[i]?modeOf(s,list[i],i):'normal'},setMode,startPlan,tap,status,queuedIndex,playingIndex,releasing:()=>!!player()?.arrangementRelease,tapMode,subscribe:fn=>{listeners.add(fn);return()=>listeners.delete(fn)}};
  root.setInterval(emit,500);
